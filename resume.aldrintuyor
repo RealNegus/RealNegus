@@ -1,0 +1,38 @@
+
+<div>
+    
+    <head>
+    <h1 style="padding-left: 16cm; color: rgb(0, 110, 255);"></p>Resume</h1>
+    <img style="padding-left: 14cm;"src="https://th.bing.com/th/id/OIP.-DFAe3Gp-mgPX4l7kocUbwHaEK?w=297&h=180&c=7&r=0&o=5&pid=1.7">
+    <h4> style="padding-left: 16cm;" Aldrin S. Tuyor</h4>
+    <h4>Programmer</h4>
+    </head>
+
+    <body>
+    <h3 style="padding-left: 16cm; "color: rgb(0, 110, 255);"></p>Contact Information</h3>
+    <h4 style="color: rgb(0, 110, 255);"></p>Email:</h4>
+    <p>aldrintuyor3@gmail.com</p>
+    <h4 style="color: rgb(0, 110, 255);"></p>Phone:</h4>
+    <p>09951367213</p>
+    <h3 style="color: rgb(0, 110, 255);"></p>Address:</h3>
+    <p>Bulihan Silang Cavite</p>
+
+
+        <h3 style="color: rgb(0, 110, 255);"></p>Objectives</h3>
+        <p>Aspiring web developer seeking an opportunity to apply my knowledge of HTML, CSS, and JavaScript</p>
+
+            <h3 style="color: rgb(0, 110, 255);"></p>Education:</h3>
+            <p style="color: rgb(0, 110, 255);"></p>Elementary:</p>
+            <p>Pawican Elementary School</p>
+            <p style="color: rgb(0, 110, 255);"></p>High School:</p>
+            <P>Bulihan Integrated National High School</P>
+
+                <h3 style="color: rgb(0, 110, 255);"></p>Skills</h3>
+                <p>C language rookie</p>
+
+                <h3 style="color: rgb(0, 110, 255);"></p>Experience</h3>
+                <p>Creating basic C language code</p>
+
+
+    </body>
+</div>
