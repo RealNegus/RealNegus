@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Aldrin Tuyor's Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section p {
+            margin: 5px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Aldrin Tuyor</h1>
+        <p>Web Developer</p>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Contact Information</h2>
+            <p>Email: aldrintuyor3@.com</p>
+            <p>Phone: 09951367213</p>
+            <p>Website: www.aldrin.com</p>
+        </section>
+
+        <section class="section">
+            <h2>Objective</h2>
+            <p>Aspiring web developer seeking an opportunity to apply my knowledge of HTML, CSS, and JavaScript to create dynamic websites and applications.</p>
+        </section>
+
+        <section class="section">
+            <h2>Education</h2>
+            <p><strong>Computer Science Degree</strong> - ABC University (2021)</p>
+        </section>
+
+        <section class="section">
+            <h2>Skills</h2>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Responsive Design</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Experience</h2>
+            <p><strong>Junior Web Developer Intern</strong> - XYZ Company (2022)</p>
+            <p>Assisted in creating and maintaining websites, fixed bugs, and improved user experience through design improvements.</p>
+        </section>
+
+        <section class="section">
+            <h2>Projects</h2>
+            <p><strong>Personal Portfolio</strong>: Built a responsive portfolio website to showcase my projects and skills.</p>
+            <p><strong>To-Do List App</strong>: Developed a simple JavaScript-based to-do list app to practice DOM manipulation and event handling.</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Aldrin Tuyor</p>
+    </footer>
+
+</body>
+</html>
