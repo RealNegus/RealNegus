@@ -1,0 +1,190 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <cstdlib>
+#include <unistd.h>
+
+using namespace std;
+
+class Account {
+public:
+    string name;
+    double balance;
+    vector<string> transactions;
+
+    Account(string n) : name(n), balance(0.0) {}
+
+    string doubleToString(double value) const {
+        stringstream ss;
+        ss << fixed << setprecision(2) << value;
+        return ss.str();
+    }
+
+    void deposit(double amount) {
+        if (amount <= 0) {
+            cout << "Error: Deposit amount must be positive." << endl;
+            return;
+        }
+        balance += amount;
+        transactions.push_back("Deposited: $" + doubleToString(amount));
+        cout << "Deposited $" << doubleToString(amount) << endl;
+    }
+
+    void withdraw(double amount) {
+        if (amount <= 0) {
+            cout << "Error: Withdrawal amount must be positive." << endl;
+            return;
+        }
+        if (amount > balance) {
+            cout << "Error: Insufficient funds." << endl;
+            return;
+        }
+        balance -= amount;
+        transactions.push_back("Withdrew: $" + doubleToString(amount));
+        cout << "Withdrew $" << doubleToString(amount) << endl;
+    }
+
+    void transfer(double amount, Account& recipient) {
+        if (amount <= 0) {
+            cout << "Error: Transfer amount must be positive." << endl;
+            return;
+        }
+        if (amount > balance) {
+            cout << "Error: Insufficient funds." << endl;
+            return;
+        }
+        balance -= amount;
+        recipient.deposit(amount);
+        transactions.push_back("Transferred: $" + doubleToString(amount) + " to " + recipient.name);
+        cout << "Transferred $" << doubleToString(amount) << " to " << recipient.name << endl;
+    }
+
+    void checkBalance() const {
+        cout << name << "'s balance: $" << doubleToString(balance) << endl;
+    }
+
+    void showTransactions() const {
+        cout << "\nTransaction history for " << name << ":\n";
+        if (transactions.empty()) {
+            cout << "No transactions yet.\n";
+        } else {
+            for (int i = 0; i < transactions.size(); i++) {
+                cout << transactions[i] << endl;
+            }
+        }
+    }
+};
+
+class Bank {
+public:
+    vector<Account> accounts;
+
+    void createAccount() {
+        string name;
+        cout << "\n \t\t\t\t\t CREATE YOUR BANK ACCOUNT \n";
+        cout << "          |______________________________________________________________________________|\n";
+        cout << "          |Enter your name to create an account:";
+        cin >> name;
+        system("cls");
+        
+
+        // Check if account already exists
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts[i].name == name) {
+                cout << "Error: Account for " << name << " already exists." << endl;
+                return;
+            }
+        }
+
+        // Create account
+        accounts.push_back(Account(name));
+        cout << "Account created for " << name << endl;
+        sleep(1);
+    }
+
+    Account* getAccount(const string& name) {
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts[i].name == name) {
+                return &accounts[i];
+            }
+        }
+        cout << "Error: Account not found." << endl;
+        return NULL;  // Use NULL for C++98 compatibility
+    }
+};
+
+void showMainMenu() {
+    cout << "\n--- Main Menu ---\n";
+    cout << "1. Deposit\n";
+    cout << "2. Withdraw\n";
+    cout << "3. Transfer\n";
+    cout << "4. Check Balance\n";
+    cout << "5. Show Transaction History\n";
+    cout << "6. Exit\n";
+}
+
+int main() {
+    Bank bank;
+
+    // Create an account interactively
+    bank.createAccount();
+
+    // Get the name of the account holder
+    string accountName;
+    cout << "\nEnter your name to access your account: ";
+    cin >> accountName;
+
+    // Retrieve the account
+    Account* userAccount = bank.getAccount(accountName);
+
+    if (userAccount != NULL) {
+        int choice;
+        while (true) {
+            showMainMenu();  // Display the main menu
+            cout << "\nEnter your choice: ";
+            cin >> choice;
+
+            if (choice == 1) {
+                double amount;
+                cout << "Enter amount to deposit: $";
+                cin >> amount;
+                userAccount->deposit(amount);
+            }
+            else if (choice == 2) {
+                double amount;
+                cout << "Enter amount to withdraw: $";
+                cin >> amount;
+                userAccount->withdraw(amount);
+            }
+            else if (choice == 3) {
+                string recipientName;
+                double amount;
+                cout << "Enter recipient's name: ";
+                cin >> recipientName;
+                Account* recipientAccount = bank.getAccount(recipientName);
+                if (recipientAccount != NULL) {
+                    cout << "Enter amount to transfer: $";
+                    cin >> amount;
+                    userAccount->transfer(amount, *recipientAccount);
+                }
+            }
+            else if (choice == 4) {
+                userAccount->checkBalance();
+            }
+            else if (choice == 5) {
+                userAccount->showTransactions();
+            }
+            else if (choice == 6) {
+                cout << "Thank you for using the bank system!" << endl;
+                break;
+            }
+            else {
+                cout << "Invalid choice. Please try again." << endl;
+            }
+        }
+    }
+
+    return 0;
+}
