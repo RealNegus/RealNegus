@@ -1,0 +1,122 @@
+#include <iostream>
+#include <vector>
+#include <limits>
+using namespace std;
+
+class BankAccount {
+private:
+    string accountNumber;
+    string owner;
+    double balance;
+    vector<string> transactions;
+
+public:
+    BankAccount(string accNum, string ownerName, double initialBalance = 0) {
+        accountNumber = accNum;
+        owner = ownerName;
+        balance = initialBalance;
+    }
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            transactions.push_back("Deposited: $" + to_string(amount));
+            cout << "$" << amount << " deposited successfully!\n";
+        } else {
+            cout << "Error: Invalid deposit amount!\n";
+        }
+    }
+
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            transactions.push_back("Withdrawn: $" + to_string(amount));
+            cout << "$" << amount << " withdrawn successfully!\n";
+        } else {
+            cout << "Error: Insufficient funds or invalid amount!\n";
+        }
+    }
+
+    void transfer(double amount, BankAccount &recipient) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            recipient.balance += amount;
+            transactions.push_back("Transferred: $" + to_string(amount) + " to " + recipient.owner);
+            recipient.transactions.push_back("Received: $" + to_string(amount) + " from " + owner);
+            cout << "$" << amount << " transferred to " << recipient.owner << " successfully!\n";
+        } else {
+            cout << "Error: Transfer failed due to insufficient funds or invalid amount!\n";
+        }
+    }
+
+    void checkBalance() const {
+        cout << "Account Balance for " << owner << ": $" << balance << "\n";
+    }
+
+    void transactionHistory() const {
+        cout << "Transaction History for " << owner << ":\n";
+        for (const auto &transaction : transactions) {
+            cout << transaction << "\n";
+        }
+    }
+};
+
+void clearInputBuffer() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+int main() {
+    BankAccount account1("123456", "Alice", 1000);
+    BankAccount account2("789012", "Bob", 500);
+    int choice;
+    double amount;
+
+    while (true) {
+        cout << "\nBanking System Menu:\n";
+        cout << "1. Deposit\n2. Withdraw\n3. Transfer\n4. Check Balance\n5. Transaction History\n6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (cin.fail()) {
+            cout << "Error: Invalid input! Please enter a number.\n";
+            clearInputBuffer();
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                cout << "Enter deposit amount: ";
+                cin >> amount;
+                if (!cin.fail()) account1.deposit(amount);
+                else cout << "Error: Invalid amount!\n";
+                clearInputBuffer();
+                break;
+            case 2:
+                cout << "Enter withdrawal amount: ";
+                cin >> amount;
+                if (!cin.fail()) account1.withdraw(amount);
+                else cout << "Error: Invalid amount!\n";
+                clearInputBuffer();
+                break;
+            case 3:
+                cout << "Enter transfer amount: ";
+                cin >> amount;
+                if (!cin.fail()) account1.transfer(amount, account2);
+                else cout << "Error: Invalid amount!\n";
+                clearInputBuffer();
+                break;
+            case 4:
+                account1.checkBalance();
+                break;
+            case 5:
+                account1.transactionHistory();
+                break;
+            case 6:
+                cout << "Exiting the banking system.\n";
+                return 0;
+            default:
+                cout << "Error: Invalid choice! Please enter a number between 1-6.\n";
+        }
+    }
+}
