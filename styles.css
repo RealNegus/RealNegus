@@ -1,11 +1,39 @@
 body {
+    background-color: #2e169b;
+    font-family: Arial, Helvetica, sans-serif, sans-serif;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #238068ea; /* Dark blue background */
+    cursor: crosshair;
+}
+
+.container {
+    background-color: rgb(16, 102, 30);
+    border-radius: 15px;
+    box-shadow: 10 20px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: left;
+    width: 400px;
+}
+
+.logo img{
+    width: 100px;
+    height: 100px;
+    background-color: #0d2947;
+    border-radius: 60%;
+    margin: 0 auto 10px;
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #09ff00;
+}
+
+.input-group {
+background-color: #238068ea; /* Dark blue background */
   }
   
   .container {
@@ -19,6 +47,25 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
     position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 70%;
+    padding: 10px;
+    border:5px solid #056847;
+    border-radius: 100px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #0b2492;
+}
+
+.error {
+    color: rgb(184, 13, 13);
+    font-size: 12px;
     padding-top: 50px; /* Make room for the logo */
   }
   
@@ -28,6 +75,26 @@ body {
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
+    bottom: -20px;
+    left: 0;
+}
+.login-button {
+    width: 310px;
+    background-color: #10da3c;
+    color: rgb(52, 19, 141);
+    border: none;
+    padding: 10px;
+    border-radius: 999px;
+    cursor: crosshair;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.login-button:hover {
+    background-color: #a9c219;
+    transform: translateY(100px);
+}
+
+.links {
     top: -40px;
     left: 50%;
     transform: translateX(-50%);
@@ -36,6 +103,15 @@ body {
   
   .big-box h2 {
     margin-top: 20px;
+}
+
+.link {
+    color: #0c1677;
+    text-decoration: aqua;
+    margin: 0 35px;
+}
+
+.link:hover {
     margin-bottom: 15px;
     color: #13185c; /* White text for the heading */
   }
@@ -61,8 +137,9 @@ body {
     font-size: 14px;
   }
   
-  .links a:hover {
+ .links a:hover {
     text-decoration: underline;
+}
   }
   
   .small-box {
