@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Bulb Switch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .bulb-container {
+            margin: 20px 0;
+        }
+        .bulb {
+            width: 150px;
+            transition: 0.3s ease-in-out;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .on-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .off-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Light Bulb ON/OFF</h2>
+        <div class="bulb-container">
+            <img id="bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" class="bulb">
+        </div>
+        <div class="button-container">
+            <button class="on-btn" onclick="turnOn()">Turn ON</button>
+            <button class="off-btn" onclick="turnOff()">Turn OFF</button>
+        </div>
+    </div>
+
+    <script>
+        function turnOn() {
+            document.getElementById("bulb").src = "https://www.w3schools.com/js/pic_bulbon.gif";
+        }
+
+        function turnOff() {
+            document.getElementById("bulb").src = "https://www.w3schools.com/js/pic_bulboff.gif";
+        }
+    </script>
+
+</body>
+</html>
