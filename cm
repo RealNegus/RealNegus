@@ -1,0 +1,53 @@
+#include <iostream>
+#include <limits>
+
+using namespace std;
+
+void convertCentimeters(double centimeters) {
+    double millimeters = centimeters * 10.0;
+    double meters = centimeters / 100.0;
+
+    std::cout << centimeters << " cm is equal to:\n";
+    cout << millimeters << " mm\n";
+    cout << meters << " m\n";
+}
+
+int main() {
+    double centimeters;
+    char choice;
+
+    do {
+        cout << "Enter the length in centimeters: ";
+
+        while (true) {
+            cin >> centimeters;
+
+            if (cin.fail()) {
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "Invalid input. Please enter a numeric value: ";
+            } else if (centimeters < 0) {
+                cout << "Please enter a non-negative value: ";
+            } else {
+                break;
+            }
+        }
+
+        convertCentimeters(centimeters);
+
+        cout << "Do you want to convert another value? (y/n): ";
+        cin >> choice;
+
+        while (cin.fail() || (choice != 'y' && choice != 'n')) {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cout << "Invalid choice. Please enter 'y' to continue or 'n' to exit: ";
+            cin >> choice;
+        }
+
+    } while (choice == 'y');
+
+    cout << "Thank you for using the converter. Goodbye!" << endl;
+
+    return 0;
+}
