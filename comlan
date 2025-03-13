@@ -1,0 +1,364 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <limits>
+
+using namespace std;
+
+struct PCComponent {
+    string name;
+    bool isWorking;
+    string notes;
+};
+
+struct PC {
+    int id;
+    map<string, PCComponent> components;
+    
+    // Helper function to check if any component is not working
+    bool hasIssues() const {
+        for (const auto &component : components) {
+            if (!component.second.isWorking) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+void displayLabLayout(const vector<PC> &pcLab) {
+    cout<<"\t\t ______________________________________________________________________________________________________________________\n";
+    
+    // Row 1: PCs 1-6
+    cout<<"\t\t|  ";
+    cout << (pcLab[5].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[4].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[3].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[2].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |              |              |  ";
+    cout << (pcLab[1].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[0].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |\n";
+    
+    cout<<"\t\t| |    PC6   | | |    PC5   | | |    PC4   | | |    PC3   | |              |              | |    PC2   | | |    PC1   | |\n";
+    cout<<"\t\t| |";
+    cout << (pcLab[5].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[4].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[3].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[2].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |              |              | |";
+    cout << (pcLab[1].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[0].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |\n";
+    
+    cout<<"\t\t|     _||_     |     _||_     |     _||_     |     _||_     |              |              |     _||_     |     _||_     |\n";
+    cout<<"\t\t|______________|______________|______________|______________|______________|______________|______________|______________|\n";
+    
+    // Row 2: PCs 7-13
+    cout<<"\t\t|  ";
+    cout << (pcLab[12].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[11].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[10].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[9].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |              |  ";
+    cout << (pcLab[8].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[7].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[6].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |\n";
+    
+    cout<<"\t\t| |   PC13   | | |   PC12   | | |   PC11   | | |   PC10   | |              | |    PC9   | | |    PC8   | | |    PC7   | |\n";
+    cout<<"\t\t| |";
+    cout << (pcLab[12].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[11].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[10].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[9].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |              | |";
+    cout << (pcLab[8].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[7].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[6].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |\n";
+    
+    cout<<"\t\t|     _||_     |     _||_     |     _||_     |     _||_     |              |     _||_     |     _||_     |     _||_     |\n";
+    cout<<"\t\t|______________|______________|______________|______________|______________|______________|______________|______________|\n";
+    
+    // Row 3: PCs 14-19
+    cout<<"\t\t|  ";
+    cout << (pcLab[18].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[17].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[16].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |              |              |  ";
+    cout << (pcLab[15].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[14].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[13].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |\n";
+    
+    cout<<"\t\t| |   PC19   | | |   PC18   | | |   PC17   | |              |              | |   PC16   | | |   PC15   | | |   PC14   | |\n";
+    cout<<"\t\t| |";
+    cout << (pcLab[18].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[17].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[16].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |              |              | |";
+    cout << (pcLab[15].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[14].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[13].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |\n";
+    
+    cout<<"\t\t|     _||_     |     _||_     |     _||_     |              |              |     _||_     |     _||_     |     _||_     |\n";
+    cout<<"\t\t|______________|______________|______________|______________|______________|______________|______________|______________|\n";
+    
+    // Row 4: PCs 20-26
+    cout<<"\t\t|  ";
+    cout << (pcLab[25].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[24].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[23].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[22].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |              |  ";
+    cout << (pcLab[21].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[20].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[19].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |\n";
+    
+    cout<<"\t\t| |    PC26  | | |   PC25   | | |   PC24   | | |   PC23   | |              | |   PC22   | | |   PC21   | | |   PC20   | |\n";
+    cout<<"\t\t| |";
+    cout << (pcLab[25].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[24].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[23].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[22].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |              | |";
+    cout << (pcLab[21].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[20].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[19].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |\n";
+    
+    cout<<"\t\t|     _||_     |     _||_     |     _||_     |     _||_     |              |     _||_     |     _||_     |     _||_     |\n";
+    cout<<"\t\t|______________|______________|______________|______________|______________|______________|______________|______________|\n";
+    
+    // Row 5: PCs 27-34
+    cout<<"\t\t|  ";
+    cout << (pcLab[33].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[32].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[31].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[30].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[29].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[28].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[27].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |  ";
+    cout << (pcLab[26].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "  |\n";
+    
+    cout<<"\t\t| |   PC34   | | |   PC33   | | |   PC32   | | |   PC31   | | |   PC30   | | |   PC29   | | |   PC28   | | |   PC27   | |\n";
+    cout<<"\t\t| |";
+    cout << (pcLab[33].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[32].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[31].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[30].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[29].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[28].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[27].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| | |";
+    cout << (pcLab[26].hasIssues() ? "XXXXXXXXXX" : "__________");
+    cout << "| |\n";
+    
+    cout<<"\t\t|     _||_     |     _||_     |     _||_     |     _||_     |     _||_     |     _||_     |     _||_     |     _||_     |\n";
+    cout<<"\t\t|______________|______________|______________|______________|______________|______________|______________|______________|\n";
+}
+
+void initializePC(PC &pc) {
+    pc.components["Mouse"] = {"Mouse", true, ""};
+    pc.components["Keyboard"] = {"Keyboard", true, ""};
+    pc.components["Monitor"] = {"Monitor", true, ""};
+    pc.components["LAN Cable"] = {"LAN Cable", true, ""};
+    pc.components["System Unit"] = {"System Unit", true, ""};
+    pc.components["Power Supply"] = {"Power Supply", true, ""};
+}
+
+void displayPCStatus(const PC &pc) {
+    cout << "\n===== PC" << pc.id << " Status =====\n";
+    for (const auto &component : pc.components) {
+        string status = component.second.isWorking ? "Working" : "NOT Working";
+        cout << component.first << ": " << status;
+        if (!component.second.notes.empty()) {
+            cout << " - Note: " << component.second.notes;
+        }
+        cout << endl;
+    }
+}
+
+void updatePCComponent(PC &pc) {
+    cout << "\nSelect component to update for PC" << pc.id << ":\n";
+    int i = 1;
+    vector<string> componentKeys;
+    
+    for (const auto &component : pc.components) {
+        cout << i << ". " << component.first << endl;
+        componentKeys.push_back(component.first);
+        i++;
+    }
+    
+    cout << "Enter component number: ";
+    int choice;
+    cin >> choice;
+    
+    if (choice < 1 || choice > componentKeys.size()) {
+        cout << "Invalid choice!\n";
+        return;
+    }
+    
+    string componentKey = componentKeys[choice-1];
+    
+    cout << "Is " << componentKey << " working? (1 for Yes, 0 for No): ";
+    int working;
+    cin >> working;
+    
+    pc.components[componentKey].isWorking = (working == 1);
+    
+    cout << "Add notes (optional, press Enter to skip): ";
+    cin.ignore();
+    getline(cin, pc.components[componentKey].notes);
+    
+    cout << componentKey << " status updated!\n";
+}
+
+void viewAllPCs(const vector<PC> &pcLab) {
+    cout << "\n===== DETAILED STATUS OF ALL PCs =====\n";
+    
+    // Display detailed status for every PC
+    for (const auto &pc : pcLab) {
+        cout << "\n----- PC" << pc.id << " -----\n";
+        
+        // Show status of each component
+        for (const auto &component : pc.components) {
+            string status = component.second.isWorking ? "Working" : "NOT Working";
+            cout << component.first << ": " << status;
+            
+            // Show notes if they exist
+            if (!component.second.notes.empty()) {
+                cout << " - Note: " << component.second.notes;
+            }
+            cout << endl;
+        }
+        
+        // Add a separator line between PCs
+        cout << "------------------------\n";
+    }
+}
+
+void editPCStatus(vector<PC> &pcLab) {
+    cout << "Enter PC number to edit (1-34): ";
+    int pcNum;
+    cin >> pcNum;
+    
+    if (pcNum < 1 || pcNum > 34) {
+        cout << "Invalid PC number!\n";
+        return;
+    }
+    
+    PC &selectedPC = pcLab[pcNum-1];
+    displayPCStatus(selectedPC);
+    updatePCComponent(selectedPC);
+}
+
+void clearInputBuffer() {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+int main() {
+    vector<PC> pcLab;
+    
+    // Initialize all 34 PCs
+    for (int i = 1; i <= 34; i++) {
+        PC newPC;
+        newPC.id = i;
+        initializePC(newPC);
+        pcLab.push_back(newPC);
+    }
+    
+    int choice;
+    do {
+        system("cls"); // Clear screen (Windows)
+        // system("clear"); // Uncomment for Linux/Mac
+        
+        // Display the lab layout first with the current status
+        displayLabLayout(pcLab);
+        
+        // Then prompt the user for their choice
+        cout << "\n===== PC LAB MANAGEMENT SYSTEM =====\n";
+        cout << "1. Check All Computers\n";
+        cout << "2. Edit Computer Status\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                viewAllPCs(pcLab);
+                break;
+            case 2:
+                editPCStatus(pcLab);
+                break;
+            case 0:
+                cout << "Exiting program...\n";
+                break;
+            default:
+                cout << "Invalid choice!\n";
+        }
+        
+        if (choice != 0) {
+            cout << "\nPress Enter to continue...";
+            clearInputBuffer();
+            cin.get();
+        }
+        
+    } while (choice != 0);
+    
+    return 0;
+}
