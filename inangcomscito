@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string>
+#include <algorithm> // For reverse
+#include <cstdlib>
+using namespace std;
+
+//convert to lowercase
+void toLowercase(string &str) {
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+}
+
+//convert to uppercase
+void toUppercase(string &str) {
+    transform(str.begin(), str.end(), str.begin(), ::toupper);
+}
+
+//reverse
+void reverseString(string &str) {
+    std::reverse(str.begin(), str.end());
+}
+
+int main() {
+    string str1, str2, str3;
+    int choice;
+	
+	cout << "\t\t\t\t\t _______________________\n";
+	cout << "\t\t\t\t\t| Basic String Function |\n";
+	cout << "\t\t\t\t\t|_______________________|\n";
+
+    cout << "\t\t\t\t\t Enter the first string: ";
+    getline(cin, str1);
+
+    cout << "\t\t\t\t\t Enter the second string: ";
+    getline(cin, str2);
+	system("cls");
+    do {
+ 		cout << "\t\t\t\t\t ________________________________________\n";
+        cout << "\t\t\t\t\t|Choose (1-9):                           |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|1. Length of first string               |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|2. Length of second string              |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|3. Copy first and second string         |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|4. Concatenate strings                  |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|5. Compare strings                      |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|6. Convert first string to lowercase    |\n";
+     	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|7. Convert second string to uppercase   |\n";
+      	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|8. Reverse concatenated string          |\n";
+        cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|9. Exit                                 |\n";
+       	cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t Enter your choice:";
+
+        // Error handling for input
+        while (!(cin >> choice)) {
+            cout << "\t\t\t\t\t Invalid input. Please enter a number between 1 and 9: ";
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        }
+        cin.ignore();
+        system("cls");
+
+        switch (choice) {
+            case 1:
+                cout << "\t\t\t\t\t Length of first string: " << str1.length() << endl;
+                break;
+            case 2:
+                cout << "\t\t\t\t\t Length of second string: " << str2.length() << endl;
+                break;
+          case 3:
+                str3 = str1 + " " + str2; 
+                cout << "\t\t\t\t\t Copied strings: " << str3 << endl;
+                break;
+            case 4:
+                str3 = str1 + " " + str2; 
+                cout << "\t\t\t\t\t Concatenated string: " << str3 << endl;
+                break;
+            case 5:
+                if (str1 == str2) {
+                    cout << "\t\t\t\t\t The strings are equal." << endl;
+                } else {
+                    cout << "\t\t\t\t\t The strings are not equal." << endl;
+                }
+                break;
+            case 6:
+                toLowercase(str1);
+                cout << "\t\t\t\t\t First string in lowercase: " << str1 << endl;
+                break;
+            case 7:
+                toUppercase(str2);
+                cout << "\t\t\t\t\t Second string in uppercase: " << str2 << endl;
+                break;
+            case 8:
+                str3 = str1 + " " + str2;
+                reverseString(str3);
+                cout << "\t\t\t\t\t Reversed concatenated string: " << str3 << endl;
+                break;
+            case 9:
+                cout << "\t\t\t\t\t Exiting..." << endl;
+                break;
+            default:
+                cout << "\t\t\t\t\t Invalid choice. Please enter a number between 1 and 9." << endl;
+        }
+    } while (choice != 9);
+
+    return 0;
+}
