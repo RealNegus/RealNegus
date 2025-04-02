@@ -2,6 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device, initial-scale=1.0">
+    <link rel="stylesheet" href="mystyle.css">
+    <title>Slidesss</title>
+</head>
+<body>
+    <div class="slideshow-container">
+    <div class="container">
+        <div class="slider">
+            <div class="slider_slides fade">
+                <div class="slider_slides active fade">
+                    <img src="https://th.bing.com/th/id/OIP.is8qmHy9simzlDJxtpmyvAHaE8?w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"/>
+                </div>
+                <div class="slider_slide fade">
+                    <img src="https://th.bing.com/th/id/OIP.48W8HEWoK56w9MlG0O2WgwHaFa?w=289&h=211&c=7&r=0&o=5&pid=1.7">
+                </div>
+                <div class="slider_slide fade">
+                    <img src="https://th.bing.com/th/id/OIP.L-E7xThAxqJ64vFBGCZokwHaEK?w=333&h=187&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2">
+                </div>
+                </div>
+                <div id="nav-button--prev" class="slider__nav-button"></div>
+                <div id="nav-button--next" class="slider__nav-button"></div>
+                <div class="slider__nav">
+                <div class="slider__navlink active"></div>
+                <div class="slider__navlink"></div>
+                <div class="slider__navlink"></div>
+                <div class="slider__navlink"></div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="index.js"></script>
+</body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slideshow</title>
     <style>
