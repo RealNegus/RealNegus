@@ -33,34 +33,79 @@ int main(){
 	
 	
 }
-MATH.H LIBRARY
+#include <iostream>
+#include <cstring> 
+#include <cctype>
+using namespace std;
 
-The problem is to solve a quadratic equation of the form:
+void strlwr(char* str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
 
-[a * x ^ 2 + bx + c = 0]
+void strupr(char* str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = toupper(str[i]);
+    }
+}
 
-Instruction:
+void strrev(char* str) {
+    int n = strlen(str);
+    for (int i = 0; i < n / 2; i++) {
+        swap(str[i], str[n - i - 1]);
+    }
+}
 
-must have <iostream> and <math.h> or <c.math> libraries
+int main() {
+    char username[20];
+    char part1[20], part2[20], password[60];
+    
+    cout << "\t\t\t\t\t_____________________\n";
+    cout << "\t\t\t\t\t| Account Generator |";
+    cout << "\n\t\t\t\t\t_____________________\n";
 
-must have variables for a_{r} b_{r} c, discriminant, * 1 , * 2
+    cout << "\t\t\t\t\tEnter your username:";
+    cin >> username;
+    strlwr(username);
 
-must have user input for entering coefficients of a, b_{r} and c
+    cout << "\t\t\t\t\tEnter first password\n\t\t\t\t\t(more than 5 characters): ";
+    cin >> part1;
+    while (strlen(part1) <= 5) {
+        cout << "\t\t\t\t\tPlease enter a string longer than 5 characters: ";
+        cin >> part1;
+    }
 
-compute the discriminant by D = b ^ 2 - 4ac
+    cout << "\t\t\t\t\tEnter second password\n\t\t\t\t\t(more than 5 characters): ";
+    cin >> part2;
+    while (strlen(part2) <= 5) {
+        cout << "\t\t\t\t\tPlease enter a string longer than 5 characters: ";
+        cin >> part2;
+    }
 
-check the discriminant value if;
+    strcpy(password, part1); 
+    strcat(password, part2); 
 
-D > 0 it has 2 real and distinct roots
+    cout << "\t\t\t\t\tPassword before conversion: " << password << endl;
 
-I
+    strupr(password);
+    
+    cout << "\t\t\t\t\t_____________________\n";
+    cout << "\n\t\t\t\t\tUsername: " << username << endl;
+    cout << "\t\t\t\t\tGenerated Password: " << password << endl;
+    cout << "\t\t\t\t\tPassword Length: " << strlen(password) << endl;
 
-D ==0 it has 1 real root
+    cout << "\t\t\t\t\tPassword Strength: ";
+    if (strlen(password) <= 12) {
+        cout << "Weak" << endl;
+    } else if (strlen(password) >=13 && strlen(password) <= 16 ) {
+        cout << "Average" << endl;
+    } else if (strlen(password) >= 17 ){
+        cout << "Strong" << endl;
+    }
 
-D < 0 it has complex roots
+    strrev(password); //reverse the password
+    cout << "\t\t\t\t\tReversed Password: " << password << endl;
 
-compute roots:
-
-D >= 0 use the quadratic formula to compute real roots
-
-D < 0 compute complex roots using imaginary numbers
+    return 0;
+}
