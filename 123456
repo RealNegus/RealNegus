@@ -33,3 +33,34 @@ int main(){
 	
 	
 }
+MATH.H LIBRARY
+
+The problem is to solve a quadratic equation of the form:
+
+[a * x ^ 2 + bx + c = 0]
+
+Instruction:
+
+must have <iostream> and <math.h> or <c.math> libraries
+
+must have variables for a_{r} b_{r} c, discriminant, * 1 , * 2
+
+must have user input for entering coefficients of a, b_{r} and c
+
+compute the discriminant by D = b ^ 2 - 4ac
+
+check the discriminant value if;
+
+D > 0 it has 2 real and distinct roots
+
+I
+
+D ==0 it has 1 real root
+
+D < 0 it has complex roots
+
+compute roots:
+
+D >= 0 use the quadratic formula to compute real roots
+
+D < 0 compute complex roots using imaginary numbers
