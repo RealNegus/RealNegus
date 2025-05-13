@@ -5,57 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Philippine Technological Institute Of Science And Technology</title>
     <style>
-        :root {
-            --primary-color: #990000;
-            --secondary-color: #d9a521;
-            --text-light: #ffffff;
-            --text-dark: #333333;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
             background-color: #f5f5f5;
         }
         
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
         header {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 15px 0;
+            background-color: #8b0000;
+            color: white;
+            padding: 10px 0;
+        }
+        
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
+            padding: 0 20px;
         }
         
         .logo {
-            width: 50px;
-            height: 50px;
-            margin-right: 15px;
+            display: flex;
+            align-items: center;
         }
         
-        .logo-text h1 {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        
-        .logo-text p {
-            font-size: 12px;
-        }
-        
-        nav {
-            margin-right: 20px;
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
         }
         
         nav ul {
@@ -68,211 +55,209 @@
         }
         
         nav ul li a {
-            color: var(--text-light);
+            color: white;
             text-decoration: none;
             font-size: 14px;
-            transition: 0.3s;
         }
         
-        nav ul li a:hover {
-            color: var(--secondary-color);
-        }
-        
+        /* Hero Section */
         .hero {
-            height: 400px;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/400');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
             background-size: cover;
             background-position: center;
-            color: var(--text-light);
+            height: 400px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+            color: white;
             padding: 0 20px;
         }
         
         .hero h1 {
             font-size: 36px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .hero p {
             font-size: 18px;
-            margin-bottom: 30px;
-        }
-        
-        .enroll-btn {
-            background-color: var(--text-light);
-            color: var(--primary-color);
-            padding: 12px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .enroll-btn:hover {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-        }
-        
-        .mission-vision {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 30px;
-            margin: 20px;
-            border-radius: 10px;
-        }
-        
-        .mission, .vision {
             margin-bottom: 20px;
         }
         
-        .mission h2, .vision h2 {
-            color: var(--secondary-color);
-            margin-bottom: 10px;
+        .hero button {
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
         }
         
-        .hymn {
-            background-color: var(--primary-color);
-            color: var(--text-light);
+        /* Mission & Vision */
+        .mission-vision {
+            padding: 40px 20px;
+        }
+        
+        .mission-vision-content {
+            background-color: #8b0000;
+            color: white;
             padding: 30px;
-            width: 50%;
-            margin: 20px auto;
-            text-align: center;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
         
-        .hymn h2 {
-            color: var(--secondary-color);
+        .mission-vision h2 {
+            color: #ffcc00;
             margin-bottom: 15px;
         }
         
-        .section-title {
+        .mission-vision p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Hymn */
+        .hymn {
+            background-color: #8b0000;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
             text-align: center;
-            color: var(--secondary-color);
-            margin: 40px 0 20px;
+        }
+        
+        .hymn h2 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        
+        .hymn p {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        /* Offerings */
+        .offerings {
+            padding: 20px;
+        }
+        
+        .offerings h2 {
+            text-align: center;
+            color: #b8860b;
+            margin-bottom: 30px;
             font-size: 28px;
         }
         
-        .courses-container {
+        .cards-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             flex-wrap: wrap;
-            margin: 0 20px;
+            gap: 20px;
+            margin-bottom: 50px;
         }
         
-        .course-card {
-            background-color: var(--primary-color);
+        .card {
+            background-color: #8b0000;
             border-radius: 10px;
-            width: 300px;
-            margin-bottom: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: calc(33.33% - 14px);
+            min-width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        .course-img {
+        .card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
         
-        .course-info {
+        .card-content {
             padding: 15px;
-            color: var(--text-light);
+            color: white;
+            text-align: center;
         }
         
-        .course-info h3 {
+        .card-content h3 {
             margin-bottom: 10px;
-            color: var(--secondary-color);
         }
         
-        .course-info p {
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        
-        .enroll-now-btn {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
+        .card-content button {
             padding: 8px 15px;
+            background-color: #ffcc00;
             border: none;
             border-radius: 5px;
-            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
             cursor: pointer;
-            transition: 0.3s;
         }
         
-        .enroll-now-btn:hover {
-            background-color: var(--text-light);
-            color: var(--primary-color);
-        }
-        
+        /* Facilitators */
         .facilitators {
+            padding: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .facilitators h2 {
+            text-align: center;
+            color: #b8860b;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .faculty-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .faculty-card {
+            width: calc(33.33% - 14px);
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .faculty-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #8b0000;
+            margin-bottom: 15px;
+        }
+        
+        .faculty-card h3 {
+            color: #8b0000;
+            margin-bottom: 5px;
+        }
+        
+        .faculty-card p {
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #8b0000;
+            color: white;
             padding: 20px;
         }
         
-        .facilitators-container {
+        .footer-content {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
         }
         
-        .facilitator-card {
-            width: 250px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .facilitator-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--primary-color);
+        .footer-left h3 {
             margin-bottom: 15px;
         }
         
-        .facilitator-name {
-            color: var(--text-dark);
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .facilitator-position {
-            color: var(--primary-color);
-            font-style: italic;
-        }
-        
-        footer {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 30px 20px;
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .footer-left {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .footer-left p {
-            margin-bottom: 10px;
-        }
-        
-        .social-icons {
-            display: flex;
-            margin-top: 10px;
-        }
-        
-        .social-icon {
-            color: var(--text-light);
-            font-size: 24px;
+        .social-icons a {
+            color: white;
             margin-right: 15px;
+            font-size: 20px;
         }
         
         .footer-right {
@@ -280,214 +265,216 @@
         }
         
         .footer-right p {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         
-        .contact-email {
-            color: var(--secondary-color);
-            text-decoration: none;
-        }
-        
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            header {
+            .header-content {
                 flex-direction: column;
-                padding: 15px;
-            }
-            
-            .logo-container {
-                margin-bottom: 15px;
-                margin-left: 0;
-            }
-            
-            nav {
-                margin-right: 0;
-                width: 100%;
+                text-align: center;
             }
             
             nav ul {
-                justify-content: space-around;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             nav ul li {
-                margin-left: 0;
+                margin: 5px 10px;
             }
             
-            .hymn {
-                width: 90%;
-            }
-            
-            .facilitator-card {
-                width: 100%;
-            }
-            
-            footer {
-                flex-direction: column;
-            }
-            
-            .footer-left, .footer-right {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 20px;
-            }
-            
-            .social-icons {
+            .cards-container, .faculty-container {
                 justify-content: center;
+            }
+            
+            .card, .faculty-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-right {
+                text-align: center;
+                margin-top: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- Header -->
     <header>
-        <div class="logo-container">
-            <img src="/api/placeholder/50/50" alt="PhilTech Logo" class="logo">
-            <div class="logo-text">
+        <div class="container header-content">
+            <div class="logo">
+                <img src="/api/placeholder/40/40" alt="PhilTech Logo">
                 <h1>Philippine Technological Institute Of Science And Technology</h1>
-                <p>Senior High • College</p>
             </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Courses Offered</a></li>
+                    <li><a href="#">Senior High</a></li>
+                    <li><a href="#">College</a></li>
+                    <li><a href="#">Teacher</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Courses Offered</a></li>
-                <li><a href="#">Teacher</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
         <h1>PhilTech GMA Campus</h1>
         <p>Global Success Through Academic Excellence</p>
-        <button class="enroll-btn">Enroll Now</button>
+        <button>Enroll Now</button>
     </section>
 
-    <!-- Mission & Vision Section -->
-    <div class="mission-vision">
-        <div class="mission">
+    <!-- Mission & Vision -->
+    <section class="mission-vision container">
+        <div class="mission-vision-content">
             <h2>Mission</h2>
-            <p>Philippine Technological Institute of Science Art and Trade Inc. (PHILTECH) is committed to give quality education to the development of every Filipino. It aims to hone students who are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to humanity.</p>
-        </div>
-        <div class="vision">
+            <p>Philippine Technological Institute of Science Art and Trade Inc. (PHILTECH) is committed to give quality education to the development of every Filipino and aims to hone students who are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to humanity.</p>
+            
             <h2>Vision</h2>
-            <p>PHILTECH shall emerge as the only technical school in the Philippines that can produce academic excellence, appropriate technology in producing graduates who are globally competitive and services pillar to the changing world.</p>
+            <p>PHILTECH shall emerge as the only technical school in the Philippines that can produce academic excellence, appropriate technology and productive graduates who are globally competitive to uphold our four services pillar in this changing world.</p>
         </div>
-    </div>
+        
+        <div class="hymn">
+            <h2>PhilTech Hymn</h2>
+            <p>PHILTECH our dear Alma Mater</p>
+            <p>Our second home and nurturer</p>
+            <p>Lead us to learn away from aberration</p>
+            <p>Guide us to your ideals and proper direction</p>
+            <p>Lets your walls filled with our happy hearts</p>
+            <p>Dreamers' pure young minds view the light</p>
+            <p>Achievers abound</p>
+            <p>Signs of green and bright future</p>
+            <p>With the guidance of our God Creator</p>
+            <p>PHILTECH (PHILTECH), PHILTECH (PHILTECH)</p>
+            <p>(2X)</p>
+            <p>We'll thank and love you forever,</p>
+            <p>Dear PHILTECH (2x)</p>
+            <p>Our PHILTECH</p>
+        </div>
+    </section>
 
-    <!-- School Hymn Section -->
-    <div class="hymn">
-        <h2>PhilTech Hymn</h2>
-        <p>PHILTECH our dear Alma Mater<br>
-        Our second home and nurturer<br>
-        Lead us to learn away from aberration<br>
-        Enhance our skills and education<br>
-        Let's your walls filled with our happy hearts<br>
-        Dreamers from young minds view the light<br>
-        Looking forward<br>
-        Signs of green and bright future<br>
-        With the guidance of our God Creator<br>
-        CHORUS:<br>
-        PHILTECH (PHILTECH), PHILTECH (PHILTECH)<br>
-        (2X)<br>
-        We'll thank and sing you forever,<br>
-        Dear PHILTECH (2x)</p>
-    </div>
-
-    <!-- Senior High Section -->
-    <h2 class="section-title">Senior Offered</h2>
-    <div class="courses-container">
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="Senior High Program" class="course-img">
-            <div class="course-info">
-                <h3>Senior High</h3>
-                <p>FREE TUITION FEE for qualified ESC beneficiaries! Get quality education with our experienced teachers.</p>
-                <button class="enroll-now-btn">ENROLL NOW!!</button>
+    <!-- Senior High School Offerings -->
+    <section class="offerings container">
+        <h2>Senior Offered</h2>
+        <div class="cards-container">
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 1">
+                <div class="card-content">
+                    <h3>Senior High</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <button>Learn More</button>
+                </div>
             </div>
-        </div>
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="Senior High Program" class="course-img">
-            <div class="course-info">
-                <h3>Senior High</h3>
-                <p>FREE TUITION FEE for qualified ESC beneficiaries! Join our various strands and prepare for college education.</p>
-                <button class="enroll-now-btn">ENROLL NOW!!</button>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 2">
+                <div class="card-content">
+                    <h3>Senior High</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE for Government ESC</p>
+                    <button>Learn More</button>
+                </div>
             </div>
-        </div>
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="Senior High Program" class="course-img">
-            <div class="course-info">
-                <h3>Senior High</h3>
-                <p>FREE TUITION FEE for qualified ESC beneficiaries! We accept transferees and students from all backgrounds.</p>
-                <button class="enroll-now-btn">ENROLL NOW!!</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- College Section -->
-    <h2 class="section-title">College Offered</h2>
-    <div class="courses-container">
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="College Programs" class="course-img">
-            <div class="course-info">
-                <h3>New Enrollees</h3>
-                <p>OPEN FOR ENROLLMENT! Join our college programs with competitive tuition fees and excellent education.</p>
-                <button class="enroll-now-btn">REGISTER NOW!</button>
-            </div>
-        </div>
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="Engineering Programs" class="course-img">
-            <div class="course-info">
-                <h3>Engineering</h3>
-                <p>Join our BS in Industrial Engineering, Computer Engineering, and other engineering programs.</p>
-                <button class="enroll-now-btn">OPEN FOR REGISTRATION!</button>
-            </div>
-        </div>
-        <div class="course-card">
-            <img src="/api/placeholder/300/200" alt="Alumni Programs" class="course-img">
-            <div class="course-info">
-                <h3>For Alumni</h3>
-                <p>Special programs and opportunities for our PHILTECH alumni. Stay connected with your alma mater.</p>
-                <button class="enroll-now-btn">LEARN MORE</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Facilitators Section -->
-    <h2 class="section-title">FACILITATORS</h2>
-    <section class="facilitators">
-        <div class="facilitators-container">
-            <div class="facilitator-card">
-                <img src="/api/placeholder/200/200" alt="Facilitator 1" class="facilitator-img">
-                <p class="facilitator-name">Facilitator Name</p>
-                <p class="facilitator-position">Campus Director</p>
-            </div>
-            <div class="facilitator-card">
-                <img src="/api/placeholder/200/200" alt="Facilitator 2" class="facilitator-img">
-                <p class="facilitator-name">Facilitator Name</p>
-                <p class="facilitator-position">School Principal</p>
-            </div>
-            <div class="facilitator-card">
-                <img src="/api/placeholder/200/200" alt="Facilitator 3" class="facilitator-img">
-                <p class="facilitator-name">Facilitator Name</p>
-                <p class="facilitator-position">College Dean</p>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 3">
+                <div class="card-content">
+                    <h3>Senior High</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <button>Learn More</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="footer-left">
-            <p>Find Us Here</p>
-            <div class="social-icons">
-                <span class="social-icon">f</span>
-                <span class="social-icon">in</span>
-                <span class="social-icon">IG</span>
+    <!-- College Offerings -->
+    <section class="offerings container">
+        <h2>College Offered</h2>
+        <div class="cards-container">
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 1">
+                <div class="card-content">
+                    <h3>Open for Enrollment</h3>
+                    <p>NEW ENROLLEES</p>
+                    <p>TRANSFEREES</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 2">
+                <div class="card-content">
+                    <h3>Engineering</h3>
+                    <p>BSCS, BSIE, BSCE</p>
+                    <p>OPEN FOR REGISTRATION!</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 3">
+                <div class="card-content">
+                    <h3>Alumni Services</h3>
+                    <p>FOR ALUMNI</p>
+                    <p>Connect with the PhilTech community</p>
+                    <button>Learn More</button>
+                </div>
             </div>
         </div>
-        <div class="footer-right">
-            <p>Contact Us</p>
-            <p>0997 324 0232</p>
-            <a href="mailto:Philtech.GMAc@gmail.com" class="contact-email">Philtech.GMAc@gmail.com</a>
+    </section>
+
+    <!-- Facilitators -->
+    <section class="facilitators container">
+        <h2>FACILITATORS</h2>
+        <div class="faculty-container">
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 1">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+            
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 2">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+            
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 3">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <h3>Find Us Here</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fa fa-facebook"></i>f</a>
+                    <a href="#"><i class="fa fa-twitter"></i>t</a>
+                    <a href="#"><i class="fa fa-instagram"></i>i</a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <h3>Contact Us</h3>
+                <p>0997 224 0222</p>
+                <p>Philtech.GMA@gmail.com</p>
+            </div>
         </div>
     </footer>
 </body>
