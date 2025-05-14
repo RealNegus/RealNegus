@@ -3,33 +3,578 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try log in</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Philippine Technological Institute Of Science And Technology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #8b0000;
+            color: white;
+            padding: 10px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .hero button {
+            padding: 10px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Mission & Vision */
+        .mission-vision {
+            padding: 40px 20px;
+        }
+        
+        .mission-vision-content {
+            background-color: #8b0000;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .mission-vision h2 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        
+        .mission-vision p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* Hymn */
+        .hymn {
+            background-color: #8b0000;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .hymn h2 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        
+        .hymn p {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        /* Offerings */
+        .offerings {
+            padding: 20px;
+        }
+        
+        .offerings h2 {
+            text-align: center;
+            color: #b8860b;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .cards-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .card {
+            background-color: #8b0000;
+            border-radius: 10px;
+            overflow: hidden;
+            width: calc(33.33% - 14px);
+            min-width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        
+        .card-content h3 {
+            margin-bottom: 10px;
+        }
+        
+        .card-content button {
+            padding: 8px 15px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        /* Facilitators */
+        .facilitators {
+            padding: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .facilitators h2 {
+            text-align: center;
+            color: #b8860b;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .faculty-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .faculty-card {
+            width: calc(33.33% - 14px);
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .faculty-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #8b0000;
+            margin-bottom: 15px;
+        }
+        
+        .faculty-card h3 {
+            color: #8b0000;
+            margin-bottom: 5px;
+        }
+        
+        .faculty-card p {
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #8b0000;
+            color: white;
+            padding: 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-left h3 {
+            margin-bottom: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .footer-right {
+            text-align: right;
+        }
+        
+        .footer-right p {
+            margin-bottom: 5px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .cards-container, .faculty-container {
+                justify-content: center;
+            }
+            
+            .card, .faculty-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-right {
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://th.bing.com/th/id/OIF.fv2u2LFPRr2UhbCZLLwjHA?w=174&h=187&c=7&r=0&o=5&pid=1.7" alt="Logo">
-        </div>
-        <h2>Definitely not a Scam</h2>
-        <h2>LOGIN Please</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Username" required>
-                <span class="error" id="usernameError"></span>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="/api/placeholder/40/40" alt="PhilTech Logo">
+                <h1>Philippine Technological Institute Of Science And Technology</h1>
             </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" required>
-                <span class="error" id="passwordError"></span>
-            </div>
-            <button type="submit" class="login-button">Log in</button>
-        </form>
-        <div class="links">
-            <a href="#" class="link">Create Account</a>
-            <a href="#" class="link">Forgot Password?</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Courses Offered</a></li>
+                    <li><a href="#senior-high">Senior High</a></li>
+                    <li><a href="#college">College</a></li>
+                    <li><a href="#">Teacher</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <script src="script.js"></script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>PhilTech GMA Campus</h1>
+        <p>Global Success Through Academic Excellence</p>
+        <button>Enroll Now</button>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="mission-vision container">
+        <div class="mission-vision-content">
+            <h2>Mission</h2>
+            <p>Philippine Technological Institute of Science Art and Trade Inc. (PHILTECH) is committed to give quality education to the development of every Filipino and aims to hone students who are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to humanity.</p>
+            
+            <h2>Vision</h2>
+            <p>PHILTECH shall emerge as the only technical school in the Philippines that can produce academic excellence, appropriate technology and productive graduates who are globally competitive to uphold our four services pillar in this changing world.</p>
+        </div>
+        
+        <div class="hymn">
+            <h2>PhilTech Hymn</h2>
+            <p>PHILTECH our dear Alma Mater</p>
+            <p>Our second home and nurturer</p>
+            <p>Lead us to learn away from aberration</p>
+            <p>Guide us to your ideals and proper direction</p>
+            <p>Lets your walls filled with our happy hearts</p>
+            <p>Dreamers' pure young minds view the light</p>
+            <p>Achievers abound</p>
+            <p>Signs of green and bright future</p>
+            <p>With the guidance of our God Creator</p>
+            <p>PHILTECH (PHILTECH), PHILTECH (PHILTECH)</p>
+            <p>(2X)</p>
+            <p>We'll thank and love you forever,</p>
+            <p>Dear PHILTECH (2x)</p>
+            <p>Our PHILTECH</p>
+        </div>
+    </section>
+
+    <!-- Senior High School Offerings -->
+    <section class="offerings container" id="senior-high">
+        <h2>Offer for Senior High</h2>
+        <div class="cards-container">
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 1">
+                <div class="card-content">
+                    <h3>PHILTECH SENIOR HIGH</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <p>NO MISCELLANEOUS FEE</p>
+                    <p>PLUS MONTHLY STIPEND</p>
+                    <p>WE ACCEPT:</p>
+                    <p>ESC GRANTEES</p>
+                    <p>GOVERNMENT VOUCHER</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 2">
+                <div class="card-content">
+                    <h3>PHILTECH SENIOR HIGH</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <p>NO LABORATORY FEE</p>
+                    <p>NO MISCELLANEOUS FEE</p>
+                    <p>FREE SENIOR HIGH UNIFORM</p>
+                    <p>FREE SCHOOL ID</p>
+                    <p>AND ID WITH HOLDER</p>
+                    <p>WE ACCEPT:</p>
+                    <p>ESC VOUCHERS</p>
+                    <p>PUBLIC SCHOOL PROGRAM</p>
+                    <p>GRAB CASH OUT NEARBY</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="Senior High Program 3">
+                <div class="card-content">
+                    <h3>PHILTECH SENIOR HIGH</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <p>NO LABORATORY FEE</p>
+                    <p>NO MISCELLANEOUS FEE</p>
+                    <p>WE ACCEPT:</p>
+                    <p>ESC VOUCHER</p>
+                    <p>GOVERNMENT VOUCHER</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Academic Strands Section -->
+        <div class="academic-strands">
+            <h2 class="strand-title">Academic Strand:</h2>
+            
+            <div class="strand-card">
+                <h3>Accountancy, Business And Management</h3>
+                <p>The Academic Strand Prepares Young Aspiring Leaders For The Future. It Serves As A Foundation For Business-Related College Degrees And Career Paths Of Specialists In Finance And Management, Accounting And Corporate Operations.</p>
+            </div>
+            
+            <h2 class="strand-title">General Academic Strand</h2>
+            
+            <div class="strand-card">
+                <p>The General Academic Strand In Senior High School Develops A Well-Rounded Education, Emphasizing Critical Thinking, Communication, And Academic Skills</p>
+            </div>
+            
+            <h2 class="strand-title">Humanities And Social Sciences</h2>
+            
+            <div class="strand-card">
+                <p>The Humanities and Social Sciences (HUMSS) Strand Is One of the Specialized Academic Tracks Available in Senior High School Curriculum. It Target Students Who Have an Affinity for Subjects Related to Humanities, Social Sciences, Arts, Literature, and Culture.</p>
+            </div>
+            
+            <h2 class="strand-title">TVL Strand</h2>
+            
+            <div class="strand-card">
+                <h3>Information And Communication Technology</h3>
+                <p>The Information Communication and Technology (ICT) Strand Is Part Of The Technical-Vocational-Livelihood (TVL) Track In The K-12 Curriculum. It Equips Students With Skill In Computer And Technical Information, and Teaches Innovations and New Technologies for Web Design, Programming and Web Development. Choosing The ICT Strand Provides A Solid Foundation for IT-Related College Courses.</p>
+            </div>
+            
+            <h2 class="strand-title">Home Economic</h2>
+            
+            <div class="strand-card">
+                <p>Graduates Of This Program Are Equipped To Perform A Wide Variety of Administrative Tasks, Including Clerical Duties, Personnel and Management Events Coordination And Customer Service. The Home Economics (HE) Strand Is Part Of The Technical-Vocational-Livelihood (TVL) Track In Senior High School. It Focuses On Livelihood Skills And Development Projects Related To Various Areas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- College Offerings -->
+    <section class="offerings container" id="college">
+        <h2>College Offered</h2>
+        <div class="cards-container">
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 1">
+                <div class="card-content">
+                    <h3>Open for Enrollment</h3>
+                    <p>NEW ENROLLEES</p>
+                    <p>TRANSFEREES</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 2">
+                <div class="card-content">
+                    <h3>Engineering</h3>
+                    <p>BSCS, BSIE, BSCE</p>
+                    <p>OPEN FOR REGISTRATION!</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="/api/placeholder/400/200" alt="College Program 3">
+                <div class="card-content">
+                    <h3>Alumni Services</h3>
+                    <p>FOR ALUMNI</p>
+                    <p>Connect with the PhilTech community</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilitators -->
+    <section class="facilitators container">
+        <h2>FACILITATORS</h2>
+        <div class="faculty-container">
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 1">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+            
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 2">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+            
+            <div class="faculty-card">
+                <img src="/api/placeholder/150/150" alt="Faculty Member 3">
+                <h3>Faculty Name</h3>
+                <p>Position</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <h3>Find Us Here</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fa fa-facebook"></i>f</a>
+                    <a href="#"><i class="fa fa-twitter"></i>t</a>
+                    <a href="#"><i class="fa fa-instagram"></i>i</a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <h3>Contact Us</h3>
+                <p>0997 224 0222</p>
+                <p>Philtech.GMA@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // JavaScript for smooth scrolling and navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all navigation links
+            const navLinks = document.querySelectorAll('nav a');
+            
+            // Add click event listener to each link
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Get the target section id from href
+                    const targetId = this.getAttribute('href');
+                    
+                    // If it's an anchor link (starts with #)
+                    if(targetId.startsWith('#')) {
+                        e.preventDefault();
+                        
+                        // Get the target element
+                        const targetElement = document.querySelector(targetId);
+                        
+                        // If target element exists, scroll to it
+                        if(targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Add click event listener to "Enroll Now" button
+            const enrollButton = document.querySelector('.hero button');
+            if(enrollButton) {
+                enrollButton.addEventListener('click', function() {
+                    // Scroll to senior high section when clicked
+                    const seniorHighSection = document.querySelector('#senior-high');
+                    if(seniorHighSection) {
+                        seniorHighSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 </body>
-</html>
+            </html>
