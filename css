@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
@@ -19,20 +19,20 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 15px;
         }
         
         /* Header Styles */
         header {
-            background-color: #8b0000;
+            background-color: #a81c1c;
             color: white;
-            padding: 10px 0;
+            padding: 15px 0;
         }
         
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
         }
         
         .logo {
@@ -45,34 +45,75 @@
             margin-right: 10px;
         }
         
-        nav ul {
+        .logo-text {
+            font-size: 16px;
+            max-width: 300px;
+        }
+        
+        .navigation {
             display: flex;
-            list-style: none;
         }
         
-        nav ul li {
-            margin-left: 20px;
-        }
-        
-        nav ul li a {
+        .navigation a {
             color: white;
             text-decoration: none;
-            font-size: 14px;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+        
+        .navigation a:hover {
+            color: #ffd700;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #a81c1c;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
         
         /* Hero Section */
         .hero {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
+            background-image: url('https://via.placeholder.com/1200x400');
             background-size: cover;
             background-position: center;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             color: white;
-            padding: 0 20px;
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
         
         .hero h1 {
@@ -82,216 +123,253 @@
         
         .hero p {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
-        .hero button {
-            padding: 10px 20px;
+        .btn {
+            display: inline-block;
             background-color: white;
-            border: none;
+            color: #333;
+            padding: 10px 25px;
+            text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            cursor: pointer;
+            transition: background-color 0.3s;
         }
         
-        /* Mission & Vision */
+        .btn:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Mission & Vision Section */
         .mission-vision {
-            padding: 40px 20px;
-        }
-        
-        .mission-vision-content {
-            background-color: #8b0000;
+            background-color: #a81c1c;
             color: white;
-            padding: 30px;
+            padding: 40px 0;
+            margin: 40px 0;
             border-radius: 10px;
-            margin-bottom: 20px;
         }
         
-        .mission-vision h2 {
-            color: #ffcc00;
+        .mission, .vision {
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+        
+        .mission h2, .vision h2 {
+            display: flex;
+            align-items: center;
             margin-bottom: 15px;
         }
         
-        .mission-vision p {
-            margin-bottom: 20px;
-            line-height: 1.6;
+        .mission h2 img, .vision h2 img {
+            width: 24px;
+            margin-right: 10px;
         }
         
-        /* Hymn */
+        /* Hymn Section */
         .hymn {
-            background-color: #8b0000;
+            background-color: #a81c1c;
             color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 40px;
+            padding: 20px;
+            margin: 40px 0;
             text-align: center;
+            border-radius: 10px;
         }
         
         .hymn h2 {
-            color: #ffcc00;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            color: #ffd700;
         }
         
         .hymn p {
             margin-bottom: 10px;
-            line-height: 1.4;
         }
-        
-        /* Offerings */
-        .offerings {
-            padding: 20px;
-        }
-        
-        .offerings h2 {
+
+        /* Section Headers */
+        .section-header {
             text-align: center;
-            color: #b8860b;
-            margin-bottom: 30px;
+            margin: 40px 0 20px;
+            color: #ffd700;
             font-size: 28px;
         }
         
-        .cards-container {
+        /* Programs Section */
+        .programs {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
+            justify-content: space-around;
             gap: 20px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
         
-        .card {
-            background-color: #8b0000;
+        .program-card {
+            background-color: #a81c1c;
+            color: white;
             border-radius: 10px;
             overflow: hidden;
-            width: calc(33.33% - 14px);
-            min-width: 250px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            max-width: 350px;
         }
         
-        .card-content {
-            padding: 15px;
+        .program-card img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .program-details {
+            padding: 20px;
+        }
+        
+        .program-details h3 {
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        /* Academic Strands */
+        .academic-strands {
+            margin-bottom: 40px;
+        }
+        
+        .strand {
+            background-color: #a81c1c;
             color: white;
-            text-align: center;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
-        .card-content h3 {
+        .strand h3 {
+            color: #ffd700;
             margin-bottom: 10px;
         }
         
-        .card-content button {
-            padding: 8px 15px;
-            background-color: #ffcc00;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
+        /* Campus Section */
+        .campuses {
+            margin-bottom: 40px;
         }
         
-        /* Facilitators */
-        .facilitators {
-            padding: 20px;
-            margin-bottom: 50px;
-        }
-        
-        .facilitators h2 {
-            text-align: center;
-            color: #b8860b;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-        
-        .faculty-container {
+        .campus {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .campus-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .campus-image img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .campus-map {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .campus-map img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .campus-details {
+            margin-top: 10px;
+        }
+        
+        /* Facilitators Section */
+        .facilitators {
+            margin-bottom: 40px;
+        }
+        
+        .facilitator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
         }
         
-        .faculty-card {
-            width: calc(33.33% - 14px);
-            min-width: 200px;
+        .facilitator {
             text-align: center;
         }
         
-        .faculty-card img {
-            width: 150px;
-            height: 150px;
+        .facilitator-image {
+            width: 100%;
+            padding-bottom: 120%; /* Keep the aspect ratio */
+            background-size: cover;
+            background-position: center;
             border-radius: 50%;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #a81c1c;
+        }
+        
+        .facilitator-image img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 5px solid #8b0000;
-            margin-bottom: 15px;
         }
         
-        .faculty-card h3 {
-            color: #8b0000;
-            margin-bottom: 5px;
-        }
-        
-        .faculty-card p {
-            color: #666;
+        .facilitator p {
+            background-color: #a81c1c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
         
         /* Footer */
         footer {
-            background-color: #8b0000;
+            background-color: #a81c1c;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
         }
         
         .footer-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
         
-        .footer-left h3 {
-            margin-bottom: 15px;
-        }
-        
-        .social-icons a {
+        .social-links a {
             color: white;
             margin-right: 15px;
-            font-size: 20px;
+            text-decoration: none;
+            font-size: 18px;
         }
         
-        .footer-right {
+        .contact-info {
             text-align: right;
         }
         
-        .footer-right p {
+        .contact-info p {
             margin-bottom: 5px;
         }
         
-        /* Responsive adjustments */
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
             }
             
-            nav ul {
+            .navigation {
                 margin-top: 15px;
-                flex-wrap: wrap;
+            }
+            
+            .programs {
                 justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 5px 10px;
-            }
-            
-            .cards-container, .faculty-container {
-                justify-content: center;
-            }
-            
-            .card, .faculty-card {
-                width: 100%;
-                max-width: 350px;
             }
             
             .footer-content {
@@ -299,183 +377,394 @@
                 text-align: center;
             }
             
-            .footer-right {
+            .contact-info {
                 text-align: center;
                 margin-top: 20px;
+            }
+            
+            .facilitator-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Section -->
     <header>
-        <div class="container header-content">
-            <div class="logo">
-                <img src="/api/placeholder/40/40" alt="PhilTech Logo">
-                <h1>Philippine Technological Institute Of Science And Technology</h1>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://via.placeholder.com/40x40" alt="PhilTech Logo">
+                    <div class="logo-text">Philippine Technological Institute Of Science And Technology</div>
+                </div>
+                <nav class="navigation">
+                    <a href="#home">Home</a>
+                    <div class="dropdown">
+                        <a href="#courses">Courses Offered</a>
+                        <div class="dropdown-content">
+                            <a href="#senior-high">Senior High</a>
+                            <a href="#college">College</a>
+                        </div>
+                    </div>
+                    <a href="#teacher">Teacher</a>
+                    <a href="#about">About Us</a>
+                </nav>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Courses Offered</a></li>
-                    <li><a href="#">Senior High</a></li>
-                    <li><a href="#">College</a></li>
-                    <li><a href="#">Teacher</a></li>
-                    <li><a href="#">About Us</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1>PhilTech GMA Campus</h1>
-        <p>Global Success Through Academic Excellence</p>
-        <button>Enroll Now</button>
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>PhilTech GMA Campus</h1>
+                <p>Global Success Through Academic Excellence</p>
+                <a href="#" class="btn">Enroll Now</a>
+            </div>
+        </div>
     </section>
 
-    <!-- Mission & Vision -->
-    <section class="mission-vision container">
-        <div class="mission-vision-content">
-            <h2>Mission</h2>
-            <p>Philippine Technological Institute of Science Art and Trade Inc. (PHILTECH) is committed to give quality education to the development of every Filipino and aims to hone students who are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to humanity.</p>
-            
-            <h2>Vision</h2>
-            <p>PHILTECH shall emerge as the only technical school in the Philippines that can produce academic excellence, appropriate technology and productive graduates who are globally competitive to uphold our four services pillar in this changing world.</p>
+    <!-- Mission & Vision Section -->
+    <section class="container">
+        <div class="mission-vision">
+            <div class="mission">
+                <h2><img src="https://via.placeholder.com/24x24" alt="Mission Icon"> Mission</h2>
+                <p>Philippine Technological Institute of Science Art and Trade,Inc. (PHILTECH) is dedicated to give quality education to the development of every Filipino.It aims to hone studentswho are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to the nation.</p>
+            </div>
+            <div class="vision">
+                <h2><img src="https://via.placeholder.com/24x24" alt="Vision Icon"> Vision</h2>
+                <p>PHILTECH shall emerge as the only technical school in the Philippines that can provide academic excellence, appropriate technology and produce graduates who are globally competitive and shall serves pillar in this changing world.</p>
+            </div>
         </div>
-        
+    </section>
+
+    <!-- Hymn Section -->
+    <section class="container">
         <div class="hymn">
             <h2>PhilTech Hymn</h2>
             <p>PHILTECH our dear Alma Mater</p>
             <p>Our second home and nurturer</p>
-            <p>Lead us to learn away from aberration</p>
-            <p>Guide us to your ideals and proper direction</p>
+            <p>Lead us to learn away from abberation</p>
+            <p>Help us achieved our ambitions</p>
             <p>Lets your walls filled with our happy hearts</p>
-            <p>Dreamers' pure young minds view the light</p>
-            <p>Achievers abound</p>
+            <p>Dreamers and young minds view the light</p>
+            <p>Of tomorrow's path</p>
             <p>Signs of green and bright future</p>
             <p>With the guidance of our God Creator</p>
-            <p>PHILTECH (PHILTECH), PHILTECH (PHILTECH)</p>
-            <p>(2X)</p>
-            <p>We'll thank and love you forever,</p>
+            <p>(Repeat All)</p>
+            <p>PHILTECH! (PHILTECH!), PHILTECH! (PHILTECH!)</p>
+            <p>(CODA)</p>
+            <p>We'll thank you, Thank you forever.</p>
             <p>Dear PHILTECH (2x)</p>
-            <p>Our PHILTECH</p>
+            <p>Dear PHILTECH</p>
         </div>
     </section>
 
-    <!-- Senior High School Offerings -->
-    <section class="offerings container">
-        <h2>Senior Offered</h2>
-        <div class="cards-container">
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="Senior High Program 1">
-                <div class="card-content">
-                    <h3>Senior High</h3>
+    <!-- Senior High Programs Section -->
+    <section id="senior-high" class="container">
+        <h2 class="section-header">Offer for Senior High</h2>
+        <div class="programs">
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="Senior High Program 1">
+                <div class="program-details">
+                    <h3>SENIOR HIGH</h3>
                     <p>ENROLL NOW!!</p>
                     <p>FREE TUITION FEE</p>
-                    <button>Learn More</button>
+                    <p>FREE LABORATORY FEE</p>
+                    <p>FREE ID</p>
+                    <p>FREE 1 SET OF REGULAR UNIFORM</p>
+                    <p>FREE SENIOR HIGH T-SHIRT</p>
+                    <p>FREE PE UNIFORM</p> 
+                    <p>WE ACCEPT</p>
+                    <p>✓ ALS COMPLETERS</p>
+                    <p>✓ SHS COMPLETERS</p>
+                    <p>✓ ABM</p>
+                    <p>✓ BRING A FRIEND PROGRAM</p>
+                    <p>✓ CASH GIFT REWARD</p>
                 </div>
             </div>
-            
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="Senior High Program 2">
-                <div class="card-content">
-                    <h3>Senior High</h3>
-                    <p>ENROLL NOW!!</p>
-                    <p>FREE TUITION FEE for Government ESC</p>
-                    <button>Learn More</button>
-                </div>
-            </div>
-            
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="Senior High Program 3">
-                <div class="card-content">
-                    <h3>Senior High</h3>
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="Senior High Program 2">
+                <div class="program-details">
+                    <h3>SENIOR HIGH</h3>
                     <p>ENROLL NOW!!</p>
                     <p>FREE TUITION FEE</p>
-                    <button>Learn More</button>
+                    <p>FREE LABORATORY FEE</p>
+                    <p>FREE ID</p>
+                    <p>FREE 1 SET OF REGULAR UNIFORM</p>
+                    <p>FREE SENIOR HIGH T-SHIRT</p>
+                    <p>FREE PE UNIFORM</p> 
+                    <p>WE ACCEPT</p>
+                    <p>✓ ALS COMPLETERS</p>
+                    <p>✓ GAS/HUMMS</p>
+                    <p>✓ SOLID-STEM</p>
+                    <p>✓ BRING A FRIEND PROGRAM</p>
+                    <p>✓ CASH GIFT REWARD</p>
+                </div>
+            </div>
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="Senior High Program 3">
+                <div class="program-details">
+                    <h3>SENIOR HIGH</h3>
+                    <p>ENROLL NOW!!</p>
+                    <p>FREE TUITION FEE</p>
+                    <p>FREE LABORATORY FEE</p>
+                    <p>FREE ID</p>
+                    <p>FREE 1 SET OF REGULAR UNIFORM</p>
+                    <p>FREE SENIOR HIGH T-SHIRT</p>
+                    <p>FREE PE UNIFORM</p> 
+                    <p>WE ACCEPT</p>
+                    <p>✓ ALS COMPLETERS</p>
+                    <p>✓ CASH GIFT REWARD</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- College Offerings -->
-    <section class="offerings container">
-        <h2>College Offered</h2>
-        <div class="cards-container">
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="College Program 1">
-                <div class="card-content">
-                    <h3>Open for Enrollment</h3>
+    <!-- Academic Strands Section -->
+    <section class="container academic-strands">
+        <div class="strand">
+            <h3>Accountancy, Business And Management</h3>
+            <p>Often Referred To As The ABM Strand; Prepares Young Business Leaders For The Future. It Serves As A Foundation For Business Related College Degrees And Covers Essential Concepts In Financial Management, Accounting And Corporate Operation.</p>
+        </div>
+        <div class="strand">
+            <h3>General Academic Strand</h3>
+            <p>The General Academic Strand In Senior High School Provide A Well-Rounded Education, Emphasizing Critical Thinking, Communication, And Academic Skills.</p>
+        </div>
+        <div class="strand">
+            <h3>Humanities And Social Sciences</h3>
+            <p>The Humanities and Social Science (HUMSS) Strand Is One of the Specialized Academic Tracks Available in Senior High School Curriculum. It target Students who have an affinity for subject related to Humanities, Social Sciences, Arts, Literature, and Culture.</p>
+        </div>
+        <div class="strand">
+            <h3>TVL Strand</h3>
+            <h4>Information And Communication Technology</h4>
+            <p>The Information Communication And Technology (ICT) Strand Is Part Of The Technical-Vocational Livelihood (TVL) Track In The K-12 Curriculum. It Equips Students With Skill In Programming, Web Design, Animation, And Telecom Installation. Graduates Can Pursue Careers Such As Data Encoding, Programming, And Web Development Choosing The ICT Strand Provides A Solid Foundation For IT-Related College Courses.</p>
+        </div>
+        <div class="strand">
+            <h3>Home Economic</h3>
+            <p>Graduates Of This Program Are Equipped To Perform A Wide Variety Of Administrative Tasks, Including Clerical Duties, Personnel Management Events Coordination And Customer Service The Home Economics (HE) Strand is Part Of The Technical-Vocational Livelihood (TVL) Truck In Senior High School. It Focuses On Practical Skills And Livelihood Projects Related To Various Areas.</p>
+        </div>
+    </section>
+
+    <!-- College Programs Section -->
+    <section id="college" class="container">
+        <h2 class="section-header">Offer for College</h2>
+        <div class="programs">
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="College Program 1">
+                <div class="program-details">
+                    <h3>OPEN FOR ENROLLMENT</h3>
                     <p>NEW ENROLLEES</p>
-                    <p>TRANSFEREES</p>
-                    <button>Learn More</button>
+                    <p>50% DISCOUNT</p>
+                    <p>BACHELOR'S DEGREE PROGRAM</p>
+                    <p>BACHELOR OF TECHNICAL-VOCATIONAL TEACHER EDUCATION (BTVTED)</p>
+                    <p>MAJOR IN FOOD AND SERVICE MANAGEMENT</p>
+                    <p>BACHELOR OF SCIENCE IN COMPUTER SCIENCE (BSCS)</p>
+                    <p>BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION (BSOA)</p>
                 </div>
             </div>
-            
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="College Program 2">
-                <div class="card-content">
-                    <h3>Engineering</h3>
-                    <p>BSCS, BSIE, BSCE</p>
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="College Program 2">
+                <div class="program-details">
+                    <h3>NOW OFFERING</h3>
+                    <p>COMPUTER HARDWARE SERVICING NC II</p>
+                    <p>BREAD AND PASTRY PRODUCTION NC II</p>
+                    <p>COOKERY NC II</p>
+                    <p>DOMESTIC WORK NC II</p>
+                    <p>ELECTRONIC PRODUCTS ASSEMBLY AND SERVICING NC II</p>
+                    <p>DRIVING NC II</p>
+                    <p>AUTOMOTIVE SERVICING NC I</p>
+                    <p>FOOD AND BEVERAGE SERVICES NC II</p>
+                    <p>HOUSEKEEPING NC II</p>
+                    <p>BARTENDING NC II</p>
+                    <p>GOOD TO OFFER</p>
+                    <p>BACHELOR OF SCIENCE IN TECHNOLOGY</p>
                     <p>OPEN FOR REGISTRATION!</p>
-                    <button>Learn More</button>
                 </div>
             </div>
-            
-            <div class="card">
-                <img src="/api/placeholder/400/200" alt="College Program 3">
-                <div class="card-content">
-                    <h3>Alumni Services</h3>
+            <div class="program-card">
+                <img src="https://via.placeholder.com/350x250" alt="College Program 3">
+                <div class="program-details">
+                    <h3>IT'S TIME TO ENROLL</h3>
                     <p>FOR ALUMNI</p>
-                    <p>Connect with the PhilTech community</p>
-                    <button>Learn More</button>
+                    <p>30% DISCOUNT</p>
+                    <p>N.O.W. O.F.F.E.R.I.N.G</p>
+                    <p>SOON TO OFFER!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Facilitators -->
-    <section class="facilitators container">
-        <h2>FACILITATORS</h2>
-        <div class="faculty-container">
-            <div class="faculty-card">
-                <img src="/api/placeholder/150/150" alt="Faculty Member 1">
-                <h3>Faculty Name</h3>
-                <p>Position</p>
+    <!-- College Degree Programs -->
+    <section class="container">
+        <div class="strand">
+            <h3>BACHELOR IN TECHNICAL-VOCATIONAL TEACHER EDUCATION</h3>
+            <p>It Focuses On Both Theoretical Understanding Of Teaching And Practical Competencies In The Field Graduates Can Become Effective Educators In Areas Such As Culinary Arts, Restaurant Operations, Food Safety, Business Management And Custorren Service</p>
+        </div>
+        <div class="strand">
+            <h3>BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</h3>
+            <p>Graduates Of This Program Are Equipped To Perform A Wide Variety Of Administrative Tasks, Including Clerical Duties, Personnel Management, Events Coordination, And Customer Service.</p>
+        </div>
+        <div class="strand">
+            <h3>BACHELOR OF SCIENCE IN COMPUTER SCIENCE</h3>
+            <p>Our Program Equips Students With The Skills Needed For Thriving Careers In Computer Science. From Programming To AI, Our Comprehensive Curriculum Covers It All, Gain Practical Experience Through Projects And Internships, Preparing You For Software Development, Data Analysis, And IT Consulting Roles.</p>
+        </div>
+    </section>
+
+    <!-- Campuses Section -->
+    <section id="campuses" class="container campuses">
+        <h2 class="section-header">Available Campuses</h2>
+        
+        <h3>PHILTECH GMA</h3>
+        <div class="campus">
+            <div class="campus-image">
+                <img src="https://via.placeholder.com/500x300" alt="PhilTech GMA Campus">
             </div>
-            
-            <div class="faculty-card">
-                <img src="/api/placeholder/150/150" alt="Faculty Member 2">
-                <h3>Faculty Name</h3>
-                <p>Position</p>
+            <div class="campus-map">
+                <img src="https://via.placeholder.com/500x300" alt="PhilTech GMA Map">
             </div>
-            
-            <div class="faculty-card">
-                <img src="/api/placeholder/150/150" alt="Faculty Member 3">
-                <h3>Faculty Name</h3>
-                <p>Position</p>
+        </div>
+        <div class="campus-details">
+            <p>2nd Floor FCRDM Building, Congressional Rd, Maderan, General Mariano Alvarez, 4117 Cavite</p>
+            <p>Open Monday-Sunday</p>
+        </div>
+        
+        <h3>PHILTECH TANAY</h3>
+        <div class="campus">
+            <div class="campus-image">
+                <img src="https://via.placeholder.com/500x300" alt="PhilTech Tanay Campus">
+            </div>
+            <div class="campus-map">
+                <img src="https://via.placeholder.com/500x300" alt="PhilTech Tanay Map">
+            </div>
+        </div>
+        <div class="campus-details">
+            <p>G74X+3JW, Sampaloc Rd, Tanay, Rizal</p>
+            <p>Open on Saturday only</p>
+        </div>
+    </section>
+
+    <!-- Facilitators Section -->
+    <section id="teacher" class="container facilitators">
+        <h2 class="section-header">FACILITATORS</h2>
+        <div class="facilitator-grid">
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Maam Kim Arceno">
+                </div>
+                <p>Maam Kim Arceno</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Maam Joy Magno">
+                </div>
+                <p>Maam Joy Magno</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Maam Edith Yabut">
+                </div>
+                <p>Maam Edith Yabut</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Maam Grace Rivera">
+                </div>
+                <p>Maam Grace Rivera</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Nori Lacerna">
+                </div>
+                <p>Sir Nori Lacerna</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Michael Atienza">
+                </div>
+                <p>Sir Michael Atienza</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Jude Rodriguez">
+                </div>
+                <p>Sir Jude Rodriguez</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Raiven Gordon">
+                </div>
+                <p>Sir Raiven Gordon</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Raniel Gordon">
+                </div>
+                <p>Sir Raniel Gordon</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Gerald Ello">
+                </div>
+                <p>Sir Gerald Ello</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Ephraim Cabande">
+                </div>
+                <p>Sir Ephraim Cabande</p>
+            </div>
+            <div class="facilitator">
+                <div class="facilitator-image">
+                    <img src="https://via.placeholder.com/200x200" alt="Sir Fracis Jun Patalao">
+                </div>
+                <p>Sir Fracis Jun Patalao</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="container">
+        <h2 class="section-header">About Us</h2>
+        <div class="mission-vision">
+            <div class="mission">
+                <h2><img src="https://via.placeholder.com/24x24" alt="Mission Icon"> Mission</h2>
+                <p>Philippine Technological Institute of Science Art and Trade,Inc. (PHILTECH) is dedicated to give quality education to the development of every Filipino.It aims to hone studentswho are values oriented and physically, academically, socially and spiritually committed to the achievement of life-long learning and service to the nation.</p>
+            </div>
+            <div class="vision">
+                <h2><img src="https://via.placeholder.com/24x24" alt="Vision Icon"> Vision</h2>
+                <p>PHILTECH shall emerge as the only technical school in the Philippines that can provide academic excellence, appropriate technology and produce graduates who are globally competitive and shall serves pillar in this changing world.</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container footer-content">
-            <div class="footer-left">
-                <h3>Find Us Here</h3>
-                <div class="social-icons">
-                    <a href="#"><i class="fa fa-facebook"></i>f</a>
-                    <a href="#"><i class="fa fa-twitter"></i>t</a>
-                    <a href="#"><i class="fa fa-instagram"></i>i</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <p>Find Us Here</p>
+                    <a href="#" target="_blank">Facebook</a>
+                    <a href="#" target="_blank">Instagram</a>
+                    <a href="#" target="_blank">Twitter</a>
                 </div>
-            </div>
-            <div class="footer-right">
-                <h3>Contact Us</h3>
-                <p>0997 224 0222</p>
-                <p>Philtech.GMA@gmail.com</p>
+                <div class="contact-info">
+                    <p>Contact Us</p>
+                    <p>0997 224 0222</p>
+                    <a href="mailto:Philtech.2013gma@gmail.com">Philtech.2013gma@gmail.com</a>
+                </div>
             </div>
         </div>
     </footer>
+
+    <script>
+        // JavaScript to set hero section background image
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be where you'd add any JavaScript functionality
+            // For now, we'll just set the hero image
+            const heroSection = document.querySelector('.hero');
+            heroSection.style.backgroundImage = 'url("https://via.placeholder.com/1200x400/ff6347/ffffff")';
+        });
+    </script>
 </body>
 </html>
