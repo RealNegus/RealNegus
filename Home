@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhilTech GMA Campus - Senior High</title>
+    <link rel="stylesheet" href="senior-high-style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">🏫</div>
+                <span>Philippine Technological Institute Of Science And Technology</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html">Home</a>
+                <div class="dropdown">
+                    <a href="#courses" class="dropdown-btn active">Courses Offered ▼</a>
+                    <div class="dropdown-content">
+                        <a href="senior-high.html" class="active">Senior High</a>
+                        <a href="college.html">College</a>
+                    </div>
+                </div>
+                <a href="#teacher">Teacher</a>
+                <a href="#about">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>PhilTech GMA Campus</h1>
+        <p>Global Success Through Academic Excellence</p>
+        <a href="#enroll" class="enroll-btn">Enroll Now</a>
+        
+        <div class="building-image">
+            <!-- Building image placeholder -->
+        </div>
+    </section>
+
+    <!-- Senior High Offers Section -->
+    <section class="senior-offers">
+        <h2 class="section-title">Offer for Senior High</h2>
+        <div class="offers-grid">
+            <div class="offer-card">
+                <div class="card-header">
+                    <div class="school-logo">📚</div>
+                    <h3>PHILTECH<br>SENIOR HIGH</h3>
+                </div>
+                <div class="student-image">
+                    <div class="student-placeholder"></div>
+                </div>
+                <div class="offer-content">
+                    <h4>ENROLL NOW!!</h4>
+                    <ul class="benefits-list">
+                        <li>FREE TUITION FEE</li>
+                        <li>NO LABORATORY FEE</li>
+                        <li>FREE UNIFORM</li>
+                        <li>FREE SET OF MODULES HANDBOOK</li>
+                        <li>FREE SENIOR HIGH T-SHIRT</li>
+                        <li>FREE MEDICAL INSURANCE</li>
+                        <li>FREE ID WITH HOLDER</li>
+                        <li>WE ACCEPT</li>
+                        <li>✓ ALS COMPLETERS</li>
+                        <li>✓ GRADE 10 COMPLETERS</li>
+                        <li>✓ BALIK-ARAL</li>
+                        <li>✓ TRANSFEREES</li>
+                        <li>✓ GRADE 11 COMPLETERS PROGRAM</li>
+                        <li>1ST SEM ONLI IN BATAAN</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <span>PHILTECH GMA</span>
+                    <span>📞 0917 524 6322</span>
+                </div>
+            </div>
+
+            <div class="offer-card center-card">
+                <div class="card-header">
+                    <div class="school-logo">📚</div>
+                    <h3>PHILTECH<br>SENIOR HIGH</h3>
+                </div>
+                <div class="student-image">
+                    <div class="student-placeholder"></div>
+                </div>
+                <div class="offer-content">
+                    <h4>ENROLL NOW!!</h4>
+                    <ul class="benefits-list">
+                        <li>FREE TUITION FEE</li>
+                        <li>NO LABORATORY FEE</li>
+                        <li>FREE UNIFORM</li>
+                        <li>FREE SET OF MODULES HANDBOOK</li>
+                        <li>FREE SENIOR HIGH T-SHIRT</li>
+                        <li>FREE MEDICAL INSURANCE</li>
+                        <li>FREE ID WITH HOLDER</li>
+                        <li>WE ACCEPT</li>
+                        <li>✓ ALS COMPLETERS</li>
+                        <li>✓ GRADE 10 COMPLETERS</li>
+                        <li>✓ BALIK-ARAL</li>
+                        <li>BRING A FRIEND PROGRAM</li>
+                        <li>AVAIL CASH GIFT REFERRAL</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <span>PHILTECH GMA</span>
+                    <span>📞 0917 524 6322</span>
+                </div>
+            </div>
+
+            <div class="offer-card">
+                <div class="card-header">
+                    <div class="school-logo">📚</div>
+                    <h3>PHILTECH<br>SENIOR HIGH</h3>
+                </div>
+                <div class="student-image">
+                    <div class="student-placeholder"></div>
+                </div>
+                <div class="offer-content">
+                    <h4>ENROLL NOW!!</h4>
+                    <ul class="benefits-list">
+                        <li>FREE TUITION FEE</li>
+                        <li>NO LABORATORY FEE</li>
+                        <li>FREE UNIFORM</li>
+                        <li>FREE SET OF MODULES HANDBOOK</li>
+                        <li>FREE SENIOR HIGH T-SHIRT</li>
+                        <li>FREE MEDICAL INSURANCE</li>
+                        <li>FREE SENIOR HIGH T-SHIRT</li>
+                        <li>FREE ID WITH HOLDER</li>
+                        <li>WE ACCEPT</li>
+                        <li>✓ ALS COMPLETERS</li>
+                        <li>✓ GRADE 10 COMPLETERS</li>
+                        <li>✓ BALIK-ARAL</li>
+                        <li>✓ TRANSFEREES</li>
+                        <li>✓ GRADE 11 COMPLETERS PROGRAM</li>
+                        <li>1ST SEM ONLI IN BATAAN</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <span>PHILTECH GMA</span>
+                    <span>📞 0917 524 6322</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academic Strand Section -->
+    <section class="academic-strands">
+        <h2 class="section-title">Academic Strand</h2>
+        
+        <div class="strand-card">
+            <h3>Accountancy, Business And Management</h3>
+            <p>Often Referred To As The ABM Strand Prepares Students For The Future. It Serves As A Foundation For Business Related College Degrees And Covers Essential Concepts In Financial Management, Accounting And Corporate Operation.</p>
+        </div>
+
+        <div class="strand-card">
+            <h3>General Academic Strand</h3>
+            <p>The General Academic Strand In Senior High School Provides A Well-Rounded Education, Emphasizing Critical Thinking, Communication, And Academic Skills.</p>
+        </div>
+
+        <div class="strand-card">
+            <h3>Humanities And Social Sciences</h3>
+            <p>The Humanities and Social Science (HUMSS) Strand Is One of the Specialized Academic Tracks Available In Senior High School Curriculums. It target Students who have an affinity for subjects related to Humanities, Social Sciences, Arts, Literature, and Culture.</p>
+        </div>
+    </section>
+
+    <!-- TVL Strand Section -->
+    <section class="tvl-strand">
+        <h2 class="section-title">TVL Strand</h2>
+        
+        <div class="strand-card">
+            <h3>Information And Communication Technology</h3>
+            <p>The Information Communication And Technology (ICT) Strand Is Part Of The Technical-Vocational Livelihood (TVL) Track In The K-12 Curriculum. It Equips Students With Skill In Programming, Web Design, Animation, And Telecom Installation. Graduates Can Pursue Careers Such As Data Encoding, Programming And Web Development Choosing The ICT Strand Provides A Solid Foundation For IT-Related College Courses.</p>
+        </div>
+
+        <div class="strand-card">
+            <h3>Home Economic</h3>
+            <p>Graduates Of This Program Are Equipped To Perform A Wide Variety Of Administrative Tasks, Including Clerical Duties, Personnel Management Events Coordination, And Computer Service. This Home Economics (HE) Or Tourism Is Part Of The Technical-Vocational Livelihood (TVL) Track In Senior High School It Focuses On Practical Skills And Livelihood Projects Related To Various Areas.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <span>Find Us Here</span>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div>Contact Us</div>
+                <div>0917 224 0222</div>
+                <div>Philtech.2013gma@gmail.com</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
