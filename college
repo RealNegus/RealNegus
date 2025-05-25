@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhilTech GMA Campus - College Programs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <span>P</span>
+                </div>
+                <span class="logo-text">Philippine Technological Institute Of Science And Technology</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link">Home</a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Courses Offered</a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Senior High</a>
+                        <a href="#" class="dropdown-item">College</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">Teacher</a>
+                <a href="#" class="nav-link">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>PhilTech GMA Campus</h1>
+            <p>Global Success Through Academic Excellence</p>
+            <button class="enroll-btn">Enroll Now</button>
+        </div>
+    </section>
+
+    <!-- Offer Section -->
+    <section class="offer-section">
+        <h2 class="section-title">
+            <span class="title-text">Offer for College</span>
+        </h2>
+        <div class="container">
+            <div class="offer-cards">
+                <!-- Card 1 - Left -->
+                <div class="offer-card card-left">
+                    <div class="card-badge">04</div>
+                    <div class="card-header">
+                        <h3>OPEN<br>FOR<br>ENROLLMENT</h3>
+                        <div class="discount-badge">
+                            <span>NEW ENROLLEES<br>SIX DISCOUNT</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="program-list">
+                            <p>BACHELOR IN TECHNICAL VOCATIONAL<br>TEACHER EDUCATION<br>(BTVTED)</p>
+                            <p>MAJOR IN FOOD AND SERVICE MANAGEMENT</p>
+                            <p>MAJOR IN AUTOMOTIVE</p>
+                            <p>BACHELOR OF SCIENCE IN COMPUTER<br>SCIENCE (BSCS)</p>
+                            <p>BACHELOR OF SCIENCE IN OFFICE<br>ADMINISTRATION (BSOA)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 - Center (Main) -->
+                <div class="offer-card main-card">
+                    <div class="card-logos">
+                        <div class="logo-left">PH</div>
+                        <div class="logo-right">⚙️</div>
+                    </div>
+                    <div class="card-header">
+                        <h3>PHILTECH-GMA</h3>
+                        <h4>NOW OFFERING</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="section-block">
+                            <h5>COLLEGE DEGREE PROGRAMS</h5>
+                            <div class="program-list">
+                                <p>BACHELOR IN TECHNICAL-VOCATIONAL<br>TEACHER EDUCATION (BTVTED)</p>
+                                <p>MAJOR IN FOOD AND SERVICE MANAGEMENT</p>
+                                <p>MAJOR IN AUTOMOTIVE</p>
+                                <p>BACHELOR OF SCIENCE IN COMPUTER<br>SCIENCE (BSCS)</p>
+                                <p>BACHELOR OF SCIENCE IN OFFICE<br>ADMINISTRATION (BSOA)</p>
+                            </div>
+                        </div>
+                        <div class="section-block">
+                            <h5>SENIOR HIGH SCHOOL</h5>
+                            <div class="program-list">
+                                <p>SCIENCE OFFERS</p>
+                                <p>BACHELOR OF CULINARY AND COOKERY</p>
+                            </div>
+                        </div>
+                        <div class="registration-banner">
+                            <p>OPEN FOR REGISTRATION !</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 - Right -->
+                <div class="offer-card card-right">
+                    <div class="card-header">
+                        <div class="logo-badge">
+                            <span>PHILTECH-GMA</span>
+                        </div>
+                        <h3>IT'S TIME<br>TO<br>ENROLL</h3>
+                        <div class="alumni-badge">
+                            <span>FOR ALUMNI<br>30% DISCOUNT</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="status-text">
+                            <p>PHILTECH-GMA<br>NOW ONGOING!<br>SOON TO OFFER!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Details -->
+    <section class="programs-section">
+        <div class="container">
+            <!-- BTVTED Program -->
+            <div class="program-card">
+                <h3>BACHELOR IN TECHNICAL-VOCATIONAL TEACHER EDUCATION</h3>
+                <p>It Focuses On Both Theoretical Understanding Of Teaching And Practical Competencies In The Field Graduates Can Become Effective Educators In Areas Such As Culinary Arts, Restaurant Operations, Food Safety, Business Management And Customer Service.</p>
+            </div>
+
+            <!-- Office Administration Program -->
+            <div class="program-card">
+                <h3>BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</h3>
+                <p>Graduates Of This Program Are Equipped To Perform A Wide Variety Of Administrative Tasks, Including Clerical Duties, Personnel Management, Events Coordination, And Customer Service.</p>
+            </div>
+
+            <!-- Computer Science Program -->
+            <div class="program-card">
+                <h3>BACHELOR OF SCIENCE IN COMPUTER SCIENCE</h3>
+                <p>Our Program Equips Students With The Skills Needed For Thriving Careers In Computer Science, From Programming To AI, Our Comprehensive Curriculum Covers It All Gain Practical Experience Through Projects And Internships, Preparing You For Software Development, Data Analysis, And IT Consulting Roles.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h4>Find Us Here</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link facebook">f</a>
+                        <a href="#" class="social-link instagram">📷</a>
+                        <a href="#" class="social-link twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <h4>Contact Us</h4>
+                    <p>0997 224 0222</p>
+                    <p>Philtech.2013gma@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            dropdownToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
