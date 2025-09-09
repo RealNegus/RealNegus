@@ -1,0 +1,479 @@
+package QUEUINGSYSTEM1;
+
+import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+// Client class to represent each client in the queue
+class Client {
+    private String name;
+    private int ticketNumber;
+    private String arrivalTime;
+    private String serviceType;
+    
+    public Client(String name, int ticketNumber, String arrivalTime, String serviceType) {
+        this.name = name;
+        this.ticketNumber = ticketNumber;
+        this.arrivalTime = arrivalTime;
+        this.serviceType = serviceType;
+    }
+    
+    // Getters
+    public String getName() { return name; }
+    public int getTicketNumber() { return ticketNumber; }
+    public String getArrivalTime() { return arrivalTime; }
+    public String getServiceType() { return serviceType; }
+    
+    @Override
+    public String toString() {
+        return String.format("Ticket #%d | %s | %s | Service: %s", 
+                           ticketNumber, name, arrivalTime, serviceType);
+    }
+}
+
+// Queue management system class
+class QueueManagementSystem {
+    private Client[] queue;
+    private int front;
+    private int rear;
+    private int size;
+    private int capacity;
+    private int nextTicketNumber;
+    
+    public QueueManagementSystem(int capacity) {
+        this.capacity = capacity;
+        this.queue = new Client[capacity];
+        this.front = 0;
+        this.rear = -1;
+        this.size = 0;
+        this.nextTicketNumber = 1001; // Starting ticket number
+    }
+    
+    // Check if queue is full
+    public boolean isFull() {
+        return size == capacity;
+    }
+    
+    // Check if queue is empty
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    // Add client to queue (enqueue)
+    public boolean addClient(String name, String serviceType) {
+        if (isFull()) {
+            System.out.println("Queue is full! Cannot add more clients.");
+            return false;
+        }
+        
+        // Get current time using Date and SimpleDateFormat
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        String arrivalTime = formatter.format(currentDate);
+        
+        // Create new client
+        Client newClient = new Client(name, nextTicketNumber, arrivalTime, serviceType);
+        
+        // Add to queue (circular array implementation)
+        rear = (rear + 1) % capacity;
+        queue[rear] = newClient;
+        size++;
+        nextTicketNumber++;
+        
+        System.out.println("Client added successfully!");
+        System.out.println("Ticket Details: " + newClient);
+        return true;
+    }
+    
+    // Remove and serve next client (dequeue)
+    public Client serveNextClient() {
+        if (isEmpty()) {
+            System.out.println("No clients in queue to serve.");
+            return null;
+        }
+        
+        Client clientToServe = queue[front];
+        queue[front] = null; // Clear the slot
+        front = (front + 1) % capacity;
+        size--;
+        
+        return clientToServe;
+    }
+    
+    // View next client to be served (peek)
+    public Client viewNextClient() {
+        if (isEmpty()) {
+            return null;
+        }
+        return queue[front];
+    }
+    
+    // Display all clients in queue
+    public void displayQueue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        
+        System.out.println("\n=== CURRENT QUEUE STATUS ===");
+        System.out.println("Queue Size: " + size + "/" + capacity);
+        System.out.println("Clients in queue (FIFO order):");
+        
+        int index = front;
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + ". " + queue[index]);
+            index = (index + 1) % capacity;
+        }
+        System.out.println("============================\n");
+    }
+    
+    // Get queue statistics
+    public void displayStatistics() {
+        System.out.println("\n=== QUEUE STATISTICS ===");
+        System.out.println("Total Capacity: " + capacity);
+        System.out.println("Current Size: " + size);
+        System.out.println("Available Slots: " + (capacity - size));
+        System.out.println("Next Ticket Number: " + nextTicketNumber);
+        System.out.println("Queue Status: " + (isEmpty() ? "Empty" : isFull() ? "Full" : "Active"));
+        System.out.println("========================\n");
+    }
+    
+    // Search for client by ticket number
+    public void searchClientByTicket(int ticketNumber) {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        
+        int index = front;
+        int position = 1;
+        
+        for (int i = 0; i < size; i++) {
+            if (queue[index].getTicketNumber() == ticketNumber) {
+                System.out.println("Client found at position " + position + " in queue:");
+                System.out.println(queue[index]);
+                return;
+            }
+            index = (index + 1) % capacity;
+            position++;
+        }
+        
+        System.out.println("Client with ticket number " + ticketNumber + " not found in queue.");
+    }
+    
+    // Search for client by name
+    public void searchClientByName(String name) {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        
+        int index = front;
+        int position = 1;
+        boolean found = false;
+        
+        for (int i = 0; i < size; i++) {
+            if (queue[index].getName().toLowerCase().contains(name.toLowerCase())) {
+                if (!found) {
+                    System.out.println("Client(s) found with name containing '" + name + "':");
+                    found = true;
+                }
+                System.out.println("Position " + position + ": " + queue[index]);
+            }
+            index = (index + 1) % capacity;
+            position++;
+        }
+        
+        if (!found) {
+            System.out.println("No client found with name containing '" + name + "'.");
+        }
+    }
+    
+    // Get clients by service type
+    public void displayClientsByService(String serviceType) {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+            return;
+        }
+        
+        System.out.println("\n=== CLIENTS REQUESTING " + serviceType.toUpperCase() + " SERVICE ===");
+        int index = front;
+        int position = 1;
+        boolean found = false;
+        
+        for (int i = 0; i < size; i++) {
+            if (queue[index].getServiceType().equalsIgnoreCase(serviceType)) {
+                System.out.println("Position " + position + ": " + queue[index]);
+                found = true;
+            }
+            index = (index + 1) % capacity;
+            position++;
+        }
+        
+        if (!found) {
+            System.out.println("No clients found requesting " + serviceType + " service.");
+        }
+        System.out.println("==============================================\n");
+    }
+}
+
+// Main class
+public class QUEUINGSYSTEM1 {
+    private static QueueManagementSystem qms;
+    private static Scanner scanner;
+    
+    public static void main(String[] args) {
+        scanner = new Scanner(System.in);
+        System.out.println("\n=============================================");
+        System.out.println("\n     SCHOOL SERVICE SYSTEM   ");
+        System.out.println("\n=============================================");
+        System.out.println("\n---------------------------------------------");
+        System.out.println("\nWelcome to PHILTECH GMA!");
+        System.out.println("\n---------------------------------------------");
+        System.out.print("Enter maximum queue capacity: ");
+        int capacity = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        
+        qms = new QueueManagementSystem(capacity);
+        
+        while (true) {
+            displayMenu();
+            int choice = getChoice();
+            
+            switch (choice) {
+                case 1:
+                    addNewClient();
+                    break;
+                case 2:
+                    serveClient();
+                    break;
+                case 3:
+                    viewNextClient();
+                    break;
+                case 4:
+                    qms.displayQueue();
+                    break;
+                case 5:
+                    qms.displayStatistics();
+                    break;
+                case 6:
+                    searchClientMenu();
+                    break;
+                case 7:
+                    displayServiceAnalytics();
+                    break;
+                case 8:
+                    System.out.println("Thank you for using QUEUINGSYSTEM1!");
+                    System.out.println("Have a great day!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    
+    private static void displayMenu() {
+        System.out.println("\n=============================================");
+        System.out.println("\n|            PHILTECH - GMA                 |");
+        System.out.println("\n=============================================");
+        System.out.println("1. Add Client");
+        System.out.println("---------------------------------------------");
+        System.out.println("2. Serve Next Client");
+        System.out.println("---------------------------------------------");
+        System.out.println("3. View Next Client");
+        System.out.println("---------------------------------------------");
+        System.out.println("4. Display Queue");
+        System.out.println("---------------------------------------------");
+        System.out.println("5. View Statistics");
+        System.out.println("---------------------------------------------");
+        System.out.println("6. Search Clients");
+        System.out.println("---------------------------------------------");
+        System.out.println("7. Service Analytics");
+        System.out.println("---------------------------------------------");
+        System.out.println("8. Exit");
+        System.out.println("---------------------------------------------");
+        System.out.print("Enter your choice (1-8): ");
+    }
+    
+    private static int getChoice() {
+        try {
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+            return choice;
+        } catch (Exception e) {
+            scanner.nextLine(); // Clear invalid input
+            return -1;
+        }
+    }
+    
+    private static void addNewClient() {
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println(" ADD NEW CLIENT ");
+        System.out.println("---------------------------------------------");
+
+        
+        System.out.print("Enter client name: ");
+        String name = scanner.nextLine().trim();
+        
+        if (name.isEmpty()) {
+            System.out.println("---------------------------------------------");
+            System.out.println("Name cannot be empty!");
+            return;
+        }
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println("Available services:");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("1. TOR (Transcript of Records)");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("2. Good Moral Certificate");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("3. SOA (Statement of Account)");
+        System.out.println("---------------------------------------------");
+
+        System.out.print("Select service (1-3): ");
+        
+        int serviceChoice = getChoice();
+        String serviceType;
+        
+        switch (serviceChoice) {
+            case 1:
+                serviceType = "TOR";
+                break;
+            case 2:
+                serviceType = "Good Moral";
+                break;
+            case 3:
+                serviceType = "SOA";
+                break;
+            default:
+                System.out.println("Invalid service selection!");
+                return;
+        }
+        
+        qms.addClient(name, serviceType);
+    }
+    
+    private static void serveClient() {
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println("=== SERVE NEXT CLIENT ===");
+        Client client = qms.serveNextClient();
+        
+        if (client != null) {
+            System.out.println("Now serving: " + client);
+            System.out.println("Processing " + client.getServiceType() + " request for " + client.getName());
+            System.out.println("Service completed successfully!");
+        }
+    }
+    
+    private static void viewNextClient() {
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println(" NEXT CLIENT TO BE SERVED ");
+        Client nextClient = qms.viewNextClient();
+        
+        if (nextClient != null) {
+            System.out.println("Next in line: " + nextClient);
+            System.out.println("Service needed: " + nextClient.getServiceType());
+            System.out.println("Arrival time: " + nextClient.getArrivalTime());
+        } else {
+            System.out.println("No clients waiting in queue.");
+        }
+    }
+    
+    private static void searchClientMenu() {
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println(" SEARCH CLIENTS ");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("1. Search by Ticket Number");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("2. Search by Name");
+        System.out.println("---------------------------------------------");
+
+        System.out.print("Select search type (1-2): ");
+        
+        int searchChoice = getChoice();
+        
+        switch (searchChoice) {
+            case 1:
+                System.out.println("\n---------------------------------------------");
+
+                System.out.print("Enter ticket number to search: ");
+                System.out.println("\n---------------------------------------------");
+
+                int ticketNumber = getChoice();
+                if (ticketNumber > 0) {
+                    qms.searchClientByTicket(ticketNumber);
+                } else {
+                    System.out.println("---------------------------------------------");
+
+                    System.out.println("Invalid ticket number!");
+                    System.out.println("---------------------------------------------");
+
+                }
+                break;
+            case 2:
+                System.out.println("---------------------------------------------");
+
+                System.out.print("Enter name (or part of name) to search: ");
+                System.out.println("\n---------------------------------------------");
+
+                String name = scanner.nextLine().trim();
+                if (!name.isEmpty()) {
+                    qms.searchClientByName(name);
+                } else {
+                    System.out.println("Name cannot be empty!");
+                }
+                break;
+            default:
+                System.out.println("Invalid search option!");
+        }
+    }
+    
+    private static void displayServiceAnalytics() {
+        System.out.println("\n---------------------------------------------");
+
+        System.out.println("=== SERVICE ANALYTICS ===");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("1. View TOR Requests");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("2. View Good Moral Requests");
+        System.out.println("---------------------------------------------");
+
+        System.out.println("3. View SOA Requests");
+        System.out.println("---------------------------------------------");
+
+        System.out.print("Select service to analyze (1-3): ");
+        
+        int serviceChoice = getChoice();
+        String serviceType;
+        
+        switch (serviceChoice) {
+            case 1:
+                serviceType = "TOR";
+                break;
+            case 2:
+                serviceType = "Good Moral";
+                break;
+            case 3:
+                serviceType = "SOA";
+                break;
+            default:
+                System.out.println("Invalid service selection!");
+                return;
+        }
+        
+        qms.displayClientsByService(serviceType);
+    }
+}
