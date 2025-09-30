@@ -1,0 +1,190 @@
+import java.util.Stack;
+
+public class NameArranger {
+    
+    // Student class to hold name information
+    static class Student {
+        String surname;
+        String firstname;
+        String middleInitial;
+        
+        public Student(String surname, String firstname, String middleInitial) {
+            this.surname = surname;
+            this.firstname = firstname;
+            this.middleInitial = middleInitial;
+        }
+        
+        @Override
+        public String toString() {
+            return surname + ", " + firstname + " " + middleInitial + ".";
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Create a Stack to store students
+        Stack<Student> studentStack = new Stack<>();
+        
+        // Add students to the stack in original order
+        studentStack.push(new Student("DELA CRUZ", "ETHAN", "J"));
+        studentStack.push(new Student("SANTOS", "CHRISTIAN", "M"));
+        studentStack.push(new Student("GARCIA", "MARK", "L"));
+        studentStack.push(new Student("TORRES", "GABRIEL", "V"));
+        studentStack.push(new Student("FLORES", "KYLE", "R"));
+        studentStack.push(new Student("REYES", "SOFIA", "N"));
+        studentStack.push(new Student("MENDOZA", "ANDREA", "G"));
+        studentStack.push(new Student("RAMOS", "NICOLE", "F"));
+        studentStack.push(new Student("CRUZ", "JASMINE", "D"));
+        studentStack.push(new Student("GONZALES", "ANGEL", "K"));
+        
+        // Display header
+        System.out.println("LAB ACT 4: STACK");
+        System.out.println("ARRANGE THE FOLLOWING IN ORDER USING STACK:");
+        System.out.println();
+        System.out.println("ORDER: SURNAME, FIRSTNAME MIDDLEINITIAL");
+        System.out.println();
+        
+        // Pop and display students in reverse order (LIFO - Last In First Out)
+        int count = 1;
+        Stack<Student> tempStack = new Stack<>();
+        
+        // Store in temp stack to maintain original order for display
+        while (!studentStack.isEmpty()) {
+            tempStack.push(studentStack.pop());
+        }
+        
+        // Display in proper order
+        while (!tempStack.isEmpty()) {
+            Student student = tempStack.pop();
+            System.out.println(count + ". " + student);
+            count++;
+        }
+    }
+}
+
+// Alternative version with more Stack operations demonstration
+class NameArrangerAdvanced {
+    
+    static class Student {
+        String surname;
+        String firstname;
+        String middleInitial;
+        
+        public Student(String surname, String firstname, String middleInitial) {
+            this.surname = surname;
+            this.firstname = firstname;
+            this.middleInitial = middleInitial;
+        }
+        
+        @Override
+        public String toString() {
+            return surname + ", " + firstname + " " + middleInitial + ".";
+        }
+    }
+    
+    public static void main(String[] args) {
+        Stack<Student> originalStack = new Stack<>();
+        
+        // Push students onto stack
+        System.out.println("=== PUSHING STUDENTS ONTO STACK ===");
+        addStudent(originalStack, "DELA CRUZ", "ETHAN", "J");
+        addStudent(originalStack, "SANTOS", "CHRISTIAN", "M");
+        addStudent(originalStack, "GARCIA", "MARK", "L");
+        addStudent(originalStack, "TORRES", "GABRIEL", "V");
+        addStudent(originalStack, "FLORES", "KYLE", "R");
+        addStudent(originalStack, "REYES", "SOFIA", "N");
+        addStudent(originalStack, "MENDOZA", "ANDREA", "G");
+        addStudent(originalStack, "RAMOS", "NICOLE", "F");
+        addStudent(originalStack, "CRUZ", "JASMINE", "D");
+        addStudent(originalStack, "GONZALES", "ANGEL", "K");
+        
+        System.out.println("\nStack size: " + originalStack.size());
+        System.out.println("Top of stack: " + originalStack.peek());
+        
+        // Display the arranged list
+        System.out.println("\n=== LAB ACT 4: STACK ===");
+        System.out.println("ARRANGE THE FOLLOWING IN ORDER USING STACK:");
+        System.out.println();
+        System.out.println("ORDER: SURNAME, FIRSTNAME MIDDLEINITIAL");
+        System.out.println();
+        
+        displayStack(originalStack);
+        
+        // Demonstrate stack operations
+        System.out.println("\n=== STACK OPERATIONS ===");
+        System.out.println("Is stack empty? " + originalStack.isEmpty());
+        System.out.println("Stack size: " + originalStack.size());
+        
+        // Pop one element
+        if (!originalStack.isEmpty()) {
+            Student popped = originalStack.pop();
+            System.out.println("Popped: " + popped);
+            System.out.println("New size: " + originalStack.size());
+        }
+    }
+    
+    private static void addStudent(Stack<Student> stack, String surname, String firstname, String mi) {
+        Student student = new Student(surname, firstname, mi);
+        stack.push(student);
+        System.out.println("Pushed: " + student);
+    }
+    
+    private static void displayStack(Stack<Student> stack) {
+        // Create a temporary stack to maintain order
+        Stack<Student> tempStack = new Stack<>();
+        Stack<Student> displayStack = new Stack<>();
+        
+        // Transfer to temp stack (reverses order)
+        while (!stack.isEmpty()) {
+            tempStack.push(stack.pop());
+        }
+        
+        // Transfer back and display
+        int count = 1;
+        while (!tempStack.isEmpty()) {
+            Student student = tempStack.pop();
+            displayStack.push(student);
+            System.out.println(count + ". " + student);
+            count++;
+        }
+        
+        // Restore original stack
+        while (!displayStack.isEmpty()) {
+            stack.push(displayStack.pop());
+        }
+    }
+}
+
+// Simple version for quick testing
+class QuickTest {
+    public static void main(String[] args) {
+        Stack<String> names = new Stack<>();
+        
+        // Add names
+        names.push("1. DELA CRUZ, ETHAN J.");
+        names.push("2. SANTOS, CHRISTIAN M.");
+        names.push("3. GARCIA, MARK L.");
+        names.push("4. TORRES, GABRIEL V.");
+        names.push("5. FLORES, KYLE R.");
+        names.push("6. REYES, SOFIA N.");
+        names.push("7. MENDOZA, ANDREA G.");
+        names.push("8. RAMOS, NICOLE F.");
+        names.push("9. CRUZ, JASMINE D.");
+        names.push("10. GONZALES, ANGEL K.");
+        
+        System.out.println("LAB ACT 4: STACK");
+        System.out.println("ARRANGE THE FOLLOWING IN ORDER USING STACK:");
+        System.out.println();
+        System.out.println("ORDER: SURNAME, FIRSTNAME MIDDLEINITIAL");
+        System.out.println();
+        
+        // Pop and display in reverse order
+        Stack<String> temp = new Stack<>();
+        while (!names.isEmpty()) {
+            temp.push(names.pop());
+        }
+        
+        while (!temp.isEmpty()) {
+            System.out.println(temp.pop());
+        }
+    }
+}
