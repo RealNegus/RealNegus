@@ -3,12 +3,29 @@ import java.util.Stack;
 
 public class StackNameArranger {
 	
+	public static String rearrangeName(String name) {
+		// Split the name into parts
+		String[] parts = name.split(" ");
+		
+		// parts[0] = Firstname
+		// parts[1] = MiddleInitial (with dot)
+		// parts[2] = Surname
+		String firstname = parts[0];
+		String middleInitial = parts[1];
+		String surname = parts[2];
+		
+		// Rearrange to: SURNAME, FIRSTNAME MIDDLEINITIAL
+		return surname + ", " + firstname + " " + middleInitial;
+	}
+	
 	public static void arrangeNames(Stack<String> nameStack) {
 		Stack<String> tempStack = new Stack<>();
 		
 		// Pop all names from original stack and push to temp stack
 		while (!nameStack.isEmpty()) {
-			tempStack.push(nameStack.pop());
+			String name = nameStack.pop();
+			String rearranged = rearrangeName(name);
+			tempStack.push(rearranged);
 		}
 		
 		// Display names in order
@@ -22,7 +39,7 @@ public class StackNameArranger {
 	public static void main(String[] args) {
 		Stack<String> nameStack = new Stack<>();
 		
-		// Push names onto the stack
+		// Push names onto the stack (Format: FIRSTNAME MIDDLEINITIAL SURNAME)
 		nameStack.push("ETHAN J. DELA CRUZ");
 		nameStack.push("CHRISTIAN M. SANTOS");
 		nameStack.push("MARK L. GARCIA");
