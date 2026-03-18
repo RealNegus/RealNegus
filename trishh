@@ -64,8 +64,6 @@
     .social-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border-radius: var(--radius); border: none; background: var(--red); color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; transition: background .18s, transform .15s; box-shadow: 0 2px 8px var(--shadow); }
     .social-btn:hover { background: #c1121f; transform: translateY(-1px); }
     .s-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .8rem; background: rgba(255,255,255,0.22); color: #fff; }
-    .s-google .s-icon { background: rgba(255,255,255,0.22); color: #fff; }
-    .s-facebook .s-icon { background: rgba(255,255,255,0.22); color: #fff; }
 
     /* ── LANDING / REGISTER CARDS ── */
     .landing-card, .register-card { background: rgba(255,255,255,.97); border-radius: 22px; padding: 28px 24px 24px; width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
@@ -146,10 +144,52 @@
     .cat-tabs { display: flex; overflow-x: auto; gap: 4px; padding: 12px 12px 0; background: #fff; border-bottom: 2px solid var(--border); scrollbar-width: none; }
     .cat-tabs::-webkit-scrollbar { display: none; }
     .cat-tab { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0 10px 10px; border: none; background: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: .7rem; font-weight: 600; color: var(--muted); white-space: nowrap; border-bottom: 2px solid transparent; flex-shrink: 0; transition: color .2s, border-color .2s; }
-    .cat-tab .ct-icon { width: 42px; height: 42px; border-radius: 14px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: all .2s; box-shadow: 0 1px 4px var(--shadow); }
+
+    /* ── CATEGORY ICON with IMAGE support ── */
+    .ct-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: all .2s;
+      box-shadow: 0 1px 4px var(--shadow);
+      overflow: hidden;
+    }
+    /* Image inside category icon */
+    .ct-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+      transition: transform .2s;
+    }
+    /* Emoji/text fallback stays centered */
+    .ct-icon span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
     .cat-tab:hover .ct-icon { background: #ffe8e8; transform: translateY(-2px); }
+    .cat-tab:hover .ct-icon img { transform: scale(1.08); }
     .cat-tab.active { color: var(--red); border-bottom-color: var(--red); }
-    .cat-tab.active .ct-icon { background: var(--red); box-shadow: 0 3px 10px rgba(230,57,70,0.35); }
+    .cat-tab.active .ct-icon {
+      background: var(--red);
+      box-shadow: 0 3px 10px rgba(230,57,70,0.35);
+    }
+    /* Active state: tint image with red overlay */
+    .cat-tab.active .ct-icon img {
+      filter: brightness(0.85) saturate(1.2);
+      mix-blend-mode: luminosity;
+      opacity: 0.9;
+    }
+    /* Active state: invert emoji/text icons */
     .cat-tab.active .ct-icon span { filter: brightness(0) invert(1); }
 
     /* ── SEARCH BAR ── */
@@ -570,7 +610,7 @@
     <div class="banner">
       <div class="banner-text">
         <h2 id="menu-title">🔥 All Items</h2>
-        <p id="menu-sub">Tap an item to customize & add to cart</p>
+        <p id="menu-sub">Tap an item to customize &amp; add to cart</p>
       </div>
       <span class="welcome-tag" id="welcome-tag"></span>
     </div>
@@ -610,8 +650,6 @@
       <h2>🛒 Your Order</h2>
     </div>
     <div class="cart-body" id="cart-body"></div>
-
-    <!-- Promo Code -->
     <div class="promo-wrap">
       <div class="promo-inner">
         <input class="input" id="promo-input" placeholder="🏷️ Enter promo code" style="margin-bottom:0"/>
@@ -619,7 +657,6 @@
       </div>
       <div class="promo-applied" id="promo-msg"></div>
     </div>
-
     <div class="summary" id="cart-summary"></div>
     <div class="cart-foot">
       <button class="btn btn-ghost" style="flex:1" onclick="go('menu')">+ Add More</button>
@@ -660,9 +697,7 @@
 
   <!-- ══════════════════════════════════════════ PROCESSING ══════════════════════════════════════════ -->
   <div id="s-processing" class="screen">
-    <div class="pay-hdr">
-      <h2 style="margin:0 auto">⏳ Processing</h2>
-    </div>
+    <div class="pay-hdr"><h2 style="margin:0 auto">⏳ Processing</h2></div>
     <div class="proc"><div class="spinner"></div><h2>Processing…</h2><p>Confirming your order, please wait.</p></div>
   </div>
 
@@ -675,8 +710,6 @@
     </div>
     <div class="receipt-wrap">
       <div class="confirmed">✅ Order Confirmed! Being prepared now.</div>
-
-      <!-- Order Tracker -->
       <div class="tracker" id="order-tracker">
         <h4>📦 Order Status</h4>
         <div class="track-steps">
@@ -687,7 +720,6 @@
           <div class="track-step"><div class="ts-dot" id="ts4">✅</div><div class="ts-label" id="tsl4">Delivered</div></div>
         </div>
       </div>
-
       <div class="paper" style="margin-top:18px;">
         <div class="r-logo">Trish<span>Bite</span></div>
         <div class="r-num-label">Order Number</div>
@@ -888,6 +920,7 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     $('s-' + id).classList.add('active');
     window.scrollTo(0, 0);
+    if (id === 'history') renderHistory();
   }
 
   function goRegister() { clearRegForm(); go('register'); }
@@ -929,8 +962,8 @@
     'FREESHIP': { type: 'free', value: 0,   label: 'Free delivery applied! 🛵' },
   };
 
-  function saveUsers() { localStorage.setItem('trishbite_users', JSON.stringify(users)); }
-  function saveFavs()  { localStorage.setItem('trishbite_favs', JSON.stringify(favorites)); }
+  function saveUsers()   { localStorage.setItem('trishbite_users', JSON.stringify(users)); }
+  function saveFavs()    { localStorage.setItem('trishbite_favs', JSON.stringify(favorites)); }
   function saveHistory() { localStorage.setItem('trishbite_history', JSON.stringify(orderHistory)); }
 
   // ── DARK MODE ────────────────────────────────────
@@ -944,17 +977,23 @@
     applyDark();
   }
 
-  // ── MENU DATA ────────────────────────────────────
   const CATS = [
-    { id:'all',      icon:'🍽️', label:'All'      },
-    { id:'chicken',  icon:'🍗', label:'Chicken'  },
-    { id:'burgers',  icon:'🍔', label:'Burgers'  },
-    { id:'sides',    icon:'🍟', label:'Sides'    },
-    { id:'pasta',    icon:'🍝', label:'Pasta'    },
-    { id:'drinks',   icon:'🥤', label:'Drinks'   },
-    { id:'desserts', icon:'🍦', label:'Desserts' },
-    { id:'favs',     icon:'❤️', label:'Favorites' },
+    { id:'all',      icon:'🍽️', label:'All',       img: null },
+    { id:'chicken',  icon:'🍗', label:'Chicken',   img: 'https://f4.bcbits.com/img/a2002470507_16.jpg' },
+    { id:'burgers',  icon:'🍔', label:'Burgers',   img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBUvRLZSngpBQ481X97MVh4ApxQXaCJDm5Xw&s' },
+    { id:'sides',    icon:'🍟', label:'Sides',     img: 'https://cdn.britannica.com/34/206334-050-7637EB66/French-fries.jpg' },
+    { id:'pasta',    icon:'🍝', label:'Pasta',     img: 'https://www.tasteofhome.com/wp-content/uploads/2025/02/Stamp-of-Approval-Spaghetti-Sauce_EXPS_TOHD25_39564_ChristineMa_2.jpg' },
+    { id:'drinks',   icon:'🥤', label:'Drinks',    img: 'https://img.freepik.com/free-photo/glass-cola-with-ice-cubes_23-2152002414.jpg?semt=ais_rp_progressive&w=740&q=80' },
+    { id:'desserts', icon:'🍦', label:'Desserts',  img: 'https://assets.rbl.ms/21919567/origin.jpg' },
+    { id:'favs',     icon:'❤️', label:'Favorites', img: null },
   ];
+  //
+  // HOW TO ADD YOUR PHOTOS:
+  // Simply replace null with your image URL. Example:
+  //   { id:'chicken', icon:'🍗', label:'Chicken', img: 'https://example.com/chicken.jpg' }
+  // or a local path:
+  //   { id:'chicken', icon:'🍗', label:'Chicken', img: 'photos/chicken.png' }
+  //
 
   const ITEMS = {
     crispy:    { emoji:'🍗', img:'https://f4.bcbits.com/img/a2002470507_16.jpg', name:'Crispy Chicken',     cat:'chicken',  badge:'bestseller', desc:'Golden fried chicken, crispy outside, juicy inside.',  sizes:[{label:'1pc',price:89},{label:'2pc',price:144}] },
@@ -972,7 +1011,7 @@
     juice:     { emoji:'🧃', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKuF870u40Nj58BGen6_AH8RWOnqhmUXje6A&s', name:'Fresh Juice',        cat:'drinks',   badge:'healthy',    desc:'Freshly squeezed seasonal fruit juice.',                  sizes:[{label:'Regular',price:45},{label:'Large',price:60}] },
     shake:     { emoji:'🥛', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1JRgiyXIJslliIZAY8rJKI-e6t4Kx_xzV1A&s', name:'Milkshake',          cat:'drinks',   badge:'bestseller', desc:'Thick creamy milkshake — vanilla, choco, or strawberry.', sizes:[{label:'Regular',price:79},{label:'Large',price:99}] },
     sundae:    { emoji:'🍦', img:'https://assets.rbl.ms/21919567/origin.jpg', name:'Ice Cream Sundae',   cat:'desserts', badge:'',           desc:'Soft-serve ice cream with chocolate or strawberry topping.', sizes:[{label:'Regular',price:49},{label:'Large',price:65}] },
-    brownie:   { emoji:'🍫', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmyTLj87FwtP9JtjF4d8ivKfBdwuIZsROPZg&s', sizes:[{label:'1pc',price:55},{label:'2pc',price:99}] },
+    brownie:   { emoji:'🍫', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmyTLj87FwtP9JtjF4d8ivKfBdwuIZsROPZg&s', name:'Brownie',            cat:'desserts', badge:'',           desc:'Rich fudgy chocolate brownie, warm & gooey.',            sizes:[{label:'1pc',price:55},{label:'2pc',price:99}] },
   };
 
   const BADGE_COLORS = {
@@ -987,14 +1026,14 @@
 
   const DELIVERY_METHODS = {
     delivery: [
-      { id:'standard',  icon:'🛵', name:'Standard Delivery',  desc:'Arrives in 30–45 minutes.',        badge:'₱49',  badgeClass:'' },
+      { id:'standard',  icon:'🛵', name:'Standard Delivery',  desc:'Arrives in 30–45 minutes.',         badge:'₱49',  badgeClass:'' },
       { id:'express',   icon:'⚡', name:'Express Delivery',    desc:'Priority — arrives in 15–20 mins.', badge:'₱79',  badgeClass:'' },
-      { id:'scheduled', icon:'📅', name:'Scheduled Delivery',  desc:'Pick a time that works for you.',  badge:'₱49',  badgeClass:'' },
+      { id:'scheduled', icon:'📅', name:'Scheduled Delivery',  desc:'Pick a time that works for you.',   badge:'₱49',  badgeClass:'' },
     ],
     pickup: [
-      { id:'branch1', icon:'🏪', name:'Quezon St. Branch',   desc:'Near Jollibee, Quezon St, Masbate City',         badge:'Open', badgeClass:'free' },
-      { id:'branch2', icon:'🏬', name:'Boulevard Branch',     desc:'Boulevard Extension, Masbate City',              badge:'Open', badgeClass:'free' },
-      { id:'branch3', icon:'🏢', name:'Bagumbayan Branch',    desc:'Bagong Kamino Rd, Brgy. Bagumbayan, Masbate',    badge:'Busy', badgeClass:'' },
+      { id:'branch1', icon:'🏪', name:'Quezon St. Branch',  desc:'Near Jollibee, Quezon St, Masbate City',      badge:'Open', badgeClass:'free' },
+      { id:'branch2', icon:'🏬', name:'Boulevard Branch',    desc:'Boulevard Extension, Masbate City',           badge:'Open', badgeClass:'free' },
+      { id:'branch3', icon:'🏢', name:'Bagumbayan Branch',   desc:'Bagong Kamino Rd, Brgy. Bagumbayan, Masbate', badge:'Busy', badgeClass:'' },
     ],
   };
 
@@ -1016,12 +1055,21 @@
     }
   }
 
+  // ── BUILD CATEGORY TABS with image support ────────
   function buildCatTabs() {
-    $('cat-tabs').innerHTML = CATS.map(c => `
-      <button class="cat-tab ${c.id==='all'?'active':''}" id="tab-${c.id}" onclick="filterCat('${c.id}')">
-        <div class="ct-icon"><span>${c.icon}</span></div>
-        <span>${c.label}</span>
-      </button>`).join('');
+    $('cat-tabs').innerHTML = CATS.map(c => {
+      // If the category has an img URL, render an <img> tag inside the icon;
+      // otherwise fall back to the emoji wrapped in a <span>.
+      const iconInner = c.img
+        ? `<img src="${c.img}" alt="${c.label}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><span style="display:none">${c.icon}</span>`
+        : `<span>${c.icon}</span>`;
+
+      return `
+        <button class="cat-tab ${c.id === 'all' ? 'active' : ''}" id="tab-${c.id}" onclick="filterCat('${c.id}')">
+          <div class="ct-icon">${iconInner}</div>
+          <span>${c.label}</span>
+        </button>`;
+    }).join('');
   }
 
   function filterCat(catId) {
@@ -1031,8 +1079,12 @@
     clearSearch();
     buildMenuGrid(catId);
     const cat = CATS.find(c => c.id === catId);
-    $('menu-title').textContent = cat ? cat.icon + ' ' + cat.label : '🔥 All Items';
-    $('menu-sub').textContent = catId === 'favs' ? 'Your saved favorites ❤️' : 'Tap an item to customize & add to cart';
+    $('menu-title').textContent = cat
+      ? (cat.img ? '' : cat.icon + ' ') + cat.label
+      : '🔥 All Items';
+    $('menu-sub').textContent = catId === 'favs'
+      ? 'Your saved favorites ❤️'
+      : 'Tap an item to customize & add to cart';
   }
 
   function buildMenuGrid(catId, query = '') {
@@ -1047,7 +1099,7 @@
       entries = entries.filter(([, v]) => v.name.toLowerCase().includes(query.toLowerCase()));
     }
     if (!entries.length) {
-      grid.innerHTML = `<div class="no-results"><span>😔</span><p>${query ? 'No results for "'+query+'"' : 'No favorites yet! Tap ❤️ on items.'}</p></div>`;
+      grid.innerHTML = `<div class="no-results"><span>😔</span><p>${query ? 'No results for "' + query + '"' : 'No favorites yet! Tap ❤️ on items.'}</p></div>`;
       return;
     }
     grid.innerHTML = entries.map(([key, it]) => {
@@ -1055,24 +1107,25 @@
       const badgeHtml = it.badge && BADGE_COLORS[it.badge]
         ? `<span class="m-badge" style="${BADGE_COLORS[it.badge]}">${it.badge}</span>` : '';
       return `
-      <div class="menu-card" onclick="openModal('${key}')">
-        <div class="m-img">
-          ${badgeHtml}
-          <button class="m-fav" onclick="event.stopPropagation();toggleFav('${key}',this)" title="Favorite">${isFav?'❤️':'🤍'}</button>
-          ${it.img
-            ? `<img src="${it.img}" alt="${it.name}" loading="lazy"/>`
-            : `<div class="img-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>${key}</span></div>`
-          }
-        </div>
-        <div class="m-body">
-          <div class="m-name">${it.name}</div>
-          <div class="m-desc">${it.desc}</div>
-          <div class="m-foot">
-            <span class="m-price">₱${it.sizes[0].price}</span>
-            <button class="add-btn" onclick="event.stopPropagation();quickAdd('${key}')">+</button>
+        <div class="menu-card" onclick="openModal('${key}')">
+          <div class="m-img">
+            ${badgeHtml}
+            <button class="m-fav" onclick="event.stopPropagation();toggleFav('${key}',this)" title="Favorite">${isFav ? '❤️' : '🤍'}</button>
+            ${it.img
+              ? `<img src="${it.img}" alt="${it.name}" loading="lazy"/>`
+              : `<div class="img-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>${key}</span></div>`
+            }
           </div>
-        </div>
-      </div>`}).join('');
+          <div class="m-body">
+            <div class="m-name">${it.name}</div>
+            <div class="m-desc">${it.desc}</div>
+            <div class="m-foot">
+              <span class="m-price">₱${it.sizes[0].price}</span>
+              <button class="add-btn" onclick="event.stopPropagation();quickAdd('${key}')">+</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
   }
 
   // ── SEARCH ───────────────────────────────────────
@@ -1143,13 +1196,13 @@
   }
 
   function register() {
-    const fname  = $('reg-fname').value.trim();
-    const lname  = $('reg-lname').value.trim();
-    const email  = $('reg-email').value.trim();
-    const phone  = $('reg-phone').value.trim();
-    const pass   = $('reg-pass').value.trim();
-    const cpass  = $('reg-cpass').value.trim();
-    const terms  = $('terms-check').checked;
+    const fname = $('reg-fname').value.trim();
+    const lname = $('reg-lname').value.trim();
+    const email = $('reg-email').value.trim();
+    const phone = $('reg-phone').value.trim();
+    const pass  = $('reg-pass').value.trim();
+    const cpass = $('reg-cpass').value.trim();
+    const terms = $('terms-check').checked;
     let valid = true;
 
     clearAllErrors('err-fname','err-lname','err-reg-email','err-phone','err-reg-pass','err-cpass','err-terms');
@@ -1266,8 +1319,7 @@
     showToast('✅ Name updated!');
   }
   function closeProfile() { $('profile-overlay').classList.remove('open'); }
-
-  function openHistoryFromProfile() { closeProfile(); go('history'); renderHistory(); }
+  function openHistoryFromProfile() { closeProfile(); go('history'); }
 
   // ── HELP ─────────────────────────────────────────
   function openHelp()  { $('help-overlay').classList.add('open'); }
@@ -1311,7 +1363,7 @@
         <p style="color:var(--muted);font-size:.83rem;">${sub}</p>
       </div>
       <div id="dm-options" style="width:100%;max-width:360px;">
-        ${methods.map(m=>`
+        ${methods.map(m => `
           <div class="dm-card" id="dm-${m.id}" onclick="pickDeliveryMethod('${m.id}')">
             <div class="dm-icon">${m.icon}</div>
             <div class="dm-info"><div class="dm-name">${m.name}</div><div class="dm-desc">${m.desc}</div></div>
@@ -1325,11 +1377,11 @@
 
   function pickDeliveryMethod(id) {
     deliveryMethod = id;
-    document.querySelectorAll('.dm-card').forEach(c=>c.classList.remove('active'));
-    $('dm-'+id).classList.add('active');
+    document.querySelectorAll('.dm-card').forEach(c => c.classList.remove('active'));
+    $('dm-' + id).classList.add('active');
   }
   function confirmDelivery() {
-    if (!deliveryMethod) return showToast('Please select a '+(locType==='delivery'?'delivery method':'branch'));
+    if (!deliveryMethod) return showToast('Please select a ' + (locType==='delivery' ? 'delivery method' : 'branch'));
     goPaymentFinal();
   }
 
@@ -1351,7 +1403,7 @@
   }
   function closeModal() { $('modal').classList.remove('open'); }
   function renderSizes() {
-    $('m-sizes').innerHTML = ITEMS[modalState.key].sizes.map((s,i)=>`
+    $('m-sizes').innerHTML = ITEMS[modalState.key].sizes.map((s,i) => `
       <button class="sz-btn ${i===modalState.sizeIdx?'on':''}" onclick="pickSize(${i})">
         ${s.label}<span class="sz-price">₱${s.price}</span>
       </button>`).join('');
@@ -1360,7 +1412,7 @@
   function changeQty(d) { modalState.qty=Math.max(1,modalState.qty+d); $('m-qty').textContent=modalState.qty; updatePrice(); }
   function updatePrice() {
     const p = ITEMS[modalState.key].sizes[modalState.sizeIdx].price * modalState.qty;
-    $('m-price').textContent = '₱'+p.toLocaleString();
+    $('m-price').textContent = '₱' + p.toLocaleString();
   }
   function addToCart() {
     const { key, sizeIdx, qty } = modalState;
@@ -1368,22 +1420,27 @@
     const note = $('m-notes').value.trim();
     cart.push({ id:Date.now(), emoji:it.emoji, name:it.name, size:sz.label, unitPrice:sz.price, qty, note });
     updateBadge(); closeModal();
-    showToast(it.emoji+' '+it.name+' added!');
+    showToast(it.emoji + ' ' + it.name + ' added!');
   }
   function quickAdd(key) {
     const it=ITEMS[key], sz=it.sizes[0];
-    cart.push({ id:Date.now(), emoji:it.emoji, name:it.name, size:sz.label, unitPrice:sz.price, qty:1, note:'' });
+    cart.push({ id:Date.now()+Math.random(), emoji:it.emoji, name:it.name, size:sz.label, unitPrice:sz.price, qty:1, note:'' });
     updateBadge();
-    showToast(it.emoji+' '+it.name+' added!');
+    showToast(it.emoji + ' ' + it.name + ' added!');
   }
-  function updateBadge() { $('cart-count').textContent=cart.reduce((s,i)=>s+i.qty,0); }
+  function updateBadge() { $('cart-count').textContent = cart.reduce((s,i) => s+i.qty, 0); }
 
   // ── PROMO ─────────────────────────────────────────
   function applyPromo() {
     const code = $('promo-input').value.trim().toUpperCase();
     const promo = PROMOS[code];
-    if (!promo) { showToast('❌ Invalid promo code'); $('promo-msg').classList.remove('show'); promoDiscount=0; promoCode=''; renderCart(); return; }
-    promoCode = code; promoDiscount = 0; // recalc on renderCart
+    if (!promo) {
+      showToast('❌ Invalid promo code');
+      $('promo-msg').classList.remove('show');
+      promoDiscount=0; promoCode='';
+      renderCart(); return;
+    }
+    promoCode = code; promoDiscount = 0;
     $('promo-msg').textContent = '✅ ' + promo.label;
     $('promo-msg').classList.add('show');
     renderCart();
@@ -1400,13 +1457,13 @@
       $('promo-msg').classList.remove('show'); return;
     }
     btn.disabled=false; btn.style.opacity='1';
-    body.innerHTML=cart.map(ci=>`
+    body.innerHTML = cart.map(ci => `
       <div class="cart-item">
         <div class="ci-ico">${ci.emoji}</div>
         <div class="ci-inf">
           <div class="ci-nm">${ci.name}</div>
           <div class="ci-sz">${ci.size}</div>
-          ${ci.note?`<div class="ci-note">📝 ${ci.note}</div>`:''}
+          ${ci.note ? `<div class="ci-note">📝 ${ci.note}</div>` : ''}
           <div class="ci-qty">
             <button class="sq-btn" onclick="cQty(${ci.id},-1)">−</button>
             <span class="sq-num">${ci.qty}</span>
@@ -1417,24 +1474,24 @@
         <button class="ci-del" onclick="removeItem(${ci.id})">🗑️</button>
       </div>`).join('');
     const { sub, tax, del, disc, tot } = calcTotal();
-    sum.innerHTML=`
+    sum.innerHTML = `
       <div class="s-row"><span>Subtotal</span><span>₱${sub.toLocaleString()}</span></div>
       <div class="s-row"><span>VAT (12%)</span><span>₱${tax.toFixed(2)}</span></div>
-      ${del?`<div class="s-row"><span>Delivery Fee</span><span>₱${del}</span></div>`:''}
-      ${disc?`<div class="s-row disc"><span>Discount (${promoCode})</span><span>−₱${disc.toFixed(2)}</span></div>`:''}
+      ${del ? `<div class="s-row"><span>Delivery Fee</span><span>₱${del}</span></div>` : ''}
+      ${disc ? `<div class="s-row disc"><span>Discount (${promoCode})</span><span>−₱${disc.toFixed(2)}</span></div>` : ''}
       <div class="s-row tot"><span>Total</span><span>₱${tot.toFixed(2)}</span></div>`;
   }
-  function cQty(id,d) {
-    const it=cart.find(i=>i.id===id);
-    if (it) it.qty=Math.max(1,it.qty+d);
+  function cQty(id, d) {
+    const it = cart.find(i => i.id===id);
+    if (it) it.qty = Math.max(1, it.qty+d);
     updateBadge(); renderCart();
   }
-  function removeItem(id) { cart=cart.filter(i=>i.id!==id); updateBadge(); renderCart(); }
+  function removeItem(id) { cart = cart.filter(i => i.id!==id); updateBadge(); renderCart(); }
 
   function calcTotal() {
-    const sub = cart.reduce((s,i)=>s+(i.unitPrice*i.qty),0);
+    const sub = cart.reduce((s,i) => s+(i.unitPrice*i.qty), 0);
     const tax = sub * 0.12;
-    const del = locType==='delivery' ? (promoCode==='FREESHIP'?0:49) : 0;
+    const del = locType==='delivery' ? (promoCode==='FREESHIP' ? 0 : 49) : 0;
     let disc = 0;
     if (promoCode && PROMOS[promoCode]) {
       const p = PROMOS[promoCode];
@@ -1458,23 +1515,23 @@
 
   function goPaymentFinal() {
     payMethod=null;
-    PAYS.forEach(m=>{ $('pm-'+m).classList.remove('on'); $('detail-'+m).classList.remove('show'); });
+    PAYS.forEach(m => { $('pm-'+m).classList.remove('on'); $('detail-'+m).classList.remove('show'); });
     const { sub, tax, del, disc, tot } = calcTotal();
-    const sel = DELIVERY_METHODS[locType]?.find(m=>m.id===deliveryMethod);
+    const sel = DELIVERY_METHODS[locType]?.find(m => m.id===deliveryMethod);
     const mLabel = sel ? sel.icon+' '+sel.name : '';
-    $('recap').innerHTML=`
+    $('recap').innerHTML = `
       <h4>Order Summary</h4>
-      ${cart.map(ci=>`<div class="r-item"><span>${ci.qty}× ${ci.name} (${ci.size})</span><span>₱${(ci.unitPrice*ci.qty).toLocaleString()}</span></div>`).join('')}
+      ${cart.map(ci => `<div class="r-item"><span>${ci.qty}× ${ci.name} (${ci.size})</span><span>₱${(ci.unitPrice*ci.qty).toLocaleString()}</span></div>`).join('')}
       <div class="r-item" style="color:var(--muted)"><span>${locType==='delivery'?'🛵 Delivery':'🏃 Pick-up'} · ${mLabel}</span><span>${del?'₱'+del:'Free'}</span></div>
-      ${disc?`<div class="r-item disc"><span>Discount (${promoCode})</span><span>−₱${disc.toFixed(2)}</span></div>`:''}
+      ${disc ? `<div class="r-item disc"><span>Discount (${promoCode})</span><span>−₱${disc.toFixed(2)}</span></div>` : ''}
       <div class="r-tot"><span>Total</span><span>₱${tot.toFixed(2)}</span></div>`;
-    $('cash-amt').textContent='₱'+tot.toFixed(2);
+    $('cash-amt').textContent = '₱' + tot.toFixed(2);
     go('payment');
   }
 
   function selectPay(m) {
-    payMethod=m;
-    PAYS.forEach(p=>{ $('pm-'+p).classList.toggle('on',p===m); $('detail-'+p).classList.toggle('show',p===m); });
+    payMethod = m;
+    PAYS.forEach(p => { $('pm-'+p).classList.toggle('on',p===m); $('detail-'+p).classList.toggle('show',p===m); });
   }
 
   function placeOrder() {
@@ -1490,34 +1547,31 @@
     const { sub, tax, del, disc, tot } = calcTotal();
     const orderNum = '#' + Math.floor(1000+Math.random()*9000);
     $('r-num').textContent = orderNum;
-    $('r-items').innerHTML = cart.map(ci=>`
+    $('r-items').innerHTML = cart.map(ci => `
       <div class="r-row">
         <span>${ci.qty}× ${ci.emoji} ${ci.name} <small style="color:#aaa">(${ci.size})</small></span>
         <span>₱${(ci.unitPrice*ci.qty).toLocaleString()}</span>
       </div>`).join('');
-    $('r-totals').innerHTML=`
+    $('r-totals').innerHTML = `
       <div class="r-row"><span>Subtotal</span><span>₱${sub.toLocaleString()}</span></div>
       <div class="r-row"><span>VAT (12%)</span><span>₱${tax.toFixed(2)}</span></div>
-      ${del?`<div class="r-row"><span>Delivery</span><span>₱${del}</span></div>`:''}
-      ${disc?`<div class="r-row" style="color:var(--green)"><span>Discount</span><span>−₱${disc.toFixed(2)}</span></div>`:''}
+      ${del ? `<div class="r-row"><span>Delivery</span><span>₱${del}</span></div>` : ''}
+      ${disc ? `<div class="r-row" style="color:var(--green)"><span>Discount</span><span>−₱${disc.toFixed(2)}</span></div>` : ''}
       <div class="r-row tot"><span>TOTAL</span><span>₱${tot.toFixed(2)}</span></div>`;
     $('r-pay').textContent = PAY_LABELS[payMethod];
-    $('r-loc').textContent = locType==='delivery'?'🛵 Delivery':'🏃 Pick-up';
+    $('r-loc').textContent = locType==='delivery' ? '🛵 Delivery' : '🏃 Pick-up';
 
-    // Save to history
     const histEntry = {
       num: orderNum,
       date: new Date().toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}),
       time: new Date().toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit'}),
-      items: cart.map(ci=>({...ci})),
-      tot, sub, tax, del, disc,
-      payMethod, locType
+      items: cart.map(ci => ({...ci})),
+      tot, sub, tax, del, disc, payMethod, locType
     };
     orderHistory.unshift(histEntry);
     if (orderHistory.length > 20) orderHistory.pop();
     saveHistory();
 
-    // Update tracker label for pickup
     if (locType==='pickup') {
       $('tsl3').textContent='Ready'; $('tsl4').textContent='Picked Up';
     } else {
@@ -1540,11 +1594,11 @@
       { delay:14000, fill:'100%',done:'ts4', active:null  },
     ];
     steps.forEach(s => {
-      setTimeout(()=>{
-        if (s.done) { const d=$(s.done); if(d){d.className='ts-dot done'; d.textContent='✓';} }
-        if (s.active) { const a=$(s.active); if(a){ a.className='ts-dot active'; } }
+      setTimeout(() => {
+        if (s.done)   { const d=$(s.done);   if(d){ d.className='ts-dot done'; d.textContent='✓'; } }
+        if (s.active) { const a=$(s.active);  if(a){ a.className='ts-dot active'; } }
         $('track-fill').style.width = s.fill;
-        if (!s.active) showToast(locType==='delivery'?'🎉 Order delivered!':'✅ Order ready for pick-up!');
+        if (!s.active) showToast(locType==='delivery' ? '🎉 Order delivered!' : '✅ Order ready for pick-up!');
       }, s.delay);
     });
   }
@@ -1561,13 +1615,13 @@
     if (!orderHistory.length) {
       body.innerHTML='<div class="empty"><span class="ei">📋</span><p>No orders yet</p></div>'; return;
     }
-    body.innerHTML = orderHistory.map((o,i)=>`
+    body.innerHTML = orderHistory.map((o,i) => `
       <div class="hist-card">
         <div class="hist-top">
           <span class="hist-num">${o.num}</span>
           <span class="hist-date">${o.date} · ${o.time}</span>
         </div>
-        <div class="hist-items">${o.items.map(ci=>ci.qty+'× '+ci.name).join(', ')}</div>
+        <div class="hist-items">${o.items.map(ci => ci.qty+'× '+ci.name).join(', ')}</div>
         <div class="hist-bot">
           <span class="hist-total">₱${o.tot.toFixed(2)}</span>
           <button class="hist-reorder" onclick="reorder(${i})">🔄 Reorder</button>
@@ -1583,13 +1637,6 @@
     updateBadge();
     go('menu');
     showToast('🛒 Items added to cart!');
-  }
-
-  function go(id) {
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    $('s-'+id).classList.add('active');
-    window.scrollTo(0,0);
-    if (id==='history') renderHistory();
   }
 </script>
 </body>
