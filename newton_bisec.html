@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Numerical Methods: Bisection & Newton-Raphson | Step-by-Step Solvers</title>
+    <title>Numerical Methods: Custom Functions | Bisection & Newton-Raphson</title>
     <style>
         * {
             box-sizing: border-box;
@@ -16,7 +16,7 @@
             min-height: 100vh;
         }
         .master-container {
-            max-width: 1800px;
+            max-width: 1900px;
             margin: 0 auto;
             background: white;
             border-radius: 2rem;
@@ -82,8 +82,8 @@
             padding: 28px 26px;
         }
         .controls {
-            flex: 1.1;
-            min-width: 280px;
+            flex: 1.2;
+            min-width: 300px;
             background: #ffffff;
             border-radius: 1.5rem;
             padding: 1.6rem;
@@ -92,7 +92,7 @@
         }
         .results-area {
             flex: 2.8;
-            min-width: 550px;
+            min-width: 580px;
             background: #ffffff;
             border-radius: 1.5rem;
             padding: 1.6rem;
@@ -109,20 +109,36 @@
             margin-bottom: 6px;
             font-size: 0.85rem;
         }
-        .input-group input {
+        .input-group input, .input-group textarea {
             width: 100%;
             padding: 10px 14px;
             border: 2px solid #cbdbe6;
-            border-radius: 60px;
+            border-radius: 20px;
             font-size: 0.9rem;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             font-weight: 500;
             transition: 0.2s;
+            background: #fefefc;
         }
-        .input-group input:focus {
+        .input-group textarea {
+            border-radius: 16px;
+            resize: vertical;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .input-group input:focus, .input-group textarea:focus {
             border-color: #2c7da0;
             outline: none;
             box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+        .function-hint {
+            font-size: 0.7rem;
+            color: #4a627a;
+            margin-top: 4px;
+            background: #f0f4f9;
+            padding: 6px 10px;
+            border-radius: 30px;
+            display: inline-block;
         }
         button {
             background: #2c6e5c;
@@ -166,7 +182,7 @@
             display: inline-block;
         }
         .table-wrapper {
-            max-height: 450px;
+            max-height: 460px;
             overflow-y: auto;
             border-radius: 18px;
             border: 1px solid #e2edf2;
@@ -198,6 +214,8 @@
             padding: 14px;
             margin-top: 20px;
             border-left: 5px solid #2c6e5c;
+            max-height: 300px;
+            overflow-y: auto;
         }
         .step-detail h4 {
             margin: 0 0 10px 0;
@@ -232,6 +250,14 @@
             font-weight: 600;
             color: #2c6e5c;
         }
+        .success-msg {
+            background: #e1f7e6;
+            color: #1f6e43;
+            border-radius: 40px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
         @media (max-width: 950px) {
             .flex-layout {
                 flex-direction: column;
@@ -258,8 +284,8 @@
 <body>
 <div class="master-container">
     <div class="header">
-        <h1>📊 Numerical Methods: Bisection & Newton-Raphson</h1>
-        <p>5 decimal precision | Step-by-step solutions | Min/Max iteration analysis</p>
+        <h1>📊 Numerical Methods: Custom Functions</h1>
+        <p>Bisection & Newton-Raphson | Enter any valid JavaScript function | 5‑decimal precision</p>
     </div>
     
     <div class="method-tabs">
@@ -267,10 +293,15 @@
         <button class="tab-btn" data-method="newton">⚡ Newton-Raphson Method</button>
     </div>
     
-    <!-- Bisection Method Section -->
+    <!-- BISECTION SECTION -->
     <div id="bisectionSection" class="method-content active">
         <div class="flex-layout">
             <div class="controls">
+                <div class="input-group">
+                    <label>📝 Custom f(x) (JavaScript syntax)</label>
+                    <textarea id="bisectionFuncDef" rows="2">x**3 - 4*x - 9</textarea>
+                    <div class="function-hint">✓ Examples: x**3 - 4*x - 9, Math.sin(x) - x/2, Math.exp(x) - 3*x</div>
+                </div>
                 <div class="input-group">
                     <label>🔽 Left endpoint (a)</label>
                     <input type="number" id="bisectionA" step="any" value="2.0">
@@ -283,7 +314,6 @@
                 <div class="input-group">
                     <label>⚖️ Tolerance (ε)</label>
                     <input type="number" id="bisectionTol" step="0.0001" value="0.001">
-                    <small>Stop when |b - a| &lt; ε</small>
                 </div>
                 <div class="input-group">
                     <label>🔁 Max Iterations</label>
@@ -292,10 +322,8 @@
                 <button id="bisectionSolveBtn">🧮 RUN BISECTION METHOD</button>
                 <button id="bisectionMinMaxBtn" class="secondary">📈 MIN / MAX ITERATION ANALYSIS</button>
                 <div class="info-card">
-                    <strong>📐 Bisection Formula:</strong><br>
-                    <span class="formula">t = (a + b) / 2</span><br><br>
-                    <strong>🎯 Function:</strong> f(x) = x³ − 4x − 9<br>
-                    <strong>📌 Algorithm:</strong> Interval halving based on sign change.
+                    <strong>📐 Bisection Formula:</strong> c = (a + b) / 2<br>
+                    <strong>🎯 Current f(x):</strong> <span id="bisectionFuncPreview">x³ - 4x - 9</span>
                 </div>
             </div>
             <div class="results-area">
@@ -305,21 +333,18 @@
                 </div>
                 <div class="table-wrapper">
                     <table id="bisectionTable">
-                        <thead>
-                            <tr><th>n</th><th>a</th><th>b</th><th>f(a)</th><th>f(b)</th><th>t = (a+b)/2</th><th>f(t)</th><th>|b-a|</th></tr>
-                        </thead>
+                        <thead><tr><th>n</th><th>a</th><th>b</th><th>f(a)</th><th>f(b)</th><th>c = (a+b)/2</th><th>f(c)</th><th>|b-a|</th></tr></thead>
                         <tbody id="bisectionTableBody"><tr><td colspan="8">Click RUN to see iterations</td></tr></tbody>
                     </table>
                 </div>
                 <div class="step-detail">
                     <h4>📖 Step-by-Step Derivation</h4>
-                    <div id="bisectionSteps" style="font-family: monospace; font-size: 0.85rem; max-height: 250px; overflow-y: auto;">⚡ Execute method to view calculations.</div>
+                    <div id="bisectionSteps">⚡ Execute method to view calculations.</div>
                 </div>
                 <div class="stats-row">
                     <div>🏆 <strong>Root Approx:</strong> <span id="bisectionRoot">—</span></div>
                     <div>🔄 <strong>Iterations:</strong> <span id="bisectionIterCount">0</span></div>
                     <div>📏 <strong>Final |b-a|:</strong> <span id="bisectionInterval">—</span></div>
-                    <div>🎯 <strong>Tolerance:</strong> <span id="bisectionTolDisplay">0.001</span></div>
                 </div>
                 <div id="bisectionMinMaxOutput"></div>
                 <div id="bisectionError" class="error-msg" style="display: none;"></div>
@@ -327,30 +352,38 @@
         </div>
     </div>
     
-    <!-- Newton-Raphson Method Section -->
+    <!-- NEWTON-RAPHSON SECTION -->
     <div id="newtonSection" class="method-content">
         <div class="flex-layout">
             <div class="controls">
+                <div class="input-group">
+                    <label>📝 Custom f(x) (JavaScript syntax)</label>
+                    <textarea id="newtonFuncDef" rows="2">x**3 - 2*x - 5</textarea>
+                    <div class="function-hint">✓ Examples: x**3 - 2*x - 5, Math.cos(x) - x, Math.exp(x) - 3*x</div>
+                </div>
+                <div class="input-group">
+                    <label>🧮 Derivative f'(x) (JavaScript syntax)</label>
+                    <textarea id="newtonDerivDef" rows="2">3*x**2 - 2</textarea>
+                    <div class="function-hint">✓ Derivative of f(x). Example: for x³-2x-5 → 3*x²-2</div>
+                </div>
                 <div class="input-group">
                     <label>🎯 Initial Guess (x₀)</label>
                     <input type="number" id="newtonX0" step="any" value="2.0">
                 </div>
                 <div class="input-group">
                     <label>⚖️ Tolerance (ε)</label>
-                    <input type="number" id="newtonTol" step="0.001" value="0.01">
-                    <small>Stop when |xₙ₊₁ - xₙ| &lt; ε</small>
+                    <input type="number" id="newtonTol" step="0.001" value="0.0001">
                 </div>
                 <div class="input-group">
                     <label>🔁 Max Iterations</label>
-                    <input type="number" id="newtonMaxIter" step="1" value="25" min="1">
+                    <input type="number" id="newtonMaxIter" step="1" value="30" min="1">
                 </div>
                 <button id="newtonSolveBtn">🧮 RUN NEWTON-RAPHSON</button>
                 <button id="newtonMinMaxBtn" class="secondary">📊 MIN / MAX ITERATION ANALYSIS</button>
                 <div class="info-card">
-                    <strong>⚡ Newton-Raphson Formula:</strong><br>
-                    <span class="formula">xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ)</span><br><br>
-                    <strong>🎯 Function:</strong> f(x) = x³ − 2x − 5<br>
-                    <strong>📐 Derivative:</strong> f'(x) = 3x² − 2
+                    <strong>⚡ Newton-Raphson Formula:</strong> xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ)<br>
+                    <strong>🎯 Current f(x):</strong> <span id="newtonFuncPreview">x³ - 2x - 5</span><br>
+                    <strong>📐 f'(x):</strong> <span id="newtonDerivPreview">3x² - 2</span>
                 </div>
             </div>
             <div class="results-area">
@@ -360,21 +393,18 @@
                 </div>
                 <div class="table-wrapper">
                     <table id="newtonTable">
-                        <thead>
-                            <tr><th>n</th><th>xₙ</th><th>f(xₙ)</th><th>f'(xₙ)</th><th>xₙ₊₁</th><th>|Δx|</th></tr>
-                        </thead>
+                        <thead><tr><th>n</th><th>xₙ</th><th>f(xₙ)</th><th>f'(xₙ)</th><th>xₙ₊₁</th><th>|Δx|</th></tr></thead>
                         <tbody id="newtonTableBody"><tr><td colspan="6">Click RUN to see iterations</td></tr></tbody>
                     </table>
                 </div>
                 <div class="step-detail">
                     <h4>📖 Step-by-Step Derivation</h4>
-                    <div id="newtonSteps" style="font-family: monospace; font-size: 0.85rem; max-height: 250px; overflow-y: auto;">⚡ Execute method to view calculations.</div>
+                    <div id="newtonSteps">⚡ Execute method to view calculations.</div>
                 </div>
                 <div class="stats-row">
                     <div>🏆 <strong>Root Approx:</strong> <span id="newtonRoot">—</span></div>
                     <div>🔄 <strong>Iterations:</strong> <span id="newtonIterCount">0</span></div>
                     <div>📉 <strong>Final |Δx|:</strong> <span id="newtonDelta">—</span></div>
-                    <div>🎯 <strong>Tolerance:</strong> <span id="newtonTolDisplay">0.01</span></div>
                 </div>
                 <div id="newtonMinMaxOutput"></div>
                 <div id="newtonError" class="error-msg" style="display: none;"></div>
@@ -384,211 +414,373 @@
 </div>
 
 <script>
-    // ==================== COMMON UTILITIES ====================
+    // Utility function for formatting
     function to5Dec(value) {
-        if (value === undefined || isNaN(value) || !isFinite(value)) return "undefined";
+        if (value === undefined || value === null || isNaN(value) || !isFinite(value)) return "?";
         return value.toFixed(5);
     }
     
-    // ==================== BISECTION METHOD ====================
-    function bisectionFunc(x) {
-        return x * x * x - 4 * x - 9;
+    // Safe function evaluator with error handling
+    function createFunction(funcStr, varName = 'x') {
+        try {
+            // Clean the function string
+            let cleanedStr = funcStr.trim();
+            if (!cleanedStr) return null;
+            
+            // Create and test the function
+            const fn = new Function(varName, `try { return (${cleanedStr}); } catch(e) { return NaN; }`);
+            // Test with a sample value
+            let testVal = fn(1);
+            if (isNaN(testVal) && cleanedStr.includes('x')) {
+                // Try with a different test value
+                testVal = fn(2);
+            }
+            if (isNaN(testVal) && !cleanedStr.includes('NaN')) {
+                console.warn(`Function test returned NaN for ${cleanedStr}`);
+            }
+            return fn;
+        } catch(e) {
+            console.error(`Error creating function: ${funcStr}`, e);
+            return null;
+        }
     }
     
-    function generateBisectionStep(iter, a, b, fa, fb, t, ft, intervalLen) {
+    function evaluateFunction(fn, x) {
+        if (!fn) return NaN;
+        try {
+            const result = fn(x);
+            return (typeof result === 'number' && isFinite(result)) ? result : NaN;
+        } catch(e) {
+            return NaN;
+        }
+    }
+    
+    // ==================== BISECTION METHODS ====================
+    let bisectionFn = null;
+    let bisectionGlobalData = [];
+    let bisectionLastRoot = null;
+    
+    function updateBisectionFunction() {
+        const funcStr = document.getElementById('bisectionFuncDef').value;
+        bisectionFn = createFunction(funcStr, 'x');
+        document.getElementById('bisectionFuncPreview').innerText = funcStr.length > 40 ? funcStr.substring(0, 37) + "..." : funcStr;
+        return bisectionFn !== null;
+    }
+    
+    function generateBisectionStep(iter, a, b, fa, fb, c, fc, intervalLen, funcStr) {
         let desc = `<div style="background:#fef9ef; border-radius:12px; padding:12px; margin-bottom:12px; border-left: 3px solid #2c7da0;">`;
-        desc += `<strong>🔎 Iteration #${iter} detailed calculation:</strong><br>`;
-        desc += `<span style="color:#1f6e5c;">❶ Current interval:</span> a = ${to5Dec(a)}, b = ${to5Dec(b)}<br>`;
-        desc += `<span style="color:#1f6e5c;">❷ f(a) = (${to5Dec(a)})³ − 4·(${to5Dec(a)}) − 9 = ${to5Dec(fa)}<br>`;
-        desc += `&nbsp;&nbsp; f(b) = (${to5Dec(b)})³ − 4·(${to5Dec(b)}) − 9 = ${to5Dec(fb)}<br>`;
-        desc += `<span style="color:#1f6e5c;">❸ Midpoint t = (a+b)/2 = ${to5Dec(t)}<br>`;
-        desc += `<span style="color:#1f6e5c;">❹ f(t) = ${to5Dec(ft)}<br>`;
-        desc += `<span style="color:#1f6e5c;">❺ Sign analysis:</span> `;
-        if (fa * ft < 0) desc += `f(a)·f(t) < 0 → new interval [a, t]<br>`;
-        else desc += `f(t)·f(b) < 0 → new interval [t, b]<br>`;
-        desc += `<span style="color:#1f6e5c;">❻ Interval length = ${to5Dec(intervalLen)}</span><br>`;
+        desc += `<strong>🔎 Iteration #${iter}</strong><br>`;
+        desc += `<span style="color:#1f6e5c;">❶ Interval:</span> [${to5Dec(a)}, ${to5Dec(b)}]<br>`;
+        desc += `<span style="color:#1f6e5c;">❷ f(a) =</span> ${to5Dec(fa)}, f(b) = ${to5Dec(fb)}<br>`;
+        desc += `<span style="color:#1f6e5c;">❸ Midpoint c =</span> (${to5Dec(a)} + ${to5Dec(b)})/2 = ${to5Dec(c)}<br>`;
+        desc += `<span style="color:#1f6e5c;">❹ f(c) =</span> ${to5Dec(fc)}<br>`;
+        desc += `<span style="color:#1f6e5c;">❺ Sign:</span> `;
+        if (fa * fc < 0) desc += `f(a)·f(c) < 0 → new interval [a, c]<br>`;
+        else desc += `f(c)·f(b) < 0 → new interval [c, b]<br>`;
+        desc += `<span style="color:#1f6e5c;">❻ Interval length =</span> ${to5Dec(intervalLen)}<br>`;
         desc += `</div>`;
         return desc;
     }
     
-    let bisectionGlobalData = [];
-    let bisectionLastRoot = null;
-    
     function bisectionSolver(a, b, tolerance, maxIter) {
-        let iterations = [];
-        let fa = bisectionFunc(a), fb = bisectionFunc(b);
+        if (!bisectionFn) return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: "Invalid function definition" };
+        
+        let fa = evaluateFunction(bisectionFn, a);
+        let fb = evaluateFunction(bisectionFn, b);
+        
+        if (isNaN(fa) || isNaN(fb)) {
+            return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: `Function evaluation error at endpoints` };
+        }
+        
         if (fa * fb >= 0) {
-            return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: `ERROR: f(a)·f(b) ≥ 0. No root bracketed.` };
+            return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: `f(a)·f(b) ≥ 0. No root bracketed. Try different interval.` };
         }
+        
         let currentA = a, currentB = b;
+        let iterations = [];
         let converged = false;
+        const funcStr = document.getElementById('bisectionFuncDef').value;
+        
         for (let iter = 1; iter <= maxIter; iter++) {
-            let faCurr = bisectionFunc(currentA), fbCurr = bisectionFunc(currentB);
-            let t = (currentA + currentB) / 2;
-            let ft = bisectionFunc(t);
+            let faCurr = evaluateFunction(bisectionFn, currentA);
+            let fbCurr = evaluateFunction(bisectionFn, currentB);
+            let c = (currentA + currentB) / 2;
+            let fc = evaluateFunction(bisectionFn, c);
             let intervalLen = Math.abs(currentB - currentA);
-            let stepHtml = generateBisectionStep(iter, currentA, currentB, faCurr, fbCurr, t, ft, intervalLen);
             
-            if (faCurr * ft < 0) currentB = t;
-            else currentA = t;
+            if (isNaN(fc)) break;
             
-            iterations.push({ iter, a: currentA === t ? currentA : (faCurr*ft<0?currentA:t), b: currentB === t ? currentB : (faCurr*ft<0?t:currentB), 
-                              fa: faCurr, fb: fbCurr, t, ft, intervalLen, stepHtml });
+            let stepHtml = generateBisectionStep(iter, currentA, currentB, faCurr, fbCurr, c, fc, intervalLen, funcStr);
             
-            let newInterval = Math.abs(currentB - currentA);
-            if (newInterval < tolerance) { converged = true; break; }
+            if (faCurr * fc < 0) {
+                currentB = c;
+            } else {
+                currentA = c;
+            }
+            
+            iterations.push({ 
+                iter, a: currentA, b: currentB, fa: faCurr, fb: fbCurr, 
+                c, fc, intervalLen, stepHtml 
+            });
+            
+            if (Math.abs(currentB - currentA) < tolerance) {
+                converged = true;
+                break;
+            }
         }
+        
         let finalRoot = (currentA + currentB) / 2;
         let finalInterval = Math.abs(currentB - currentA);
-        return { iterations, converged, finalRoot, finalInterval, reason: converged ? `Converged in ${iterations.length} iterations` : `Max iterations reached` };
+        return { iterations, converged, finalRoot, finalInterval, reason: null };
     }
     
     function renderBisectionTable(iterations) {
         let tbody = document.getElementById('bisectionTableBody');
-        if (!iterations.length) { tbody.innerHTML = '<tr><td colspan="8">No valid iterations</td></tr>'; return; }
+        if (!iterations.length) {
+            tbody.innerHTML = '<tr><td colspan="8">No valid iterations</td></tr>';
+            return;
+        }
         let html = '';
         for (let it of iterations) {
-            html += `<tr><td>${it.iter}</td><td>${to5Dec(it.a)}</td><td>${to5Dec(it.b)}</td><td>${to5Dec(it.fa)}</td><td>${to5Dec(it.fb)}</td><td>${to5Dec(it.t)}</td><td>${to5Dec(it.ft)}</td><td>${to5Dec(it.intervalLen)}</td></tr>`;
+            html += `<tr>
+                        <td>${it.iter}</td>
+                        <td>${to5Dec(it.a)}</td>
+                        <td>${to5Dec(it.b)}</td>
+                        <td>${to5Dec(it.fa)}</td>
+                        <td>${to5Dec(it.fb)}</td>
+                        <td>${to5Dec(it.c)}</td>
+                        <td>${to5Dec(it.fc)}</td>
+                        <td>${to5Dec(it.intervalLen)}</td>
+                     </tr>`;
         }
         tbody.innerHTML = html;
     }
     
-    function updateBisectionUI(result, tol) {
+    function updateBisectionUI(result) {
         bisectionGlobalData = result.iterations.slice();
         bisectionLastRoot = result.finalRoot;
         renderBisectionTable(result.iterations);
+        
         let stepsDiv = document.getElementById('bisectionSteps');
-        stepsDiv.innerHTML = result.iterations.length ? `<div>${result.iterations.map(i => i.stepHtml).join('')}</div>` : 'No data';
+        stepsDiv.innerHTML = result.iterations.length ? result.iterations.map(i => i.stepHtml).join('') : 'No data available';
+        
         document.getElementById('bisectionRoot').innerText = isFinite(result.finalRoot) ? to5Dec(result.finalRoot) : '—';
         document.getElementById('bisectionIterCount').innerText = result.iterations.length;
         document.getElementById('bisectionInterval').innerText = isFinite(result.finalInterval) ? to5Dec(result.finalInterval) : '—';
-        document.getElementById('bisectionTolDisplay').innerText = tol;
+        
         let status = document.getElementById('bisectionStatus');
-        if (result.converged && result.iterations.length) {
-            status.innerHTML = '✅ CONVERGED'; status.style.background = '#cfe9e1'; status.style.color = '#1f6e43';
-        } else {
-            status.innerHTML = '⚠️ NOT CONVERGED'; status.style.background = '#ffe1d6'; status.style.color = '#b9512c';
-        }
         let errDiv = document.getElementById('bisectionError');
-        if (result.reason) { errDiv.innerText = result.reason; errDiv.style.display = 'block'; }
-        else errDiv.style.display = 'none';
+        
+        if (result.reason) {
+            status.innerHTML = '⚠️ ERROR';
+            status.style.background = '#ffe1d6';
+            status.style.color = '#b9512c';
+            errDiv.innerText = result.reason;
+            errDiv.style.display = 'block';
+        } else if (result.converged && result.iterations.length) {
+            status.innerHTML = '✅ CONVERGED';
+            status.style.background = '#cfe9e1';
+            status.style.color = '#1f6e43';
+            errDiv.style.display = 'none';
+        } else {
+            status.innerHTML = '⚠️ NOT CONVERGED';
+            status.style.background = '#ffe1d6';
+            status.style.color = '#b9512c';
+            errDiv.style.display = 'none';
+        }
+        
         document.getElementById('bisectionMinMaxOutput').innerHTML = '';
     }
     
     function bisectionMinMax() {
         let container = document.getElementById('bisectionMinMaxOutput');
-        if (!bisectionGlobalData.length) { container.innerHTML = '<div style="padding:12px;">📭 Run Bisection method first.</div>'; return; }
+        if (!bisectionGlobalData.length) {
+            container.innerHTML = '<div style="padding:12px;">📭 Run Bisection method first.</div>';
+            return;
+        }
+        
         let data = bisectionGlobalData.filter(d => d.intervalLen !== undefined);
         if (!data.length) return;
-        let minEntry = data.reduce((a,b) => a.intervalLen < b.intervalLen ? a : b);
-        let maxEntry = data.reduce((a,b) => a.intervalLen > b.intervalLen ? a : b);
-        let html = `<div style="background:#fcf9f0; border-radius:18px; padding:14px; margin-top:12px;"><strong>📊 MIN/MAX Iteration (by interval length)</strong><hr>
-            <div style="background:#e2f3ef; border-radius:12px; padding:10px; margin-bottom:12px;">
-                <span style="background:#2c7a5e; color:white; padding:2px 10px; border-radius:20px;">🔽 MIN Interval</span> Iter #${minEntry.iter}<br>
-                Length = ${to5Dec(minEntry.intervalLen)} | t = ${to5Dec(minEntry.t)} | f(t) = ${to5Dec(minEntry.ft)}
-                <details><summary>Show calculation</summary>${minEntry.stepHtml}</details>
-            </div>
-            <div style="background:#ffece3; border-radius:12px; padding:10px;">
-                <span style="background:#bc6f4a; color:white; padding:2px 10px; border-radius:20px;">🔼 MAX Interval</span> Iter #${maxEntry.iter}<br>
-                Length = ${to5Dec(maxEntry.intervalLen)} | t = ${to5Dec(maxEntry.t)} | f(t) = ${to5Dec(maxEntry.ft)}
-                <details><summary>Show calculation</summary>${maxEntry.stepHtml}</details>
-            </div>
-            <hr><small>Root ≈ ${to5Dec(bisectionLastRoot)}</small></div>`;
+        
+        let minEntry = data.reduce((a, b) => a.intervalLen < b.intervalLen ? a : b);
+        let maxEntry = data.reduce((a, b) => a.intervalLen > b.intervalLen ? a : b);
+        
+        let html = `<div style="background:#fcf9f0; border-radius:18px; padding:14px; margin-top:12px;">
+                        <strong>📊 MIN/MAX Iteration Analysis (by interval length)</strong><hr>
+                        <div style="background:#e2f3ef; border-radius:12px; padding:10px; margin-bottom:12px;">
+                            <span style="background:#2c7a5e; color:white; padding:2px 10px; border-radius:20px;">🔽 MIN Interval</span><br>
+                            Iteration #${minEntry.iter}<br>
+                            Length = ${to5Dec(minEntry.intervalLen)} | c = ${to5Dec(minEntry.c)} | f(c) = ${to5Dec(minEntry.fc)}
+                        </div>
+                        <div style="background:#ffece3; border-radius:12px; padding:10px;">
+                            <span style="background:#bc6f4a; color:white; padding:2px 10px; border-radius:20px;">🔼 MAX Interval</span><br>
+                            Iteration #${maxEntry.iter}<br>
+                            Length = ${to5Dec(maxEntry.intervalLen)} | c = ${to5Dec(maxEntry.c)} | f(c) = ${to5Dec(maxEntry.fc)}
+                        </div>
+                        <hr><small>Root ≈ ${to5Dec(bisectionLastRoot)}</small>
+                    </div>`;
         container.innerHTML = html;
     }
     
-    // ==================== NEWTON-RAPHSON METHOD ====================
-    function newtonFunc(x) { return x * x * x - 2 * x - 5; }
-    function newtonDeriv(x) { return 3 * x * x - 2; }
-    
-    function generateNewtonStep(iter, x_n, fx, fpx, x_next, delta) {
-        return `<div style="background:#fef9e6; border-radius:12px; padding:10px; margin-bottom:10px; border-left:3px solid #1e6f5c;">
-            <strong>🔎 Iteration #${iter}</strong><br>
-            f(${to5Dec(x_n)}) = ${to5Dec(x_n)}³ − 2·${to5Dec(x_n)} − 5 = ${to5Dec(fx)}<br>
-            f'(${to5Dec(x_n)}) = 3·(${to5Dec(x_n)})² − 2 = ${to5Dec(fpx)}<br>
-            xₙ₊₁ = ${to5Dec(x_n)} − (${to5Dec(fx)})/(${to5Dec(fpx)}) = ${to5Dec(x_next)}<br>
-            |Δx| = ${to5Dec(delta)}<br></div>`;
-    }
-    
+    // ==================== NEWTON-RAPHSON METHODS ====================
+    let newtonFn = null;
+    let newtonDerivFn = null;
     let newtonGlobalData = [];
     let newtonLastRoot = null;
     
+    function updateNewtonFunctions() {
+        const funcStr = document.getElementById('newtonFuncDef').value;
+        const derivStr = document.getElementById('newtonDerivDef').value;
+        
+        newtonFn = createFunction(funcStr, 'x');
+        newtonDerivFn = createFunction(derivStr, 'x');
+        
+        document.getElementById('newtonFuncPreview').innerText = funcStr.length > 35 ? funcStr.substring(0, 32) + "..." : funcStr;
+        document.getElementById('newtonDerivPreview').innerText = derivStr.length > 35 ? derivStr.substring(0, 32) + "..." : derivStr;
+        
+        return newtonFn !== null && newtonDerivFn !== null;
+    }
+    
+    function generateNewtonStep(iter, x_n, fx, fpx, x_next, delta) {
+        return `<div style="background:#fef9e6; border-radius:12px; padding:10px; margin-bottom:10px; border-left:3px solid #1e6f5c;">
+                    <strong>🔎 Iteration #${iter}</strong><br>
+                    xₙ = ${to5Dec(x_n)}<br>
+                    f(xₙ) = ${to5Dec(fx)}<br>
+                    f'(xₙ) = ${to5Dec(fpx)}<br>
+                    xₙ₊₁ = ${to5Dec(x_n)} − (${to5Dec(fx)})/(${to5Dec(fpx)}) = ${to5Dec(x_next)}<br>
+                    |Δx| = ${to5Dec(delta)}<br>
+                </div>`;
+    }
+    
     function newtonSolver(x0, tolerance, maxIter) {
+        if (!newtonFn || !newtonDerivFn) {
+            return { iterations: [], converged: false, finalRoot: x0, finalDelta: NaN, reason: "Invalid function or derivative definition" };
+        }
+        
         let iterations = [];
         let currentX = x0;
         let converged = false;
+        
         for (let iter = 1; iter <= maxIter; iter++) {
-            let fx = newtonFunc(currentX);
-            let fpx = newtonDeriv(currentX);
-            if (Math.abs(fpx) < 1e-12) {
-                return { iterations, converged: false, finalRoot: currentX, finalDelta: NaN, reason: "Derivative near zero" };
+            let fx = evaluateFunction(newtonFn, currentX);
+            let fpx = evaluateFunction(newtonDerivFn, currentX);
+            
+            if (isNaN(fx) || isNaN(fpx)) {
+                return { iterations, converged: false, finalRoot: currentX, finalDelta: NaN, reason: "Function or derivative evaluation error" };
             }
+            
+            if (Math.abs(fpx) < 1e-12) {
+                return { iterations, converged: false, finalRoot: currentX, finalDelta: NaN, reason: "Derivative too close to zero" };
+            }
+            
             let x_next = currentX - fx / fpx;
             let delta = Math.abs(x_next - currentX);
             let stepHtml = generateNewtonStep(iter, currentX, fx, fpx, x_next, delta);
+            
             iterations.push({ iter, x_n: currentX, fx, fpx, x_next, delta, stepHtml });
-            if (delta < tolerance) { converged = true; break; }
+            
+            if (delta < tolerance) {
+                converged = true;
+                break;
+            }
+            
             currentX = x_next;
         }
-        let finalRoot = iterations.length ? iterations[iterations.length-1].x_next : x0;
-        return { iterations, converged, finalRoot, finalDelta: iterations.length ? iterations[iterations.length-1].delta : NaN, reason: converged ? `Converged in ${iterations.length} iters` : `Max iters reached` };
+        
+        let finalRoot = iterations.length ? iterations[iterations.length - 1].x_next : currentX;
+        let finalDelta = iterations.length ? iterations[iterations.length - 1].delta : NaN;
+        
+        return { iterations, converged, finalRoot, finalDelta, reason: null };
     }
     
     function renderNewtonTable(iterations) {
         let tbody = document.getElementById('newtonTableBody');
-        if (!iterations.length) { tbody.innerHTML = '<tr><td colspan="6">No iterations</td></tr>'; return; }
+        if (!iterations.length) {
+            tbody.innerHTML = '<tr><td colspan="6">No iterations</td></tr>';
+            return;
+        }
+        
         let html = '';
         for (let it of iterations) {
-            html += `<tr><td>${it.iter}</td><td>${to5Dec(it.x_n)}</td><td>${to5Dec(it.fx)}</td><td>${to5Dec(it.fpx)}</td><td>${to5Dec(it.x_next)}</td><td>${to5Dec(it.delta)}</td></tr>`;
+            html += `<tr>
+                        <td>${it.iter}</td>
+                        <td>${to5Dec(it.x_n)}</td>
+                        <td>${to5Dec(it.fx)}</td>
+                        <td>${to5Dec(it.fpx)}</td>
+                        <td>${to5Dec(it.x_next)}</td>
+                        <td>${to5Dec(it.delta)}</td>
+                     </tr>`;
         }
         tbody.innerHTML = html;
     }
     
-    function updateNewtonUI(result, tol) {
+    function updateNewtonUI(result) {
         newtonGlobalData = result.iterations.slice();
         newtonLastRoot = result.finalRoot;
         renderNewtonTable(result.iterations);
+        
         let stepsDiv = document.getElementById('newtonSteps');
-        stepsDiv.innerHTML = result.iterations.length ? `<div>${result.iterations.map(i => i.stepHtml).join('')}</div>` : 'No data';
+        stepsDiv.innerHTML = result.iterations.length ? result.iterations.map(i => i.stepHtml).join('') : 'No data available';
+        
         document.getElementById('newtonRoot').innerText = isFinite(result.finalRoot) ? to5Dec(result.finalRoot) : '—';
         document.getElementById('newtonIterCount').innerText = result.iterations.length;
         document.getElementById('newtonDelta').innerText = isFinite(result.finalDelta) ? to5Dec(result.finalDelta) : '—';
-        document.getElementById('newtonTolDisplay').innerText = tol;
+        
         let status = document.getElementById('newtonStatus');
-        if (result.converged && result.iterations.length) {
-            status.innerHTML = '✅ CONVERGED'; status.style.background = '#cfe9e1'; status.style.color = '#1f6e43';
-        } else {
-            status.innerHTML = '⚠️ NOT CONVERGED'; status.style.background = '#ffe1d6'; status.style.color = '#b9512c';
-        }
         let errDiv = document.getElementById('newtonError');
-        if (result.reason) { errDiv.innerText = result.reason; errDiv.style.display = 'block'; }
-        else errDiv.style.display = 'none';
+        
+        if (result.reason) {
+            status.innerHTML = '⚠️ ERROR';
+            status.style.background = '#ffe1d6';
+            status.style.color = '#b9512c';
+            errDiv.innerText = result.reason;
+            errDiv.style.display = 'block';
+        } else if (result.converged && result.iterations.length) {
+            status.innerHTML = '✅ CONVERGED';
+            status.style.background = '#cfe9e1';
+            status.style.color = '#1f6e43';
+            errDiv.style.display = 'none';
+        } else {
+            status.innerHTML = '⚠️ NOT CONVERGED';
+            status.style.background = '#ffe1d6';
+            status.style.color = '#b9512c';
+            errDiv.style.display = 'none';
+        }
+        
         document.getElementById('newtonMinMaxOutput').innerHTML = '';
     }
     
     function newtonMinMax() {
         let container = document.getElementById('newtonMinMaxOutput');
-        if (!newtonGlobalData.length) { container.innerHTML = '<div style="padding:12px;">📭 Run Newton-Raphson first.</div>'; return; }
+        if (!newtonGlobalData.length) {
+            container.innerHTML = '<div style="padding:12px;">📭 Run Newton-Raphson method first.</div>';
+            return;
+        }
+        
         let data = newtonGlobalData.filter(d => d.delta !== undefined && isFinite(d.delta));
         if (!data.length) return;
-        let minEntry = data.reduce((a,b) => a.delta < b.delta ? a : b);
-        let maxEntry = data.reduce((a,b) => a.delta > b.delta ? a : b);
-        let html = `<div style="background:#fcf9f0; border-radius:18px; padding:14px; margin-top:12px;"><strong>📊 MIN/MAX Iteration (by |Δx|)</strong><hr>
-            <div style="background:#e8f3f0; border-radius:12px; padding:10px; margin-bottom:12px;">
-                <span style="background:#2c7a4d; color:white; padding:2px 10px; border-radius:20px;">🔽 MIN Δx</span> Iter #${minEntry.iter}<br>
-                Δx = ${to5Dec(minEntry.delta)} | xₙ = ${to5Dec(minEntry.x_n)} | f(xₙ)=${to5Dec(minEntry.fx)}
-                <details><summary>Show calculation</summary>${minEntry.stepHtml}</details>
-            </div>
-            <div style="background:#ffece5; border-radius:12px; padding:10px;">
-                <span style="background:#c44536; color:white; padding:2px 10px; border-radius:20px;">🔼 MAX Δx</span> Iter #${maxEntry.iter}<br>
-                Δx = ${to5Dec(maxEntry.delta)} | xₙ = ${to5Dec(maxEntry.x_n)} | f(xₙ)=${to5Dec(maxEntry.fx)}
-                <details><summary>Show calculation</summary>${maxEntry.stepHtml}</details>
-            </div>
-            <hr><small>Root ≈ ${to5Dec(newtonLastRoot)}</small></div>`;
+        
+        let minEntry = data.reduce((a, b) => a.delta < b.delta ? a : b);
+        let maxEntry = data.reduce((a, b) => a.delta > b.delta ? a : b);
+        
+        let html = `<div style="background:#fcf9f0; border-radius:18px; padding:14px; margin-top:12px;">
+                        <strong>📊 MIN/MAX Iteration Analysis (by |Δx|)</strong><hr>
+                        <div style="background:#e8f3f0; border-radius:12px; padding:10px; margin-bottom:12px;">
+                            <span style="background:#2c7a4d; color:white; padding:2px 10px; border-radius:20px;">🔽 MIN Δx</span><br>
+                            Iteration #${minEntry.iter}<br>
+                            Δx = ${to5Dec(minEntry.delta)} | xₙ = ${to5Dec(minEntry.x_n)} | f(xₙ) = ${to5Dec(minEntry.fx)}
+                        </div>
+                        <div style="background:#ffece5; border-radius:12px; padding:10px;">
+                            <span style="background:#c44536; color:white; padding:2px 10px; border-radius:20px;">🔼 MAX Δx</span><br>
+                            Iteration #${maxEntry.iter}<br>
+                            Δx = ${to5Dec(maxEntry.delta)} | xₙ = ${to5Dec(maxEntry.x_n)} | f(xₙ) = ${to5Dec(maxEntry.fx)}
+                        </div>
+                        <hr><small>Root ≈ ${to5Dec(newtonLastRoot)}</small>
+                    </div>`;
         container.innerHTML = html;
     }
     
-    // ==================== TAB SWITCHING & EVENT HANDLERS ====================
+    // ==================== EVENT LISTENERS & INITIALIZATION ====================
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -599,40 +791,74 @@
         });
     });
     
+    // Bisection event handlers
     document.getElementById('bisectionSolveBtn').addEventListener('click', () => {
-        let a = parseFloat(document.getElementById('bisectionA').value);
-        let b = parseFloat(document.getElementById('bisectionB').value);
-        let tol = parseFloat(document.getElementById('bisectionTol').value);
-        let maxIter = parseInt(document.getElementById('bisectionMaxIter').value);
-        if (isNaN(a) || isNaN(b)) { a = 2; b = 3; }
-        if (a >= b) { let t = a; a = b; b = t; document.getElementById('bisectionA').value = a; document.getElementById('bisectionB').value = b; }
-        if (isNaN(tol) || tol <= 0) tol = 0.001;
-        if (isNaN(maxIter) || maxIter < 1) maxIter = 40;
-        let result = bisectionSolver(a, b, tol, maxIter);
-        updateBisectionUI(result, tol);
+        if (updateBisectionFunction()) {
+            let a = parseFloat(document.getElementById('bisectionA').value);
+            let b = parseFloat(document.getElementById('bisectionB').value);
+            let tol = parseFloat(document.getElementById('bisectionTol').value);
+            let maxIter = parseInt(document.getElementById('bisectionMaxIter').value);
+            
+            if (isNaN(a)) a = 2.0;
+            if (isNaN(b)) b = 3.0;
+            if (isNaN(tol) || tol <= 0) tol = 0.001;
+            if (isNaN(maxIter) || maxIter < 1) maxIter = 40;
+            
+            if (a >= b) {
+                let temp = a;
+                a = b;
+                b = temp;
+                document.getElementById('bisectionA').value = a;
+                document.getElementById('bisectionB').value = b;
+            }
+            
+            let result = bisectionSolver(a, b, tol, maxIter);
+            updateBisectionUI(result);
+        } else {
+            document.getElementById('bisectionError').innerText = "Invalid function syntax. Use JavaScript math (e.g., x**3 - 4*x - 9)";
+            document.getElementById('bisectionError').style.display = 'block';
+        }
     });
     
     document.getElementById('bisectionMinMaxBtn').addEventListener('click', bisectionMinMax);
     
+    // Newton event handlers
     document.getElementById('newtonSolveBtn').addEventListener('click', () => {
-        let x0 = parseFloat(document.getElementById('newtonX0').value);
-        let tol = parseFloat(document.getElementById('newtonTol').value);
-        let maxIter = parseInt(document.getElementById('newtonMaxIter').value);
-        if (isNaN(x0)) x0 = 2.0;
-        if (isNaN(tol) || tol <= 0) tol = 0.01;
-        if (isNaN(maxIter) || maxIter < 1) maxIter = 25;
-        let result = newtonSolver(x0, tol, maxIter);
-        updateNewtonUI(result, tol);
+        if (updateNewtonFunctions()) {
+            let x0 = parseFloat(document.getElementById('newtonX0').value);
+            let tol = parseFloat(document.getElementById('newtonTol').value);
+            let maxIter = parseInt(document.getElementById('newtonMaxIter').value);
+            
+            if (isNaN(x0)) x0 = 2.0;
+            if (isNaN(tol) || tol <= 0) tol = 0.0001;
+            if (isNaN(maxIter) || maxIter < 1) maxIter = 30;
+            
+            let result = newtonSolver(x0, tol, maxIter);
+            updateNewtonUI(result);
+        } else {
+            document.getElementById('newtonError').innerText = "Invalid function or derivative syntax. Check your expressions.";
+            document.getElementById('newtonError').style.display = 'block';
+        }
     });
     
     document.getElementById('newtonMinMaxBtn').addEventListener('click', newtonMinMax);
     
-    // Default initial runs
+    // Input change listeners for live preview
+    document.getElementById('bisectionFuncDef').addEventListener('input', () => updateBisectionFunction());
+    document.getElementById('newtonFuncDef').addEventListener('input', () => updateNewtonFunctions());
+    document.getElementById('newtonDerivDef').addEventListener('input', () => updateNewtonFunctions());
+    
+    // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
-        let bisectionResult = bisectionSolver(2.0, 3.0, 0.001, 40);
-        updateBisectionUI(bisectionResult, 0.001);
-        let newtonResult = newtonSolver(2.0, 0.01, 25);
-        updateNewtonUI(newtonResult, 0.01);
+        updateBisectionFunction();
+        updateNewtonFunctions();
+        
+        // Run initial examples
+        let initBisect = bisectionSolver(2.0, 3.0, 0.001, 40);
+        updateBisectionUI(initBisect);
+        
+        let initNewton = newtonSolver(2.0, 0.0001, 30);
+        updateNewtonUI(initNewton);
     });
 </script>
 </body>
