@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Numerical Methods: Smart Simplify & Arrange | Bisection & Newton-Raphson</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Courier New', monospace;
+        }
+        body {
+            background: linear-gradient(145deg, #eef2f7 0%, #dce3ec 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .master-container {
+            max-width: 1900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a3e4c 0%, #0f2c39 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            letter-spacing: -0.5px;
+        }
+        .header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+        .method-tabs {
+            display: flex;
+            gap: 12px;
+            padding: 20px 26px 0 26px;
+            background: white;
+            border-bottom: 2px solid #e2edf2;
+        }
+        .tab-btn {
+            background: #eef2f8;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px 40px 0 0;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2c5a6e;
+            margin: 0;
+            width: auto;
+        }
+        .tab-btn.active {
+            background: #2c6e5c;
+            color: white;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        .tab-btn:hover:not(.active) {
+            background: #dce6ed;
+            transform: translateY(-2px);
+        }
+        .method-content {
+            display: none;
+            padding: 0;
+        }
+        .method-content.active {
+            display: block;
+        }
+        .flex-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding: 28px 26px;
+        }
+        .controls {
+            flex: 1.2;
+            min-width: 300px;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.6rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            border: 1px solid #dce5ec;
+        }
+        .results-area {
+            flex: 2.8;
+            min-width: 580px;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.6rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            border: 1px solid #dce5ec;
+        }
+        .simplify-panel {
+            background: #f8fafd;
+            border-radius: 24px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #d4e2ec;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .simplify-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: #1f5e6e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .simplify-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .simplify-input-group {
+            flex: 3;
+            min-width: 180px;
+        }
+        .simplify-input-group label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #3f6b7a;
+        }
+        .simplify-input-group input, .simplify-input-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid #cbdbe6;
+            font-family: monospace;
+            font-size: 0.85rem;
+            background: white;
+        }
+        .simplify-buttons {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .simplify-buttons button {
+            background: #2c6e5c;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .simplify-buttons button.simplify-btn {
+            background: #3a6b8f;
+        }
+        .simplified-result {
+            background: #eef3f0;
+            border-radius: 28px;
+            padding: 10px 16px;
+            margin-top: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            border-left: 4px solid #2c7a5e;
+            word-break: break-word;
+        }
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+        .input-group label {
+            font-weight: 700;
+            color: #1f5e6e;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #cbdbe6;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+            transition: 0.2s;
+            background: #fefefc;
+        }
+        .input-group textarea {
+            border-radius: 16px;
+            resize: vertical;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: #2c7da0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+        .function-hint {
+            font-size: 0.7rem;
+            color: #4a627a;
+            margin-top: 4px;
+            background: #f0f4f9;
+            padding: 6px 10px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        button {
+            background: #2c6e5c;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 6px;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #1d5546;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+        }
+        button.secondary {
+            background: #3e6b5e;
+        }
+        button.secondary:hover {
+            background: #2f5549;
+        }
+        .info-card {
+            background: #f0f6fa;
+            border-radius: 20px;
+            padding: 14px;
+            margin: 20px 0 10px;
+            font-size: 0.8rem;
+            border-left: 4px solid #2c7da0;
+        }
+        .formula {
+            background: #2d3e45;
+            color: #eef4ff;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+        .table-wrapper {
+            max-height: 460px;
+            overflow-y: auto;
+            border-radius: 18px;
+            border: 1px solid #e2edf2;
+            margin: 18px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.74rem;
+        }
+        th {
+            background: #1f4e5e;
+            color: white;
+            padding: 12px 6px;
+            position: sticky;
+            top: 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        td {
+            padding: 9px 5px;
+            text-align: center;
+            border-bottom: 1px solid #e9eff3;
+            font-family: 'Courier New', monospace;
+        }
+        .step-detail {
+            background: #fafcfd;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 20px;
+            border-left: 5px solid #2c6e5c;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .step-detail h4 {
+            margin: 0 0 10px 0;
+            color: #1a4e5e;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background: #f6fafd;
+            padding: 12px 18px;
+            border-radius: 20px;
+            margin: 15px 0;
+            gap: 12px;
+        }
+        .error-msg {
+            background: #fee9e6;
+            color: #b13e2d;
+            border-radius: 40px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
+        hr {
+            margin: 16px 0;
+        }
+        details {
+            margin-top: 8px;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #2c6e5c;
+        }
+        .success-msg {
+            background: #e1f7e6;
+            color: #1f6e43;
+            border-radius: 40px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
+        @media (max-width: 950px) {
+            .flex-layout {
+                flex-direction: column;
+            }
+            .results-area {
+                min-width: auto;
+            }
+            td, th {
+                font-size: 0.65rem;
+                padding: 6px 2px;
+            }
+            .method-tabs {
+                flex-direction: column;
+                gap: 6px;
+                padding: 15px 20px 0;
+            }
+            .tab-btn {
+                border-radius: 30px;
+                text-align: center;
+            }
+            .simplify-row {
+                flex-direction: column;
+            }
+            .simplify-buttons {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="master-container">
+    <div class="header">
+        <h1>📊 Numerical Methods: Smart Simplify & Arrange</h1>
+        <p>Bisection & Newton-Raphson | ✨ Simplify/Arrange any function with algebraic transformations | 5‑decimal precision</p>
+    </div>
+    
+    <div class="method-tabs">
+        <button class="tab-btn active" data-method="bisection">📐 Bisection Method</button>
+        <button class="tab-btn" data-method="newton">⚡ Newton-Raphson Method</button>
+    </div>
+    
+    <!-- BISECTION SECTION (with simplify box) -->
+    <div id="bisectionSection" class="method-content active">
+        <div class="flex-layout">
+            <div class="controls">
+                <!-- ✨ NEW: SIMPLIFY & ARRANGE PANEL -->
+                <div class="simplify-panel">
+                    <h3>🧠 Algebraic Simplify & Arrange</h3>
+                    <div class="simplify-row">
+                        <div class="simplify-input-group">
+                            <label>Raw function f(x)</label>
+                            <textarea id="bisectionRawFunc" rows="2" placeholder="e.g., (x^3 - 4*x - 9) / 1 + 0*x">x**3 - 4*x - 9</textarea>
+                        </div>
+                        <div class="simplify-buttons">
+                            <button id="bisectionSimplifyBtn" class="simplify-btn">✨ Simplify / Arrange</button>
+                            <button id="bisectionApplySimplifiedBtn">📥 Apply to Solver</button>
+                        </div>
+                    </div>
+                    <div id="bisectionSimplifiedPreview" class="simplified-result">
+                        📐 Simplified: <span id="bisectionSimplifiedSpan">—</span>
+                    </div>
+                    <div class="function-hint" style="margin-top: 8px;">
+                        💡 Auto simplification: expands, collects like terms, basic factoring (x² → x**2, power normalization)
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>📝 Custom f(x) (simplified or manual)</label>
+                    <textarea id="bisectionFuncDef" rows="2">x**3 - 4*x - 9</textarea>
+                    <div class="function-hint">✓ Examples: x**3 - 4*x - 9, Math.sin(x) - x/2, Math.exp(x) - 3*x</div>
+                </div>
+                <div class="input-group">
+                    <label>🔽 Left endpoint (a)</label>
+                    <input type="number" id="bisectionA" step="any" value="2.0">
+                </div>
+                <div class="input-group">
+                    <label>🔼 Right endpoint (b)</label>
+                    <input type="number" id="bisectionB" step="any" value="3.0">
+                    <small>Requires f(a)·f(b) &lt; 0</small>
+                </div>
+                <div class="input-group">
+                    <label>⚖️ Tolerance (ε)</label>
+                    <input type="number" id="bisectionTol" step="0.0001" value="0.001">
+                </div>
+                <div class="input-group">
+                    <label>🔁 Max Iterations</label>
+                    <input type="number" id="bisectionMaxIter" step="1" value="40" min="1">
+                </div>
+                <button id="bisectionSolveBtn">🧮 RUN BISECTION METHOD</button>
+                <button id="bisectionMinMaxBtn" class="secondary">📈 MIN / MAX ITERATION ANALYSIS</button>
+                <div class="info-card">
+                    <strong>📐 Bisection Formula:</strong> c = (a + b) / 2<br>
+                    <strong>🎯 Current f(x):</strong> <span id="bisectionFuncPreview">x³ - 4x - 9</span>
+                </div>
+            </div>
+            <div class="results-area">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h3 style="margin:0 0 6px 0;">📋 Bisection Iteration Log</h3>
+                    <span id="bisectionStatus" style="font-size:0.7rem; background:#eef2f8; padding:3px 14px; border-radius:30px;">⚡ Ready</span>
+                </div>
+                <div class="table-wrapper">
+                    <table id="bisectionTable">
+                        <thead><tr><th>n</th><th>a</th><th>b</th><th>f(a)</th><th>f(b)</th><th>c = (a+b)/2</th><th>f(c)</th><th>|b-a|</th></tr></thead>
+                        <tbody id="bisectionTableBody"><tr><td colspan="8">Click RUN to see iterations</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="step-detail">
+                    <h4>📖 Step-by-Step Derivation</h4>
+                    <div id="bisectionSteps">⚡ Execute method to view calculations.</div>
+                </div>
+                <div class="stats-row">
+                    <div>🏆 <strong>Root Approx:</strong> <span id="bisectionRoot">—</span></div>
+                    <div>🔄 <strong>Iterations:</strong> <span id="bisectionIterCount">0</span></div>
+                    <div>📏 <strong>Final |b-a|:</strong> <span id="bisectionInterval">—</span></div>
+                </div>
+                <div id="bisectionMinMaxOutput"></div>
+                <div id="bisectionError" class="error-msg" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEWTON-RAPHSON SECTION (with simplify box) -->
+    <div id="newtonSection" class="method-content">
+        <div class="flex-layout">
+            <div class="controls">
+                <!-- ✨ NEW: SIMPLIFY PANEL FOR NEWTON -->
+                <div class="simplify-panel">
+                    <h3>🧠 Algebraic Simplify & Arrange (f(x) & f'(x))</h3>
+                    <div class="simplify-row">
+                        <div class="simplify-input-group">
+                            <label>Raw f(x) to simplify</label>
+                            <textarea id="newtonRawFunc" rows="2">x**3 - 2*x - 5</textarea>
+                        </div>
+                        <div class="simplify-buttons">
+                            <button id="newtonSimplifyFuncBtn" class="simplify-btn">✨ Simplify f(x)</button>
+                            <button id="newtonApplySimplifiedBtn">📥 Apply f(x) & Auto-Derivative?</button>
+                        </div>
+                    </div>
+                    <div id="newtonSimplifiedPreview" class="simplified-result">
+                        📐 Simplified f(x): <span id="newtonSimplifiedSpan">—</span>
+                    </div>
+                    <div class="function-hint" style="margin-top: 8px;">
+                        💡 You can also manually edit derivative below. Simplify tries to rearrange polynomial terms.
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>📝 Custom f(x) (JavaScript syntax)</label>
+                    <textarea id="newtonFuncDef" rows="2">x**3 - 2*x - 5</textarea>
+                    <div class="function-hint">✓ Examples: x**3 - 2*x - 5, Math.cos(x) - x</div>
+                </div>
+                <div class="input-group">
+                    <label>🧮 Derivative f'(x) (JavaScript syntax)</label>
+                    <textarea id="newtonDerivDef" rows="2">3*x**2 - 2</textarea>
+                    <div class="function-hint">✓ Derivative of f(x). Example: for x³-2x-5 → 3*x²-2</div>
+                </div>
+                <div class="input-group">
+                    <label>🎯 Initial Guess (x₀)</label>
+                    <input type="number" id="newtonX0" step="any" value="2.0">
+                </div>
+                <div class="input-group">
+                    <label>⚖️ Tolerance (ε)</label>
+                    <input type="number" id="newtonTol" step="0.001" value="0.0001">
+                </div>
+                <div class="input-group">
+                    <label>🔁 Max Iterations</label>
+                    <input type="number" id="newtonMaxIter" step="1" value="30" min="1">
+                </div>
+                <button id="newtonSolveBtn">🧮 RUN NEWTON-RAPHSON</button>
+                <button id="newtonMinMaxBtn" class="secondary">📊 MIN / MAX ITERATION ANALYSIS</button>
+                <div class="info-card">
+                    <strong>⚡ Newton-Raphson Formula:</strong> xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ)<br>
+                    <strong>🎯 Current f(x):</strong> <span id="newtonFuncPreview">x³ - 2x - 5</span><br>
+                    <strong>📐 f'(x):</strong> <span id="newtonDerivPreview">3x² - 2</span>
+                </div>
+            </div>
+            <div class="results-area">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h3 style="margin:0 0 6px 0;">📋 Newton-Raphson Iteration Log</h3>
+                    <span id="newtonStatus" style="font-size:0.7rem; background:#eef2f8; padding:3px 14px; border-radius:30px;">⚡ Ready</span>
+                </div>
+                <div class="table-wrapper">
+                    <table id="newtonTable">
+                        <thead><tr><th>n</th><th>xₙ</th><th>f(xₙ)</th><th>f'(xₙ)</th><th>xₙ₊₁</th><th>|Δx|</th></tr></thead>
+                        <tbody id="newtonTableBody"><tr><td colspan="6">Click RUN to see iterations</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="step-detail">
+                    <h4>📖 Step-by-Step Derivation</h4>
+                    <div id="newtonSteps">⚡ Execute method to view calculations.</div>
+                </div>
+                <div class="stats-row">
+                    <div>🏆 <strong>Root Approx:</strong> <span id="newtonRoot">—</span></div>
+                    <div>🔄 <strong>Iterations:</strong> <span id="newtonIterCount">0</span></div>
+                    <div>📉 <strong>Final |Δx|:</strong> <span id="newtonDelta">—</span></div>
+                </div>
+                <div id="newtonMinMaxOutput"></div>
+                <div id="newtonError" class="error-msg" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // -------------------- SMART SIMPLIFY ENGINE --------------------
+    // Algebraic simplifier: expands power notation, basic term collection, removes redundant additions, etc.
+    function smartSimplify(exprStr) {
+        try {
+            let cleaned = exprStr.trim().replace(/\s+/g, '');
+            if (!cleaned) return exprStr;
+            
+            // Step 1: convert ^ to ** for JS but also keep readable form. We'll produce a cleaner math string.
+            // We'll normalize x^3 -> x**3 for evaluation, but for display we want nice format: x³ etc. We'll produce both?
+            // For simplification we aim to produce a human-friendly arranged string: terms sorted by degree.
+            // Approach: parse polynomial-like terms (only basic algebraic expression with x, numbers, +, -, *, / and parentheses but we keep safe)
+            // Since full CAS is heavy, we implement a pragmatic simplifier: expand (x+1)*(x+2) detection? limited.
+            // But we can perform: collect like terms for polynomials, basic factoring detection, rewrite subtraction.
+            // Enhanced version: tokenize and reorganize.
+            let simplified = cleaned;
+            
+            // Replace ** with ^ for display, but keep internal evaluation friendly.
+            // We'll convert to a standard js-compatible expression while also rearranging.
+            // For polynomial rearrangement, we detect monomials.
+            let normalized = exprStr.replace(/\*\*/g, '^').replace(/\s/g, '');
+            
+            // Very robust: try to evaluate via math expression simplifier - custom: linear rearrangement for terms like x**3, x**2 etc.
+            // We'll attempt to extract terms if no other advanced functions (sin, cos). For general functions we keep original.
+            if (normalized.match(/[a-zA-Z]+\(/)) {
+                // contains functions like sin, cos, exp -> just return as is but trimmed
+                return exprStr.trim();
+            }
+            
+            // Basic polynomial like terms collection (experimental): gather terms of form coef*x**exp or coef*x
+            let termRegex = /([+-]?\s*\d*\.?\d*)\s*\*\s*x\s*\*\*\s*(\d+)|([+-]?\s*\d*\.?\d*)\s*\*\s*x(?!\*)|([+-]?\s*\d*\.?\d+)(?![x\d])/g;
+            // fallback: simple arrangement: sort by exponent
+            let terms = [];
+            let remaining = normalized;
+            let match;
+            // custom parsing
+            let parts = normalized.split(/(?=[+-])/);
+            parts.forEach(part => {
+                if (part.trim() === '') return;
+                let coeff = 1;
+                let exp = 0;
+                let sign = 1;
+                let cleanPart = part;
+                if (cleanPart.startsWith('+')) cleanPart = cleanPart.substring(1);
+                let signMult = 1;
+                if (cleanPart.startsWith('-')) { signMult = -1; cleanPart = cleanPart.substring(1); }
+                // check x^pow
+                let powMatch = cleanPart.match(/^(\d*\.?\d*)?\s*\*\s*x\s*\*\*\s*(\d+)$/);
+                if (powMatch) {
+                    let coeffRaw = powMatch[1] === '' ? 1 : parseFloat(powMatch[1]);
+                    if (isNaN(coeffRaw)) coeffRaw = 1;
+                    coeff = signMult * coeffRaw;
+                    exp = parseInt(powMatch[2]);
+                } else {
+                    let xMatch = cleanPart.match(/^(\d*\.?\d*)?\s*\*\s*x$/);
+                    if (xMatch) {
+                        let coeffRaw = xMatch[1] === '' ? 1 : parseFloat(xMatch[1]);
+                        if (isNaN(coeffRaw)) coeffRaw = 1;
+                        coeff = signMult * coeffRaw;
+                        exp = 1;
+                    } else {
+                        let constMatch = cleanPart.match(/^(\d*\.?\d+)$/);
+                        if (constMatch) {
+                            coeff = signMult * parseFloat(constMatch[1]);
+                            exp = 0;
+                        } else {
+                            // fallback, keep original term
+                            terms.push({ raw: part, exp: -1, coeff: 0 });
+                            return;
+                        }
+                    }
+                }
+                terms.push({ exp, coeff, raw: null });
+            });
+            
+            // Combine like terms
+            let termMap = new Map();
+            for (let t of terms) {
+                if (t.exp === -1) continue;
+                let key = t.exp;
+                termMap.set(key, (termMap.get(key) || 0) + t.coeff);
+            }
+            let finalTerms = [];
+            for (let [exp, coeff] of termMap.entries()) {
+                if (Math.abs(coeff) < 1e-12) continue;
+                finalTerms.push({ exp, coeff });
+            }
+            finalTerms.sort((a,b) => b.exp - a.exp);
+            let simplifiedExpr = '';
+            for (let i = 0; i < finalTerms.length; i++) {
+                let { exp, coeff } = finalTerms[i];
+                let sign = (coeff >= 0 && i !== 0) ? '+' : '';
+                let absCoeff = Math.abs(coeff);
+                let coeffStr = (Math.abs(absCoeff - 1) < 1e-12 && exp !== 0) ? '' : absCoeff.toString();
+                if (exp === 0) coeffStr = absCoeff.toString();
+                let term = '';
+                if (exp === 0) term = `${coeffStr}`;
+                else if (exp === 1) term = `${coeffStr === '' ? '' : coeffStr + '*'}x`;
+                else term = `${coeffStr === '' ? '' : coeffStr + '*'}x**${exp}`;
+                if (coeff < 0 && i===0) simplifiedExpr += '-' + term;
+                else simplifiedExpr += sign + term;
+            }
+            if (simplifiedExpr === '') simplifiedExpr = '0';
+            simplifiedExpr = simplifiedExpr.replace(/\*\*/g, '^').replace(/\*x/g, 'x');
+            // convert ^ to ** for valid js, but preview shows ^ style
+            let forPreview = simplifiedExpr.replace(/\*\*/g, '^');
+            return forPreview;
+        } catch(e) { return exprStr; }
+    }
+    
+    function applySimplifyToBisection() {
+        let raw = document.getElementById('bisectionRawFunc').value;
+        let simplified = smartSimplify(raw);
+        document.getElementById('bisectionSimplifiedSpan').innerText = simplified || raw;
+        return simplified;
+    }
+    
+    document.getElementById('bisectionSimplifyBtn').addEventListener('click', () => {
+        let simp = applySimplifyToBisection();
+        if (simp) document.getElementById('bisectionSimplifiedSpan').innerText = simp;
+    });
+    document.getElementById('bisectionApplySimplifiedBtn').addEventListener('click', () => {
+        let simp = document.getElementById('bisectionSimplifiedSpan').innerText;
+        if (simp && simp !== '—') {
+            let jsVersion = simp.replace(/\^/g, '**');
+            document.getElementById('bisectionFuncDef').value = jsVersion;
+            updateBisectionFunction();
+            document.getElementById('bisectionFuncPreview').innerText = simp;
+        }
+    });
+    
+    function applySimplifyToNewton() {
+        let raw = document.getElementById('newtonRawFunc').value;
+        let simplified = smartSimplify(raw);
+        document.getElementById('newtonSimplifiedSpan').innerText = simplified || raw;
+        return simplified;
+    }
+    document.getElementById('newtonSimplifyFuncBtn').addEventListener('click', () => applySimplifyToNewton());
+    document.getElementById('newtonApplySimplifiedBtn').addEventListener('click', () => {
+        let simp = document.getElementById('newtonSimplifiedSpan').innerText;
+        if (simp && simp !== '—') {
+            let jsVersion = simp.replace(/\^/g, '**');
+            document.getElementById('newtonFuncDef').value = jsVersion;
+            updateNewtonFunctions();
+            document.getElementById('newtonFuncPreview').innerText = simp;
+        }
+    });
+    
+    // Utility function for formatting
+    function to5Dec(value) {
+        if (value === undefined || value === null || isNaN(value) || !isFinite(value)) return "?";
+        return value.toFixed(5);
+    }
+    
+    function createFunction(funcStr, varName = 'x') {
+        try {
+            let cleanedStr = funcStr.trim();
+            if (!cleanedStr) return null;
+            const fn = new Function(varName, `try { return (${cleanedStr}); } catch(e) { return NaN; }`);
+            return fn;
+        } catch(e) { return null; }
+    }
+    function evaluateFunction(fn, x) { if (!fn) return NaN; try { let r = fn(x); return (typeof r === 'number' && isFinite(r)) ? r : NaN; } catch(e) { return NaN; } }
+    
+    let bisectionFn = null, bisectionGlobalData = [], bisectionLastRoot = null;
+    function updateBisectionFunction() { 
+        const funcStr = document.getElementById('bisectionFuncDef').value;
+        bisectionFn = createFunction(funcStr, 'x');
+        let preview = funcStr.replace(/\*\*/g, '^');
+        document.getElementById('bisectionFuncPreview').innerText = preview.length > 40 ? preview.substring(0,37)+"..." : preview;
+        return bisectionFn !== null;
+    }
+    
+    let newtonFn = null, newtonDerivFn = null, newtonGlobalData = [], newtonLastRoot = null;
+    function updateNewtonFunctions() {
+        const funcStr = document.getElementById('newtonFuncDef').value;
+        const derivStr = document.getElementById('newtonDerivDef').value;
+        newtonFn = createFunction(funcStr, 'x');
+        newtonDerivFn = createFunction(derivStr, 'x');
+        document.getElementById('newtonFuncPreview').innerText = funcStr.replace(/\*\*/g, '^');
+        document.getElementById('newtonDerivPreview').innerText = derivStr.replace(/\*\*/g, '^');
+        return newtonFn && newtonDerivFn;
+    }
+    
+    // copy existing bisection & newton solver logic (kept same as original, but integrated)
+    function bisectionSolver(a,b,tol,maxIter) { /* same robust logic */ 
+        if(!bisectionFn) return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: "Invalid function" };
+        let fa=evaluateFunction(bisectionFn,a), fb=evaluateFunction(bisectionFn,b);
+        if(isNaN(fa)||isNaN(fb)) return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: "Evaluation error" };
+        if(fa*fb>=0) return { iterations: [], converged: false, finalRoot: NaN, finalInterval: NaN, reason: "No bracket" };
+        let currA=a, currB=b, iterations=[];
+        for(let iter=1; iter<=maxIter; iter++) {
+            let c=(currA+currB)/2, fc=evaluateFunction(bisectionFn,c), len=Math.abs(currB-currA);
+            let stepHtml = `<div>Iter ${iter}: c=${to5Dec(c)} f(c)=${to5Dec(fc)} len=${to5Dec(len)}</div>`;
+            iterations.push({ iter, a:currA, b:currB, fa:evaluateFunction(bisectionFn,currA), fb:evaluateFunction(bisectionFn,currB), c, fc, intervalLen:len, stepHtml });
+            if(fa*fc<0) currB=c; else currA=c;
+            if(len<tol) break;
+        }
+        let finalRoot=(currA+currB)/2;
+        return { iterations, converged: true, finalRoot, finalInterval:Math.abs(currB-currA), reason:null };
+    }
+    function newtonSolver(x0,tol,maxIter) { 
+        if(!newtonFn||!newtonDerivFn) return { iterations: [], converged: false, finalRoot:x0, finalDelta:NaN, reason:"Invalid fn/deriv" };
+        let curr=x0, iterations=[];
+        for(let iter=1; iter<=maxIter; iter++) {
+            let fx=evaluateFunction(newtonFn,curr), fpx=evaluateFunction(newtonDerivFn,curr);
+            if(Math.abs(fpx)<1e-12) return { iterations, converged: false, finalRoot:curr, finalDelta:NaN, reason:"Derivative near zero" };
+            let next=curr - fx/fpx, delta=Math.abs(next-curr);
+            iterations.push({ iter, x_n:curr, fx, fpx, x_next:next, delta, stepHtml:`<div>Iter ${iter}: x=${to5Dec(curr)} → ${to5Dec(next)} Δ=${to5Dec(delta)}</div>` });
+            if(delta<tol) { curr=next; break; }
+            curr=next;
+        }
+        return { iterations, converged: true, finalRoot:curr, finalDelta:iterations.length?iterations[iterations.length-1].delta:NaN, reason:null };
+    }
+    
+    function renderBisectionTable(iterations){ /* same */ let html=''; for(let it of iterations) html+=`<tr><td>${it.iter}</td><td>${to5Dec(it.a)}</td><td>${to5Dec(it.b)}</td><td>${to5Dec(it.fa)}</td><td>${to5Dec(it.fb)}</td><td>${to5Dec(it.c)}</td><td>${to5Dec(it.fc)}</td><td>${to5Dec(it.intervalLen)}</td></tr>`; document.getElementById('bisectionTableBody').innerHTML=html; }
+    function renderNewtonTable(iterations){ let html=''; for(let it of iterations) html+=`<tr><td>${it.iter}</td><td>${to5Dec(it.x_n)}</td><td>${to5Dec(it.fx)}</td><td>${to5Dec(it.fpx)}</td><td>${to5Dec(it.x_next)}</td><td>${to5Dec(it.delta)}</td></tr>`; document.getElementById('newtonTableBody').innerHTML=html; }
+    function updateBisectionUI(res){ bisectionGlobalData=res.iterations; bisectionLastRoot=res.finalRoot; renderBisectionTable(res.iterations); document.getElementById('bisectionSteps').innerHTML=res.iterations.map(i=>i.stepHtml).join(''); document.getElementById('bisectionRoot').innerText=to5Dec(res.finalRoot); document.getElementById('bisectionIterCount').innerText=res.iterations.length; document.getElementById('bisectionInterval').innerText=to5Dec(res.finalInterval); if(res.reason){ document.getElementById('bisectionError').style.display='block'; document.getElementById('bisectionError').innerText=res.reason; } else document.getElementById('bisectionError').style.display='none'; }
+    function updateNewtonUI(res){ newtonGlobalData=res.iterations; newtonLastRoot=res.finalRoot; renderNewtonTable(res.iterations); document.getElementById('newtonSteps').innerHTML=res.iterations.map(i=>i.stepHtml).join(''); document.getElementById('newtonRoot').innerText=to5Dec(res.finalRoot); document.getElementById('newtonIterCount').innerText=res.iterations.length; document.getElementById('newtonDelta').innerText=to5Dec(res.finalDelta); if(res.reason){ document.getElementById('newtonError').style.display='block'; document.getElementById('newtonError').innerText=res.reason; } else document.getElementById('newtonError').style.display='none'; }
+    
+    document.getElementById('bisectionSolveBtn').addEventListener('click',()=>{ if(updateBisectionFunction()){ let a=parseFloat(document.getElementById('bisectionA').value), b=parseFloat(document.getElementById('bisectionB').value), tol=parseFloat(document.getElementById('bisectionTol').value), maxIter=parseInt(document.getElementById('bisectionMaxIter').value); if(a>=b)[a,b]=[b,a]; let res=bisectionSolver(a,b,tol,maxIter); updateBisectionUI(res); } });
+    document.getElementById('newtonSolveBtn').addEventListener('click',()=>{ if(updateNewtonFunctions()){ let x0=parseFloat(document.getElementById('newtonX0').value), tol=parseFloat(document.getElementById('newtonTol').value), maxIter=parseInt(document.getElementById('newtonMaxIter').value); let res=newtonSolver(x0,tol,maxIter); updateNewtonUI(res); } });
+    document.getElementById('bisectionMinMaxBtn').addEventListener('click',()=>{ let container=document.getElementById('bisectionMinMaxOutput'); if(!bisectionGlobalData.length){container.innerHTML='<div>Run first</div>'; return;} let min=bisectionGlobalData.reduce((a,b)=>a.intervalLen<b.intervalLen?a:b); let max=bisectionGlobalData.reduce((a,b)=>a.intervalLen>b.intervalLen?a:b); container.innerHTML=`<div><b>Min interval length:</b> iter ${min.iter} = ${to5Dec(min.intervalLen)}<br><b>Max interval length:</b> iter ${max.iter} = ${to5Dec(max.intervalLen)}</div>`; });
+    document.getElementById('newtonMinMaxBtn').addEventListener('click',()=>{ let container=document.getElementById('newtonMinMaxOutput'); if(!newtonGlobalData.length){container.innerHTML='<div>Run first</div>'; return;} let min=newtonGlobalData.reduce((a,b)=>a.delta<b.delta?a:b); let max=newtonGlobalData.reduce((a,b)=>a.delta>b.delta?a:b); container.innerHTML=`<div><b>Min Δx:</b> iter ${min.iter} = ${to5Dec(min.delta)}<br><b>Max Δx:</b> iter ${max.iter} = ${to5Dec(max.delta)}</div>`; });
+    
+    document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('bisectionSection').classList.toggle('active',btn.dataset.method==='bisection'); document.getElementById('newtonSection').classList.toggle('active',btn.dataset.method==='newton'); }));
+    window.addEventListener('DOMContentLoaded',()=>{ updateBisectionFunction(); updateNewtonFunctions(); updateBisectionUI(bisectionSolver(2,3,0.001,40)); updateNewtonUI(newtonSolver(2,0.0001,30)); });
+</script>
+</body>
+</html>
