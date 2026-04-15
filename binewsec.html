@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Numerical Methods | Iteration Tables & Root Finding</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f4fa 0%, #d9e2ef 100%);
+            margin: 0;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #0a2b3c;
+            border-radius: 2rem;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            box-shadow: 0 12px 18px -8px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            margin: 0.4rem 0 0;
+            opacity: 0.85;
+        }
+
+        .methods-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .method-card {
+            flex: 1;
+            min-width: 380px;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card-header {
+            background: #1e293b;
+            padding: 1rem 1.5rem;
+            color: white;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+
+        .badge {
+            background: #f59e0b;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .input-area {
+            padding: 1.2rem 1.5rem;
+            background: #fefcf5;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .input-row {
+            margin-bottom: 0.9rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 5px;
+            color: #0f172a;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.55rem 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            background: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+        }
+
+        .solve-btn {
+            background: #0f3b2c;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .solve-btn:hover {
+            background: #166534;
+            transform: scale(0.98);
+        }
+
+        .table-wrapper {
+            max-height: 320px;
+            overflow-y: auto;
+            margin: 1rem 1.2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            background: #ffffff;
+        }
+
+        .iter-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .iter-table th {
+            background: #f1f5f9;
+            position: sticky;
+            top: 0;
+            padding: 8px 6px;
+            border-bottom: 2px solid #cbd5e1;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .iter-table td {
+            padding: 6px 5px;
+            text-align: center;
+            border-bottom: 1px solid #e9eef3;
+        }
+
+        .result-summary {
+            background: #f8fafc;
+            margin: 0.5rem 1.2rem 1.2rem 1.2rem;
+            padding: 0.7rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            border-left: 4px solid #0f3b2c;
+        }
+
+        .final-root {
+            font-weight: bold;
+            color: #0c4a6e;
+        }
+
+        .note {
+            font-size: 0.7rem;
+            padding: 0.6rem 1.2rem 1rem;
+            color: #475569;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 850px) {
+            .methods-grid {
+                flex-direction: column;
+            }
+            .method-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📊 Numerical Root Solvers with Iteration Tables</h1>
+        <p>Bisection · Newton-Raphson · Secant — Each method shows detailed iteration steps (tolerance = 0.001, 5 decimal places display)</p>
+    </div>
+
+    <div class="methods-grid">
+        <!-- BISECTION CARD -->
+        <div class="method-card">
+            <div class="card-header">
+                <h2>📉 Bisection <span class="badge">Bracketing</span></h2>
+            </div>
+            <div class="input-area">
+                <div class="input-row"><label>📌 f(x)</label><input type="text" id="bisectFunc" value="x**3 - 2*x - 5"></div>
+                <div class="input-row"><label>⬅️ a (lower)</label><input type="number" id="bisectA" value="2.0" step="0.1"></div>
+                <div class="input-row"><label>➡️ b (upper)</label><input type="number" id="bisectB" value="3.0" step="0.1"></div>
+                <div class="input-row"><label>🎯 Tolerance (ε)</label><input type="number" id="bisectTol" value="0.001" step="0.0001"></div>
+                <div class="input-row"><label>🔄 Max Iter</label><input type="number" id="bisectMaxIter" value="50"></div>
+                <button class="solve-btn" id="bisectBtn">🧮 Compute & Show Table</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="iter-table" id="bisectTable">
+                    <thead>
+                        <tr><th>Iter</th><th>a</th><th>b</th><th>c (mid)</th><th>f(c)</th><th>Error (|b-a|)</th></tr>
+                    </thead>
+                    <tbody><tr><td colspan="6">— Press solve —</td></tr></tbody>
+                </table>
+            </div>
+            <div class="result-summary" id="bisectSummary">
+                <span>📌 Root: —</span><br>
+                <span>📊 Iterations: — | f(root): —</span>
+            </div>
+            <div class="note">✅ Requires f(a)*f(b) &lt; 0. Tolerance = 0.001, values shown with 5 decimals.</div>
+        </div>
+
+        <!-- NEWTON-RAPHSON CARD -->
+        <div class="method-card">
+            <div class="card-header">
+                <h2>⚡ Newton-Raphson <span class="badge">Derivative</span></h2>
+            </div>
+            <div class="input-area">
+                <div class="input-row"><label>📌 f(x)</label><input type="text" id="newtonFunc" value="x**3 - 2*x - 5"></div>
+                <div class="input-row"><label>📈 f'(x)</label><input type="text" id="newtonDeriv" value="3*x**2 - 2"></div>
+                <div class="input-row"><label>🎯 Initial guess x₀</label><input type="number" id="newtonX0" value="2.5" step="0.1"></div>
+                <div class="input-row"><label>🎯 Tolerance (ε)</label><input type="number" id="newtonTol" value="0.001" step="0.0001"></div>
+                <div class="input-row"><label>🔄 Max Iter</label><input type="number" id="newtonMaxIter" value="50"></div>
+                <button class="solve-btn" id="newtonBtn">⚡ Compute & Show Table</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="iter-table" id="newtonTable">
+                    <thead><tr><th>Iter</th><th>xₙ</th><th>f(xₙ)</th><th>f'(xₙ)</th><th>xₙ₊₁</th><th>|Δx|</th></tr></thead>
+                    <tbody><tr><td colspan="6">— Press solve —</td></tr></tbody>
+                </table>
+            </div>
+            <div class="result-summary" id="newtonSummary">
+                <span>📌 Root: —</span><br>
+                <span>📊 Iterations: — | f(root): —</span>
+            </div>
+            <div class="note">⚠️ Needs derivative & good guess. Tolerance 0.001. Table shows each iteration step.</div>
+        </div>
+
+        <!-- SECANT CARD -->
+        <div class="method-card">
+            <div class="card-header">
+                <h2>✂️ Secant <span class="badge">Derivative-free</span></h2>
+            </div>
+            <div class="input-area">
+                <div class="input-row"><label>📌 f(x)</label><input type="text" id="secantFunc" value="x**3 - 2*x - 5"></div>
+                <div class="input-row"><label>🔹 x₀ (first guess)</label><input type="number" id="secantX0" value="2.0" step="0.1"></div>
+                <div class="input-row"><label>🔸 x₁ (second guess)</label><input type="number" id="secantX1" value="3.0" step="0.1"></div>
+                <div class="input-row"><label>🎯 Tolerance (ε)</label><input type="number" id="secantTol" value="0.001" step="0.0001"></div>
+                <div class="input-row"><label>🔄 Max Iter</label><input type="number" id="secantMaxIter" value="50"></div>
+                <button class="solve-btn" id="secantBtn">✂️ Compute & Show Table</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="iter-table" id="secantTable">
+                    <thead><tr><th>Iter</th><th>xₙ₋₁</th><th>xₙ</th><th>f(xₙ₋₁)</th><th>f(xₙ)</th><th>xₙ₊₁</th><th>|xₙ₊₁ - xₙ|</th></tr></thead>
+                    <tbody><tr><td colspan="7">— Press solve —</td></tr></tbody>
+                </table>
+            </div>
+            <div class="result-summary" id="secantSummary">
+                <span>📌 Root: —</span><br>
+                <span>📊 Iterations: — | f(root): —</span>
+            </div>
+            <div class="note">📐 No derivative needed. Tolerance = 0.001, results with 5 decimal precision.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Helper: evaluate mathematical expression safely
+    function evaluateFunction(expr, xVal) {
+        try {
+            const fn = new Function('x', 'return (' + expr + ')');
+            return fn(xVal);
+        } catch(e) {
+            throw new Error(`Invalid expression: ${expr}. ${e.message}`);
+        }
+    }
+
+    // Format number to 5 decimal places for table display
+    function format5(value) {
+        if (value === undefined || isNaN(value)) return '?';
+        return value.toFixed(5);
+    }
+
+    // -------------------- BISECTION WITH TABLE --------------------
+    function bisectionWithTable(funcExpr, a, b, tol, maxIter) {
+        let fa = evaluateFunction(funcExpr, a);
+        let fb = evaluateFunction(funcExpr, b);
+        if (fa * fb >= 0) {
+            throw new Error(`f(a) and f(b) must have opposite signs. f(${a})=${fa}, f(${b})=${fb}`);
+        }
+        let iterations = [];
+        let iter = 0;
+        let c = a;
+        let fc = fa;
+        let errorBound = Math.abs(b - a);
+        
+        for (iter = 0; iter < maxIter; iter++) {
+            c = (a + b) / 2;
+            fc = evaluateFunction(funcExpr, c);
+            errorBound = Math.abs(b - a);
+            iterations.push({
+                iter: iter + 1,
+                a: a,
+                b: b,
+                c: c,
+                fc: fc,
+                error: errorBound
+            });
+            
+            if (Math.abs(fc) < tol || errorBound < tol) {
+                return { root: c, iterations: iterations, fRoot: fc, converged: true };
+            }
+            
+            if (fa * fc < 0) {
+                b = c;
+                fb = fc;
+            } else {
+                a = c;
+                fa = fc;
+            }
+        }
+        // final push after max iterations
+        c = (a + b) / 2;
+        fc = evaluateFunction(funcExpr, c);
+        iterations.push({ iter: maxIter+1, a: a, b: b, c: c, fc: fc, error: Math.abs(b - a) });
+        return { root: c, iterations: iterations, fRoot: fc, converged: false };
+    }
+
+    // -------------------- NEWTON-RAPHSON WITH TABLE --------------------
+    function newtonWithTable(funcExpr, derivExpr, x0, tol, maxIter) {
+        let x = x0;
+        let iterSteps = [];
+        for (let i = 0; i < maxIter; i++) {
+            let fx = evaluateFunction(funcExpr, x);
+            let fpx = evaluateFunction(derivExpr, x);
+            if (Math.abs(fpx) < 1e-14) throw new Error(`Derivative near zero at x=${x}`);
+            let xNew = x - fx / fpx;
+            let delta = Math.abs(xNew - x);
+            iterSteps.push({
+                iter: i+1,
+                x: x,
+                fx: fx,
+                fpx: fpx,
+                xNext: xNew,
+                delta: delta
+            });
+            if (Math.abs(fx) < tol || delta < tol) {
+                return { root: xNew, iterations: iterSteps, fRoot: evaluateFunction(funcExpr, xNew), converged: true };
+            }
+            x = xNew;
+        }
+        let finalFx = evaluateFunction(funcExpr, x);
+        return { root: x, iterations: iterSteps, fRoot: finalFx, converged: false };
+    }
+
+    // -------------------- SECANT WITH TABLE --------------------
+    function secantWithTable(funcExpr, x0, x1, tol, maxIter) {
+        let xPrev = x0;
+        let xCurr = x1;
+        let fPrev = evaluateFunction(funcExpr, xPrev);
+        let fCurr = evaluateFunction(funcExpr, xCurr);
+        let steps = [];
+        for (let i = 0; i < maxIter; i++) {
+            if (Math.abs(fCurr) < tol) {
+                return { root: xCurr, iterations: steps, fRoot: fCurr, converged: true };
+            }
+            let denominator = fCurr - fPrev;
+            if (Math.abs(denominator) < 1e-14) throw new Error("Secant denominator near zero.");
+            let xNext = xCurr - fCurr * (xCurr - xPrev) / denominator;
+            let delta = Math.abs(xNext - xCurr);
+            steps.push({
+                iter: i+1,
+                xPrev: xPrev,
+                xCurr: xCurr,
+                fPrev: fPrev,
+                fCurr: fCurr,
+                xNext: xNext,
+                delta: delta
+            });
+            if (Math.abs(fCurr) < tol || delta < tol) {
+                return { root: xNext, iterations: steps, fRoot: evaluateFunction(funcExpr, xNext), converged: true };
+            }
+            xPrev = xCurr;
+            fPrev = fCurr;
+            xCurr = xNext;
+            fCurr = evaluateFunction(funcExpr, xCurr);
+        }
+        return { root: xCurr, iterations: steps, fRoot: fCurr, converged: false };
+    }
+
+    // ---------- RENDER BISECTION TABLE ----------
+    function renderBisectionTable(iterData, summaryRoot, summaryIterCount, summaryFroot, errorMsg = null) {
+        const tbody = document.querySelector('#bisectTable tbody');
+        const summaryDiv = document.getElementById('bisectSummary');
+        if (errorMsg) {
+            tbody.innerHTML = `<tr><td colspan="6" style="color:red;">❌ ${errorMsg}</td></tr>`;
+            summaryDiv.innerHTML = `<span>⚠️ Error: ${errorMsg}</span>`;
+            return;
+        }
+        if (!iterData || iterData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6">No iterations</td></tr>`;
+            return;
+        }
+        let html = '';
+        for (let row of iterData) {
+            html += `<tr>
+                        <td>${row.iter}</td>
+                        <td>${format5(row.a)}</td>
+                        <td>${format5(row.b)}</td>
+                        <td>${format5(row.c)}</td>
+                        <td>${format5(row.fc)}</td>
+                        <td>${format5(row.error)}</td>
+                     </tr>`;
+        }
+        tbody.innerHTML = html;
+        let rootVal = (summaryRoot !== undefined && !isNaN(summaryRoot)) ? summaryRoot.toFixed(6) : '?';
+        summaryDiv.innerHTML = `<span class="final-root">✅ Root ≈ ${rootVal}</span><br>
+                                 <span>📊 Iterations: ${summaryIterCount} &nbsp;| f(root) = ${summaryFroot ? summaryFroot.toExponential(5) : '?'}</span>`;
+    }
+
+    function renderNewtonTable(iterData, summaryRoot, summaryIterCount, summaryFroot, errorMsg) {
+        const tbody = document.querySelector('#newtonTable tbody');
+        const summaryDiv = document.getElementById('newtonSummary');
+        if (errorMsg) {
+            tbody.innerHTML = `<tr><td colspan="6" style="color:red;">❌ ${errorMsg}</td></tr>`;
+            summaryDiv.innerHTML = `<span>⚠️ Error: ${errorMsg}</span>`;
+            return;
+        }
+        if (!iterData || iterData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6">No data</td></tr>`;
+            return;
+        }
+        let html = '';
+        for (let row of iterData) {
+            html += `<tr>
+                        <td>${row.iter}</td>
+                        <td>${format5(row.x)}</td>
+                        <td>${format5(row.fx)}</td>
+                        <td>${format5(row.fpx)}</td>
+                        <td>${format5(row.xNext)}</td>
+                        <td>${format5(row.delta)}</td>
+                     </tr>`;
+        }
+        tbody.innerHTML = html;
+        let rootVal = (summaryRoot !== undefined && !isNaN(summaryRoot)) ? summaryRoot.toFixed(7) : '?';
+        summaryDiv.innerHTML = `<span class="final-root">✅ Root ≈ ${rootVal}</span><br>
+                                 <span>📊 Iterations: ${summaryIterCount} &nbsp;| f(root) = ${summaryFroot ? summaryFroot.toExponential(5) : '?'}</span>`;
+    }
+
+    function renderSecantTable(iterData, summaryRoot, summaryIterCount, summaryFroot, errorMsg) {
+        const tbody = document.querySelector('#secantTable tbody');
+        const summaryDiv = document.getElementById('secantSummary');
+        if (errorMsg) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:red;">❌ ${errorMsg}</td></tr>`;
+            summaryDiv.innerHTML = `<span>⚠️ Error: ${errorMsg}</span>`;
+            return;
+        }
+        if (!iterData || iterData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7">No iterations</td></tr>`;
+            return;
+        }
+        let html = '';
+        for (let row of iterData) {
+            html += `<tr>
+                        <td>${row.iter}</td>
+                        <td>${format5(row.xPrev)}</td>
+                        <td>${format5(row.xCurr)}</td>
+                        <td>${format5(row.fPrev)}</td>
+                        <td>${format5(row.fCurr)}</td>
+                        <td>${format5(row.xNext)}</td>
+                        <td>${format5(row.delta)}</td>
+                     </tr>`;
+        }
+        tbody.innerHTML = html;
+        let rootVal = (summaryRoot !== undefined && !isNaN(summaryRoot)) ? summaryRoot.toFixed(7) : '?';
+        summaryDiv.innerHTML = `<span class="final-root">✅ Root ≈ ${rootVal}</span><br>
+                                 <span>📊 Iterations: ${summaryIterCount} &nbsp;| f(root) = ${summaryFroot ? summaryFroot.toExponential(5) : '?'}</span>`;
+    }
+
+    // ----- BISECTION HANDLER -----
+    document.getElementById('bisectBtn').addEventListener('click', () => {
+        try {
+            const func = document.getElementById('bisectFunc').value.trim();
+            let a = parseFloat(document.getElementById('bisectA').value);
+            let b = parseFloat(document.getElementById('bisectB').value);
+            let tol = parseFloat(document.getElementById('bisectTol').value);
+            let maxIter = parseInt(document.getElementById('bisectMaxIter').value);
+            if (isNaN(a) || isNaN(b) || isNaN(tol) || isNaN(maxIter)) throw new Error("Invalid numeric input");
+            if (tol <= 0) throw new Error("Tolerance must be >0");
+            const result = bisectionWithTable(func, a, b, tol, maxIter);
+            const iterCount = result.iterations.length;
+            renderBisectionTable(result.iterations, result.root, iterCount, result.fRoot, null);
+        } catch (err) {
+            renderBisectionTable(null, null, null, null, err.message);
+        }
+    });
+
+    // ----- NEWTON HANDLER -----
+    document.getElementById('newtonBtn').addEventListener('click', () => {
+        try {
+            const func = document.getElementById('newtonFunc').value.trim();
+            const deriv = document.getElementById('newtonDeriv').value.trim();
+            let x0 = parseFloat(document.getElementById('newtonX0').value);
+            let tol = parseFloat(document.getElementById('newtonTol').value);
+            let maxIter = parseInt(document.getElementById('newtonMaxIter').value);
+            if (!func || !deriv) throw new Error("Function and derivative required");
+            if (isNaN(x0) || isNaN(tol) || isNaN(maxIter)) throw new Error("Invalid numeric input");
+            // test eval
+            evaluateFunction(func, x0);
+            evaluateFunction(deriv, x0);
+            const result = newtonWithTable(func, deriv, x0, tol, maxIter);
+            const iterCount = result.iterations.length;
+            renderNewtonTable(result.iterations, result.root, iterCount, result.fRoot, null);
+        } catch (err) {
+            renderNewtonTable(null, null, null, null, err.message);
+        }
+    });
+
+    // ----- SECANT HANDLER -----
+    document.getElementById('secantBtn').addEventListener('click', () => {
+        try {
+            const func = document.getElementById('secantFunc').value.trim();
+            let x0 = parseFloat(document.getElementById('secantX0').value);
+            let x1 = parseFloat(document.getElementById('secantX1').value);
+            let tol = parseFloat(document.getElementById('secantTol').value);
+            let maxIter = parseInt(document.getElementById('secantMaxIter').value);
+            if (!func) throw new Error("Function required");
+            if (isNaN(x0) || isNaN(x1) || isNaN(tol) || isNaN(maxIter)) throw new Error("Invalid numbers");
+            if (tol <= 0) throw new Error("Tolerance positive");
+            evaluateFunction(func, x0);
+            evaluateFunction(func, x1);
+            const result = secantWithTable(func, x0, x1, tol, maxIter);
+            const iterCount = result.iterations.length;
+            renderSecantTable(result.iterations, result.root, iterCount, result.fRoot, null);
+        } catch (err) {
+            renderSecantTable(null, null, null, null, err.message);
+        }
+    });
+
+    // small sync for derivative default (cubic)
+    const newtonFuncInput = document.getElementById('newtonFunc');
+    const newtonDerivInput = document.getElementById('newtonDeriv');
+    function suggestDerivative() {
+        if (newtonFuncInput.value.trim() === "x**3 - 2*x - 5" && newtonDerivInput.value.trim() === "") {
+            newtonDerivInput.value = "3*x**2 - 2";
+        }
+    }
+    newtonFuncInput.addEventListener('blur', suggestDerivative);
+    suggestDerivative();
+</script>
+</body>
+</html>
